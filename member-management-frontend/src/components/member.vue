@@ -13,7 +13,7 @@
           <mt-search
             v-model="infoKey"
             cancel-text="取消"
-            @keyup.enter.native="search(infoKey)"
+            @keyup.enter.native="searchMember(infoKey)"
             placeholder="请输入姓名或者电话号码">
           </mt-search>
           <div class="description">
@@ -29,7 +29,7 @@
                 {
                   content: '删除',
                   style: { background: 'red', color: '#fff', width: '80px' },
-                  handler: () => deleteInfo(memberInfo.memberId)
+                  handler: () => deleteMemberInfo(memberInfo.memberId)
                 }
               ]">
               <p>{{memberInfo.name}}</p>
@@ -44,14 +44,30 @@
           <mt-search
             v-model="orderKey"
             cancel-text="取消"
-            placeholder="搜索">
+            @keyup.enter.native="searchOrder(orderKey)"
+            placeholder="请输入商品类型或者会员名">
           </mt-search>
-          <mt-cell-swipe
-            :key="n"
-            v-for="n in 150"
-            >
-          das
-          </mt-cell-swipe>
+          <div class="description">
+            <p>商品类型</p>
+            <p>实付金额</p>
+            <p>消费时间</p>
+          </div>
+          <div class="order-info">
+            <mt-cell-swipe
+              :key="orderInfo.orderId"
+              v-for="orderInfo in orderInfos"
+              :right="[
+                {
+                  content: '删除',
+                  style: { background: 'red', color: '#fff', width: '80px' },
+                  handler: () => deleteOrderInfo(orderInfo.orderId)
+                }
+              ]">
+                <p>{{orderInfo.type}}</p>
+                <p>{{orderInfo.pay}}</p>
+                <p>{{orderInfo.conTime}}</p>
+            </mt-cell-swipe>
+          </div>
         </mt-tab-container-item>
       </mt-tab-container>
 
@@ -62,6 +78,7 @@
 <script>
 import { Search, Cell, Header, Navbar, TabItem, CellSwipe, MessageBox, Toast  } from 'mint-ui';
 import tabbar from './tabbar';
+import moment from "moment";
   export default{
     components: {tabbar},
     data(){
@@ -70,7 +87,8 @@ import tabbar from './tabbar';
         infoKey: '',
         orderKey: '',
         selected: 'member',
-        memberInfos: []
+        memberInfos: [],
+        orderInfos: [],
 
       }
     },
@@ -154,8 +172,40 @@ import tabbar from './tabbar';
             integral: 584
           }
         ]
+        this.orderInfos = [
+          {
+            orderId: 91,
+            type: '日常用品',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 92,
+            type: '食品',
+            pay: 55,
+            conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 93,
+            type: '日常用品',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 94,
+            type: '日常用品',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 95,
+            type: '服装',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          }                   
+        ]
       },
-      search(infoKey) {
+      searchMember(infoKey) {
         console.log(infoKey);
         // TODO: 根据关键字infoKey搜索， 调用查询api
         this.memberInfos = [
@@ -173,11 +223,40 @@ import tabbar from './tabbar';
           },
         ]
       },
-      deleteInfo(memberId) {
+      searchOrder(orderKey) {
+        console.log(orderKey);
+        // TODO: 根据关键字infoKey搜索， 调用查询api
+        this.orderInfos = [
+          {
+            orderId: 91,
+            type: '日常用品',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 92,
+            type: '食品',
+            pay: 55,
+            conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
+          }
+        ]
+      },      
+      deleteMemberInfo(memberId) {
         this.$messagebox.confirm('确定删除？').then(
           action => {         
             // TODO: 调用删除api
             Toast("已成功删除" + memberId)
+          },
+          cancel => {
+
+          }
+        )
+      },
+      deleteOrderInfo(orderId) {
+          this.$messagebox.confirm('确定删除？').then(
+          action => {         
+            // TODO: 调用删除api
+            Toast("已成功删除" + orderId)
           },
           cancel => {
 
@@ -198,7 +277,7 @@ import tabbar from './tabbar';
   z-index: 2;
 }
 
-#memberPage .member-info {
+#memberPage .member-info, .order-info {
   height: 100%;
   margin-bottom: 55px;
 }
@@ -219,7 +298,7 @@ import tabbar from './tabbar';
   margin-bottom: 1px solid;
 }
 
-#memberPage.mint-cell-left, #memberPage .mint-cell-wrapper {
+#memberPage .mint-cell-left, #memberPage .mint-cell-wrapper {
   transform: translate3d(0px, 0px, 0px);
   background-image: none;
 }
