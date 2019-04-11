@@ -172,38 +172,6 @@ import moment from "moment";
             integral: 584
           }
         ]
-        this.orderInfos = [
-          {
-            orderId: 91,
-            type: '日常用品',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 92,
-            type: '食品',
-            pay: 55,
-            conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 93,
-            type: '日常用品',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 94,
-            type: '日常用品',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 95,
-            type: '服装',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          }                   
-        ]
       },
       searchMember(infoKey) {
         console.log(infoKey);
@@ -262,6 +230,44 @@ import moment from "moment";
 
           }
         )
+      }
+    },
+		watch:{
+      navbarSelected:function(val, oldVal){
+        if('2' === val){
+          this.orderInfos = [
+             {
+            orderId: 91,
+            type: '日常用品',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 92,
+            type: '食品',
+            pay: 55,
+            conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 93,
+            type: '日常用品',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 94,
+            type: '日常用品',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          },
+          {
+            orderId: 95,
+            type: '服装',
+            pay: 102,
+            conTime: moment().format('YYYY-MM-DD HH:mm')
+          }         
+          ]
+        }
       }
     }
   }
