@@ -19,7 +19,7 @@
 
     </div>
 
-  <tabbar :selected="selected"></tabbar>
+  <!-- <tabbar :selected="selected"></tabbar> -->
  </div>
 
 </template>
@@ -31,7 +31,7 @@ import tabbar from './tabbar';
     data(){
       return {
         key: '',
-        selected: 'notice'
+        // selected: 'notice'
       }
     },
     mounted () {

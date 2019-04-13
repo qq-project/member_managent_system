@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div id="registerPage">
     <div class="title">
         <span>注册用户</span>
     </div>
@@ -63,7 +63,7 @@
   }
 </script>
 <style>
-.main {
+#registerPage {
     margin: 0 auto;
     width: 100%;
     height: 100%;

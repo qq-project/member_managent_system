@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="loginPage">
     <div class="title">
         <span>密码登录</span>
     </div>
@@ -89,7 +89,7 @@ import {Toast} from 'mint-ui';
   }
 </script>
 <style>
-.main {
+.loginPage {
   margin: 0 auto;
   width: 100%;
   background: #FFFFFF;

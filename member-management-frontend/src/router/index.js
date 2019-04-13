@@ -4,6 +4,7 @@ import login from '@/components/login'
 import register from '@/components/register'
 import member from '@/components/member'
 import notice from '@/components/notice'
+import order from '@/components/order'
 import products from '@/components/products'
 import usercenter from '@/components/usercenter'
 
@@ -20,6 +21,11 @@ export default new Router({
       path: '/notice',
       name: 'notice',
       component: notice
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: order
     },
     {
       path: '/products',

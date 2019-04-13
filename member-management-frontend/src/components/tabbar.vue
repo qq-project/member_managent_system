@@ -8,9 +8,9 @@
         <img slot="icon" src="../assets/products.png">
         商品
       </mt-tab-item>
-      <mt-tab-item id="notice">
-        <img slot="icon" src="../assets/notice.png">
-        推广
+      <mt-tab-item id="order">
+        <img slot="icon" src="../assets/order.png">
+        订单
       </mt-tab-item>
       <mt-tab-item id="usercenter">
         <img slot="icon" src="../assets/usercenter.png">
@@ -33,7 +33,6 @@ export default {
     watch: {
         tabbar_selected: function (val, oldVal) {
             // 这里就可以通过 val 的值变更来确定去向
-            console.log(val)
             switch(val){
                 case 'member':
                     this.$router.push('/member');
@@ -41,8 +40,8 @@ export default {
                 case 'products':
                     this.$router.push('/products');
                 break;
-                case 'notice':
-                    this.$router.push('/notice');
+                case 'order':
+                    this.$router.push('/order');
                 break;
                 case 'usercenter':
                     this.$router.push('/usercenter');
