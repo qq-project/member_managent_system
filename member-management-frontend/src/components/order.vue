@@ -1,13 +1,39 @@
 <template>
  <div id="orderPage">
-    <mt-header fixed title="会员管理"></mt-header>
-  
+    <mt-header fixed title="订单管理"></mt-header>
+    <mt-search
+      v-model="orderKey"
+      cancel-text="取消"
+      @keyup.enter.native="searchOrder(orderKey)"
+      placeholder="请输入商品类型或者会员名">
+    </mt-search>
+    <div class="description">
+      <p>商品类型</p>
+      <p>实付金额</p>
+      <p>消费时间</p>
+    </div>
+    <div class="order-info">
+      <mt-cell-swipe
+        :key="orderInfo.orderId"
+        v-for="orderInfo in orderInfos"
+        :right="[
+          {
+            content: '删除',
+            style: { background: 'red', color: '#fff', width: '80px' },
+            handler: () => deleteOrderInfo(orderInfo.orderId)
+          }
+        ]">
+          <p>{{orderInfo.type}}</p>
+          <p>{{orderInfo.pay}}</p>
+          <p>{{orderInfo.conTime}}</p>
+      </mt-cell-swipe>
+    </div>
+<!--   
     <mt-navbar fixed class="top" v-model="navbarSelected">
       <mt-tab-item id="1">会员信息</mt-tab-item>
       <mt-tab-item id="2">会员订单</mt-tab-item>
     </mt-navbar>
 
-      <!-- tab-container -->
       <mt-tab-container v-model="navbarSelected">
         <mt-tab-container-item id="1">
           <mt-search
@@ -69,7 +95,7 @@
             </mt-cell-swipe>
           </div>
         </mt-tab-container-item>
-      </mt-tab-container>
+      </mt-tab-container> -->
 
   <tabbar :selected="selected"></tabbar>
  </div>
@@ -83,7 +109,7 @@ import moment from "moment";
     components: {tabbar},
     data(){
       return {
-        navbarSelected: '1',
+        // navbarSelected: '1',
         infoKey: '',
         orderKey: '',
         selected: 'order',
@@ -98,80 +124,80 @@ import moment from "moment";
     },  
     methods: {
       initList() {
-        this.memberInfos = [
-          {
-            memberId: 1,
-            name: '王伟',
-            tel: '14752558213',
-            integral: 300
-          },
-          {
-            memberId: 2,
-            name: '李文',
-            tel: '18153843081',
-            integral: 280
-          },
-          {
-            memberId: 3,
-            name: '赵苏',
-            tel: '15062154310',
-            integral: 80
-          },
-          {
-            memberId: 4,
-            name: '可乐',
-            tel: '15062154310',
-            integral: 5
-          },
-          {
-            memberId: 5,
-            name: '欧艾斯',
-            tel: '15062154310',
-            integral: 10080
-          },
-          {
-            memberId: 6,
-            name: '萨拉',
-            tel: '15062154310',
-            integral: 80
-          },          
-          {
-            memberId: 7,
-            name: '大娜迦',
-            tel: '15062154310',
-            integral: 1080
-          },          
-          {
-            memberId: 8,
-            name: '戴斯',
-            tel: '15062154310',
-            integral: 800
-          },
-          {
-            memberId: 9,
-            name: '莫德凯撒',
-            tel: '15062154310',
-            integral: 1080
-          },          
-          {
-            memberId: 10,
-            name: '大叔',
-            tel: '15062154310',
-            integral: 800
-          },          
-          {
-            memberId: 11,
-            name: '褚珅',
-            tel: '15062154310',
-            integral: 55
-          },          
-          {
-            memberId: 12,
-            name: '钱明达',
-            tel: '15062154310',
-            integral: 584
-          }
-        ]
+        // this.memberInfos = [
+        //   {
+        //     memberId: 1,
+        //     name: '王伟',
+        //     tel: '14752558213',
+        //     integral: 300
+        //   },
+        //   {
+        //     memberId: 2,
+        //     name: '李文',
+        //     tel: '18153843081',
+        //     integral: 280
+        //   },
+        //   {
+        //     memberId: 3,
+        //     name: '赵苏',
+        //     tel: '15062154310',
+        //     integral: 80
+        //   },
+        //   {
+        //     memberId: 4,
+        //     name: '可乐',
+        //     tel: '15062154310',
+        //     integral: 5
+        //   },
+        //   {
+        //     memberId: 5,
+        //     name: '欧艾斯',
+        //     tel: '15062154310',
+        //     integral: 10080
+        //   },
+        //   {
+        //     memberId: 6,
+        //     name: '萨拉',
+        //     tel: '15062154310',
+        //     integral: 80
+        //   },          
+        //   {
+        //     memberId: 7,
+        //     name: '大娜迦',
+        //     tel: '15062154310',
+        //     integral: 1080
+        //   },          
+        //   {
+        //     memberId: 8,
+        //     name: '戴斯',
+        //     tel: '15062154310',
+        //     integral: 800
+        //   },
+        //   {
+        //     memberId: 9,
+        //     name: '莫德凯撒',
+        //     tel: '15062154310',
+        //     integral: 1080
+        //   },          
+        //   {
+        //     memberId: 10,
+        //     name: '大叔',
+        //     tel: '15062154310',
+        //     integral: 800
+        //   },          
+        //   {
+        //     memberId: 11,
+        //     name: '褚珅',
+        //     tel: '15062154310',
+        //     integral: 55
+        //   },          
+        //   {
+        //     memberId: 12,
+        //     name: '钱明达',
+        //     tel: '15062154310',
+        //     integral: 584
+        //   }
+        // ]
         this.orderInfos = [
           {
             orderId: 91,
@@ -205,24 +231,24 @@ import moment from "moment";
           }                   
         ]
       },
-      searchMember(infoKey) {
-        console.log(infoKey);
-        // TODO: 根据关键字infoKey搜索， 调用查询api
-        this.memberInfos = [
-          {
-            memberId: 1,
-            name: '王伟',
-            tel: '14752558213',
-            integral: 300
-          },
-          {
-            memberId: 2,
-            name: '王则',
-            tel: '14752558213',
-            integral: 600
-          },
-        ]
-      },
+      // searchMember(infoKey) {
+      //   console.log(infoKey);
+      //   // TODO: 根据关键字infoKey搜索， 调用查询api
+      //   this.memberInfos = [
+      //     {
+      //       memberId: 1,
+      //       name: '王伟',
+      //       tel: '14752558213',
+      //       integral: 300
+      //     },
+      //     {
+      //       memberId: 2,
+      //       name: '王则',
+      //       tel: '14752558213',
+      //       integral: 600
+      //     },
+      //   ]
+      // },
       searchOrder(orderKey) {
         console.log(orderKey);
         // TODO: 根据关键字infoKey搜索， 调用查询api
@@ -241,17 +267,17 @@ import moment from "moment";
           }
         ]
       },      
-      deleteMemberInfo(memberId) {
-        this.$messagebox.confirm('确定删除？').then(
-          action => {         
-            // TODO: 调用删除api
-            Toast("已成功删除" + memberId)
-          },
-          cancel => {
+      // deleteMemberInfo(memberId) {
+      //   this.$messagebox.confirm('确定删除？').then(
+      //     action => {         
+      //       // TODO: 调用删除api
+      //       Toast("已成功删除" + memberId)
+      //     },
+      //     cancel => {
 
-          }
-        )
-      },
+      //     }
+      //   )
+      // },
       deleteOrderInfo(orderId) {
           this.$messagebox.confirm('确定删除？').then(
           action => {         

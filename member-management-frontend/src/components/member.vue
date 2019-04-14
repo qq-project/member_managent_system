@@ -1,76 +1,42 @@
 <template>
  <div id="memberPage">
-    <mt-header fixed title="会员管理"></mt-header>
-  
-    <mt-navbar fixed class="top" v-model="navbarSelected">
-      <mt-tab-item id="1">会员信息</mt-tab-item>
-      <mt-tab-item id="2">会员订单</mt-tab-item>
-    </mt-navbar>
+    <mt-header fixed title="会员管理">
+      <img @click="addMember" class="add-person" src="../assets/add-person.png" slot="right"/>
+    </mt-header>
 
-      <!-- tab-container -->
-      <mt-tab-container v-model="navbarSelected">
-        <mt-tab-container-item id="1">
-          <mt-search
-            v-model="infoKey"
-            cancel-text="取消"
-            @keyup.enter.native="searchMember(infoKey)"
-            placeholder="请输入姓名或者电话号码">
-          </mt-search>
-          <div class="description">
-            <p>姓名</p>
-            <p>电话</p>
-            <p>积分</p>
-          </div>
-          <div class="member-info">
-            <mt-cell-swipe
-              :key="memberInfo.memberId"
-              v-for="memberInfo in memberInfos"
-              :right="[
-                {
-                  content: '删除',
-                  style: { background: 'red', color: '#fff', width: '80px' },
-                  handler: () => deleteMemberInfo(memberInfo.memberId)
-                }
-              ]">
-              <p>{{memberInfo.name}}</p>
-              <p>{{memberInfo.tel}}</p>
-              <p>{{memberInfo.integral}}</p>
-            </mt-cell-swipe>
-          </div>
-
-        </mt-tab-container-item>
-
-        <mt-tab-container-item id="2">
-          <mt-search
-            v-model="orderKey"
-            cancel-text="取消"
-            @keyup.enter.native="searchOrder(orderKey)"
-            placeholder="请输入商品类型或者会员名">
-          </mt-search>
-          <div class="description">
-            <p>商品类型</p>
-            <p>实付金额</p>
-            <p>消费时间</p>
-          </div>
-          <div class="order-info">
-            <mt-cell-swipe
-              :key="orderInfo.orderId"
-              v-for="orderInfo in orderInfos"
-              :right="[
-                {
-                  content: '删除',
-                  style: { background: 'red', color: '#fff', width: '80px' },
-                  handler: () => deleteOrderInfo(orderInfo.orderId)
-                }
-              ]">
-                <p>{{orderInfo.type}}</p>
-                <p>{{orderInfo.pay}}</p>
-                <p>{{orderInfo.conTime}}</p>
-            </mt-cell-swipe>
-          </div>
-        </mt-tab-container-item>
-      </mt-tab-container>
-
+    <mt-search
+      v-model="infoKey"
+      cancel-text="取消"
+      @keyup.enter.native="searchMember(infoKey)"
+      placeholder="请输入姓名或者电话号码">
+    </mt-search>
+    <!-- <div>
+      <div class="add-member" @click="addMember">
+        <img src="../assets/add.png" alt="添加会员">
+        <span>添加会员</span>
+      </div>
+    </div> -->
+    <div class="description">
+      <p>姓名</p>
+      <p>电话</p>
+      <p>积分</p>
+    </div>
+    <div class="member-info">
+      <mt-cell-swipe
+        :key="memberInfo.memberId"
+        v-for="memberInfo in memberInfos"
+        :right="[
+          {
+            content: '删除',
+            style: { background: 'red', color: '#fff', width: '80px' },
+            handler: () => deleteMemberInfo(memberInfo.memberId)
+          }
+        ]">
+        <p>{{memberInfo.name}}</p>
+        <p>{{memberInfo.tel}}</p>
+        <p>{{memberInfo.integral}}</p>
+      </mt-cell-swipe>
+    </div>
   <tabbar :selected="selected"></tabbar>
  </div>
 
@@ -83,9 +49,9 @@ import moment from "moment";
     components: {tabbar},
     data(){
       return {
-        navbarSelected: '1',
+        // navbarSelected: '1',
         infoKey: '',
-        orderKey: '',
+        // orderKey: '',
         selected: 'member',
         memberInfos: [],
         orderInfos: [],
@@ -191,24 +157,28 @@ import moment from "moment";
           },
         ]
       },
-      searchOrder(orderKey) {
-        console.log(orderKey);
-        // TODO: 根据关键字infoKey搜索， 调用查询api
-        this.orderInfos = [
-          {
-            orderId: 91,
-            type: '日常用品',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 92,
-            type: '食品',
-            pay: 55,
-            conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
-          }
-        ]
-      },      
+      addMember() {
+        // TODO：进入添加会员页面
+        Toast("添加会员成功");
+      },
+      // searchOrder(orderKey) {
+      //   console.log(orderKey);
+      //   // TODO: 根据关键字infoKey搜索， 调用查询api
+      //   this.orderInfos = [
+      //     {
+      //       orderId: 91,
+      //       type: '日常用品',
+      //       pay: 102,
+      //       conTime: moment().format('YYYY-MM-DD HH:mm')
+      //     },
+      //     {
+      //       orderId: 92,
+      //       type: '食品',
+      //       pay: 55,
+      //       conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
+      //     }
+      //   ]
+      // },      
       deleteMemberInfo(memberId) {
         this.$messagebox.confirm('确定删除？').then(
           action => {         
@@ -220,56 +190,56 @@ import moment from "moment";
           }
         )
       },
-      deleteOrderInfo(orderId) {
-          this.$messagebox.confirm('确定删除？').then(
-          action => {         
-            // TODO: 调用删除api
-            Toast("已成功删除" + orderId)
-          },
-          cancel => {
+      // deleteOrderInfo(orderId) {
+      //     this.$messagebox.confirm('确定删除？').then(
+      //     action => {         
+      //       // TODO: 调用删除api
+      //       Toast("已成功删除" + orderId)
+      //     },
+      //     cancel => {
 
-          }
-        )
-      }
+      //     }
+      //   )
+      // }
     },
-		watch:{
-      navbarSelected:function(val, oldVal){
-        if('2' === val){
-          this.orderInfos = [
-             {
-            orderId: 91,
-            type: '日常用品',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 92,
-            type: '食品',
-            pay: 55,
-            conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 93,
-            type: '日常用品',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 94,
-            type: '日常用品',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          },
-          {
-            orderId: 95,
-            type: '服装',
-            pay: 102,
-            conTime: moment().format('YYYY-MM-DD HH:mm')
-          }         
-          ]
-        }
-      }
-    }
+		// watch:{
+    //   navbarSelected:function(val, oldVal){
+    //     if('2' === val){
+    //       this.orderInfos = [
+    //          {
+    //         orderId: 91,
+    //         type: '日常用品',
+    //         pay: 102,
+    //         conTime: moment().format('YYYY-MM-DD HH:mm')
+    //       },
+    //       {
+    //         orderId: 92,
+    //         type: '食品',
+    //         pay: 55,
+    //         conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
+    //       },
+    //       {
+    //         orderId: 93,
+    //         type: '日常用品',
+    //         pay: 102,
+    //         conTime: moment().format('YYYY-MM-DD HH:mm')
+    //       },
+    //       {
+    //         orderId: 94,
+    //         type: '日常用品',
+    //         pay: 102,
+    //         conTime: moment().format('YYYY-MM-DD HH:mm')
+    //       },
+    //       {
+    //         orderId: 95,
+    //         type: '服装',
+    //         pay: 102,
+    //         conTime: moment().format('YYYY-MM-DD HH:mm')
+    //       }         
+    //       ]
+    //     }
+    //   }
+    // }
   }
 </script>
 <style>
@@ -277,6 +247,35 @@ import moment from "moment";
   top: 60px;
   width: 100%;
   z-index: 2;
+}
+
+#memberPage .add-person {
+  width: 30px;
+  height: 30px;
+}
+
+#memberPage .add-member {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-items: flex-start;
+  padding-left: 10px;
+  padding-top: 15px;
+  position: fixed;
+  z-index: 3;
+}
+
+#memberPage .add-member img{
+  width: 30px;
+  height: 30px;
+}
+
+#memberPage .add-member span{
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1296db;
 }
 
 #memberPage .mint-header.is-fixed {
