@@ -4,9 +4,12 @@ import login from '@/components/login'
 import register from '@/components/register'
 import member from '@/components/member'
 import notice from '@/components/notice'
+import points from '@/components/points'
 import order from '@/components/order'
 import products from '@/components/products'
 import usercenter from '@/components/usercenter'
+import staffs from '@/components/staffs'
+import userInfo from '@/components/userInfo'
 
 Vue.use(Router)
 
@@ -21,6 +24,21 @@ export default new Router({
       path: '/notice',
       name: 'notice',
       component: notice
+    },
+    {
+      path: '/points',
+      name: 'points',
+      component: points
+    },
+    {
+      path: '/staffs',
+      name: 'staffs',
+      component: staffs
+    },
+    {
+      path: '/userInfo',
+      name: 'userInfo',
+      component: userInfo
     },
     {
       path: '/order',

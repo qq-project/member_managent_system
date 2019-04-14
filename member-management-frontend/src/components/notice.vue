@@ -2,8 +2,8 @@
  <div id="noticePage">
     <mt-header fixed title="推广管理">
       <router-link to="/usercenter" slot="left">
-      <mt-button icon="back">返回</mt-button>
-    </router-link>
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
     </mt-header>
   
     <mt-navbar fixed class="top" v-model="navbarSelected">

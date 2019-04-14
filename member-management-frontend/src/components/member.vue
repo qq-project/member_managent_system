@@ -10,12 +10,6 @@
       @keyup.enter.native="searchMember(infoKey)"
       placeholder="请输入姓名或者电话号码">
     </mt-search>
-    <!-- <div>
-      <div class="add-member" @click="addMember">
-        <img src="../assets/add.png" alt="添加会员">
-        <span>添加会员</span>
-      </div>
-    </div> -->
     <div class="description">
       <p>姓名</p>
       <p>电话</p>
@@ -160,25 +154,7 @@ import moment from "moment";
       addMember() {
         // TODO：进入添加会员页面
         Toast("添加会员成功");
-      },
-      // searchOrder(orderKey) {
-      //   console.log(orderKey);
-      //   // TODO: 根据关键字infoKey搜索， 调用查询api
-      //   this.orderInfos = [
-      //     {
-      //       orderId: 91,
-      //       type: '日常用品',
-      //       pay: 102,
-      //       conTime: moment().format('YYYY-MM-DD HH:mm')
-      //     },
-      //     {
-      //       orderId: 92,
-      //       type: '食品',
-      //       pay: 55,
-      //       conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
-      //     }
-      //   ]
-      // },      
+      },  
       deleteMemberInfo(memberId) {
         this.$messagebox.confirm('确定删除？').then(
           action => {         
@@ -189,57 +165,8 @@ import moment from "moment";
 
           }
         )
-      },
-      // deleteOrderInfo(orderId) {
-      //     this.$messagebox.confirm('确定删除？').then(
-      //     action => {         
-      //       // TODO: 调用删除api
-      //       Toast("已成功删除" + orderId)
-      //     },
-      //     cancel => {
-
-      //     }
-      //   )
-      // }
+      }
     },
-		// watch:{
-    //   navbarSelected:function(val, oldVal){
-    //     if('2' === val){
-    //       this.orderInfos = [
-    //          {
-    //         orderId: 91,
-    //         type: '日常用品',
-    //         pay: 102,
-    //         conTime: moment().format('YYYY-MM-DD HH:mm')
-    //       },
-    //       {
-    //         orderId: 92,
-    //         type: '食品',
-    //         pay: 55,
-    //         conTime: moment("2010-10-20 4:30").format('YYYY-MM-DD HH:mm')
-    //       },
-    //       {
-    //         orderId: 93,
-    //         type: '日常用品',
-    //         pay: 102,
-    //         conTime: moment().format('YYYY-MM-DD HH:mm')
-    //       },
-    //       {
-    //         orderId: 94,
-    //         type: '日常用品',
-    //         pay: 102,
-    //         conTime: moment().format('YYYY-MM-DD HH:mm')
-    //       },
-    //       {
-    //         orderId: 95,
-    //         type: '服装',
-    //         pay: 102,
-    //         conTime: moment().format('YYYY-MM-DD HH:mm')
-    //       }         
-    //       ]
-    //     }
-    //   }
-    // }
   }
 </script>
 <style>
