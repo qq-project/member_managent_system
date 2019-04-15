@@ -62,6 +62,7 @@
 <script>
 import { Search, Cell, Header, Navbar, TabItem, CellSwipe, MessageBox, Toast  } from 'mint-ui';
 import tabbar from './tabbar';
+import {memberInfoListRequest} from '@/api/user'
   export default{
     components: {tabbar},
     data(){
@@ -76,6 +77,8 @@ import tabbar from './tabbar';
     },
     mounted() {
       // TODO：初始化memberInfo 列表, 调用查询全部api
+      memberInfoListRequest("").then(data => {
+      })
       this.initList()
     },  
     methods: {

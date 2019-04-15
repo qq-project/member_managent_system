@@ -31,7 +31,6 @@ import tabbar from './tabbar';
       }
     },
     mounted () {
-
     },
     methods: {
       

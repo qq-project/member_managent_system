@@ -1,100 +1,130 @@
 <template>
-  <div class="main">
-    <div class="title">
-        <span>密码登录</span>
-    </div>
 
-    <div class="title-msg">
-        <span>请输入登录账户和密码</span>
-    </div>
-
-    <!--输入框-->
-    <div class="input-content">
-        <!--autoFocus-->
-        <div>
-            <input type="text" autocomplete="off" v-model="loginForm.username" placeholder="用户名" name="userNameOrEmailAddress" />
-        </div>
-
-        <div style="margin-top: 16px">
-            <input type="password" autocomplete="off" v-model="loginForm.password" placeholder="登录密码" name="password" maxlength="32"/>
-        </div>
-    </div>
-
-    <!--登入按钮-->
-    <div style="text-align: center">
-        <button type="submit" @click="submitClick" class="enter-btn" >登录</button>
-    </div>
-
+  <div class="login">
+		<mt-header fixed title="用户登录" class="login-header"></mt-header>
+		<div class="div-center">
+			<mt-field placeholder="用户名/手机号" v-model="loginForm.username" class="kuan"></mt-field>
+			<mt-field placeholder="密码" type="password" v-model="loginForm.password" class="kuan"></mt-field>
+			<mt-button type="primary" class="bit-login" @click='submitClick'>登录</mt-button>
+		</div>
     <div class="foor">
         <div class="left"><span>忘记密码 ?</span></div>
 
         <div @click="toRegister" class="right"><span>注册账户</span></div>
     </div>
-
-  
   </div>
 </template>
+
 <script>
-import {Toast} from 'mint-ui';
-  export default{
-    data(){
-      return {
-        checked: true,
-        loginForm: {
-          username: '',
-          password: ''
-        },
-        loading: false
-      }
-    },
-    methods: {
-      toRegister: function () {
-        var _this = this;
-        console.log("das")
-        _this.$router.push({path: '/register'})
-      },
-      submitClick: function () {
-        var _this = this;
-        this.loading = true;
-        
-        var name = this.loginForm.username;
-        var password = this.loginForm.password;
+import { Toast, MessageBox } from 'mint-ui'
+import {loginRequest} from '@/api/user'
+export default {
+  data () {
+    return {
+				loginForm: {
+					username: 'chushen',
+					password: '123'
+				},
+			}
+  },
+  mounted () {
+  },
+  methods: {
+			toRegister: function() {
+				var _this = this;
+				console.log("das")
+				_this.$router.push({
+					path: '/register'
+				})
+			},
+			submitClick: function() {
+				var _this = this;
+				this.loading = true;
 
-        if (name == '' || name == null) {
-          Toast('请输入用户名');
-          return;
-        } else if (password == '' || password == null) {
-          Toast('请输入密码');
-          return;
-        }
+				var name = this.loginForm.username;
+				var password = this.loginForm.password;
+				if (name == '' || name == null) {
+					Toast('请输入用户名');
+					return;
+				} else if (password == '' || password == null) {
+					Toast('请输入密码');
+					return;
+				}
+				// 登录请求
+				loginRequest(this.loginForm).then(data => {
+					if (null == data) {
+						MessageBox.alert("请求失败");
+						return
+					}
+					const {
+						resCode,
+						resMsg,
+						result
+					} = data;
+					if ('000000' !== resCode) {
+						MessageBox.alert(resMsg);
+						return;
+					}
+					// 登录成功
+					Toast('登录成功，欢迎');
+					localStorage.removeItem('token');
+					_this.$router.push({
+						path: '/member'
+					});
+				})
+				//
 
-        _this.$router.push({path: '/member'})
 
-
-        // this.postRequest('/login', {
-        //   username: this.loginForm.username,
-        //   password: this.loginForm.password
-        // }).then(resp=> {
-        //   _this.loading = false;
-        //   if (resp && resp.status == 200) {
-        //     var data = resp.data;
-        //     _this.$store.commit('login', data.obj);
-        //     var path = _this.$route.query.redirect;
-        //     _this.$router
-        //       .replace({path: path == '/' || path == undefined ? '/home' : path});
-        //   }
-        // });
-      }
-    }
-  }
-</script>
-<style>
-.main {
-  margin: 0 auto;
-  width: 100%;
-  background: #FFFFFF;
+				// this.postRequest('/login', {
+				//   username: this.loginForm.username,
+				//   password: this.loginForm.password
+				// }).then(resp=> {
+				//   _this.loading = false;
+				//   if (resp && resp.status == 200) {
+				//     var data = resp.data;
+				//     _this.$store.commit('login', data.obj);
+				//     var path = _this.$route.query.redirect;
+				//     _this.$router
+				//       .replace({path: path == '/' || path == undefined ? '/home' : path});
+				//   }
+				// });
+			}
+		}
 }
+</script>
 
+<style lang='scss' scoped>
+.login {
+  padding: 10px;
+	.div-center {
+		margin-top: 60px;
+	}
+  .kuan {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    min-height: 40px;
+  }
+  
+  .bit-login {
+    width: 100%;
+    margin-top: 25px;
+    background: #0094ff
+  }
+  .register {
+    color: #0094ff;
+    float: right;
+    font-size: 14px;
+    margin-top: 15px;
+    padding: 5px 2px;
+  }
+	.login-header{
+		height: 42px;
+		background: #0094ff;
+		font-size: 18px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	}
+}
 .title {
   width: 100%;
   height: 40px;
@@ -124,31 +154,6 @@ import {Toast} from 'mint-ui';
   font-size: 12px;
   color: #707472;
 }
-
-.input-content {
-  width: 100%;
-  height: 120px;
-}
-
-.input-content input {
-  width: 330px;
-  height: 40px;
-  border: 1px solid #dad9d6;
-  background: #ffffff;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.enter-btn {
-  width: 350px;
-  height: 40px;
-  color: #fff;
-  background: #0bc5de;
-  line-height: 40px;
-  text-align: center;
-  border: 0px;
-}
-
 .foor{
   width: 90%;
   height: auto;
@@ -159,12 +164,6 @@ import {Toast} from 'mint-ui';
   margin-left: 5%;
   justify-content: space-between;
 }
-
-.enter-btn:hover {
-  cursor:pointer;
-  background: #1db5c9;
-}
-
 .foor div:hover {
   cursor:pointer;
   color: #484847;
