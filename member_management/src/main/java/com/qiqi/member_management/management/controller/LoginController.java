@@ -54,8 +54,18 @@ public class LoginController {
         return responseDto;
     }
 
-
-
+    /**
+     * queryUserInfo(查询当前登录用户信息)
+     *
+     * @Param 
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-15 09:07:20
+     **/
+    @RequestMapping("/queryUserInfo")
+    public ResponseDto queryUserInfo(){
+        return userInfoBiz.queryUserInfo();
+    }
 
     /**
      * unauth(未登录跳转)

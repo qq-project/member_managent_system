@@ -5,7 +5,6 @@
  */
 import axios from 'axios'
 import {MessageBox} from 'mint-ui'
-import TuaStorage from 'tua-storage'
 import doCookie from './cookieUtil'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Authorization'] = doCookie.getCookie('SESSIONID')
@@ -140,5 +139,18 @@ export const getRequest = (url) => {
     return axios({
         method:'get',
         url: `${base}${url}`
+    })
+}
+
+export const uploadRequest = (url, params) => {
+    return axios({
+        method:'post',
+        url: `${base}${url}`,
+        data: params,
+        headers:{
+            'Content-Type': 'multipart/form-data' 
+        }
+    }).then(res => {
+        return res.data;
     })
 }

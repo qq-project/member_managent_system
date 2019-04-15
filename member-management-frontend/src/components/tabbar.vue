@@ -19,8 +19,8 @@
     </mt-tabbar>
 </template>
 <script>
-import tabbar from './tabbar';
 export default {
+    name:'tabbar',
     data(){
         return{
         //选中的tabbar值message为外面页面传入的值selected

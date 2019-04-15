@@ -26,4 +26,6 @@ public interface UserInfoMapper {
     UserInfo queryUserInfoByEmail(String email);
 
     int insertSelective(UserInfo userInfo);
+
+    int updateimgSrc(UserInfo userInfo);
 }

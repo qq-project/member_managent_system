@@ -149,4 +149,10 @@
      order by id
      limit 1
   </select>
+
+    <update id="updateimgSrc" parameterType="com.qiqi.member_management.management.business.model.UserInfo">
+        update t_user_info set img_src = #{imgSrc,jdbcType=VARCHAR}
+        where valid = 'T'
+        and id = #{id, jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -23,3 +23,5 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 # 整合springboot 基于axios
     安装 axios
+# 安装 图片上传组件
+npm install vue-image-upload-preview --save-dev

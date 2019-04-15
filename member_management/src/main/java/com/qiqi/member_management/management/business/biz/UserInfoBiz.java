@@ -1,13 +1,16 @@
 package com.qiqi.member_management.management.business.biz;
 
 import com.qiqi.member_management.common.constant.Contant;
+import com.qiqi.member_management.common.exception.BizException;
 import com.qiqi.member_management.common.exception.MsgManagement;
+import com.qiqi.member_management.common.util.CurrentUserInfoUtil;
 import com.qiqi.member_management.common.util.MD5Util;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.UserRegisterRequestDto;
 import com.qiqi.member_management.management.business.mapper.UserInfoMapper;
 import com.qiqi.member_management.management.business.model.UserInfo;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,4 +95,38 @@ public class UserInfoBiz {
         return userInfo;
     }
 
+    /**
+     * queryUserInfo(查询当前登录用户)
+     *
+     * @Param 
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-15 15:28:58
+     **/
+    public ResponseDto queryUserInfo() {
+        ResponseDto responseDto = new ResponseDto();
+        // 获取当前登录用户
+        Subject subject = SecurityUtils.getSubject();
+        if (null == subject || null == subject.getPrincipal()){
+            // 表示当前用户未登录
+            throw new BizException("300000");
+        }
+        // 获取当前用户
+        UserInfo userInfo = CurrentUserInfoUtil.getCurrentUser();
+        responseDto.setResult(userInfo);
+        responseDto.setResCode(ResponseDto.SUCCESS);
+        return responseDto;
+    }
+    /**
+     * updateImgSrc(更新用户头像)
+     *
+     * @Param 
+     * @param userInfo
+     * @return void
+     * @exception 
+     * @Date  2019-04-15 15:18:29
+     **/
+    public void updateImgSrc(UserInfo userInfo){
+        userInfoMapper.updateimgSrc(userInfo);
+    }
 }

@@ -4,19 +4,17 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Mint from 'mint-ui'
-import TuaStorage from 'tua-storage'
 import 'mint-ui/lib/style.css'
+// 引用vant
+import Vant from 'vant'
+import 'vant/lib/index.css'
 
-Vue.use(Mint)
-Vue.use(TuaStorage, {
-  storageEngine: window.localStorage
-})
+Vue.use(Mint).use(Vant)
 
 Vue.config.productionTip = false
 
 // 判断用户是否登录
 router.beforeEach((to, from, next) => {
-  console.dir(to.meta);
   // 判断用户是否登录
   if(to.matched.some(record => record.meta.requireAuth)){
     // 需要登录

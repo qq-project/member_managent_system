@@ -22,8 +22,8 @@ public class CORSConfiguration implements WebMvcConfigurer{
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 // 设置是否允许跨域传cookie
-                .allowCredentials(true)
+                .allowCredentials(true);
                 // 设置缓存时间，减少重复响应
-                .maxAge(3600);
+                //.maxAge(3600 * 60);
     }
 }

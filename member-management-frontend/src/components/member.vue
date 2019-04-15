@@ -39,7 +39,8 @@
 import { Search, Cell, Header, Navbar, TabItem, CellSwipe, MessageBox, Toast  } from 'mint-ui';
 import tabbar from './tabbar';
 import moment from "moment";
-import {memberInfoListRequest} from '@/api/user'  export default{
+import {memberInfoListRequest} from '@/api/user'  
+export default{
     components: {tabbar},
     data(){
       return {
