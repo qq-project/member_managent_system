@@ -1,19 +1,13 @@
 <template>
  <div id="memberPage">
-    <mt-header fixed title="会员管理"></mt-header>
-  
-    <mt-navbar fixed class="top" v-model="navbarSelected">
-      <mt-tab-item id="1">会员信息</mt-tab-item>
-      <mt-tab-item id="2">会员订单</mt-tab-item>
-    </mt-navbar>
+    <mt-header fixed title="会员管理">
+      <img @click="addMember" class="add-person" src="../assets/add-person.png" slot="right"/>
+    </mt-header>
 
-      <!-- tab-container -->
-      <mt-tab-container v-model="navbarSelected">
-        <mt-tab-container-item id="1">
           <mt-search
             v-model="infoKey"
             cancel-text="取消"
-            @keyup.enter.native="search(infoKey)"
+      @keyup.enter.native="searchMember(infoKey)"
             placeholder="请输入姓名或者电话号码">
           </mt-search>
           <div class="description">
@@ -29,7 +23,7 @@
                 {
                   content: '删除',
                   style: { background: 'red', color: '#fff', width: '80px' },
-                  handler: () => deleteInfo(memberInfo.memberId)
+            handler: () => deleteMemberInfo(memberInfo.memberId)
                 }
               ]">
               <p>{{memberInfo.name}}</p>
@@ -37,24 +31,6 @@
               <p>{{memberInfo.integral}}</p>
             </mt-cell-swipe>
           </div>
-
-        </mt-tab-container-item>
-
-        <mt-tab-container-item id="2">
-          <mt-search
-            v-model="orderKey"
-            cancel-text="取消"
-            placeholder="搜索">
-          </mt-search>
-          <mt-cell-swipe
-            :key="n"
-            v-for="n in 150"
-            >
-          das
-          </mt-cell-swipe>
-        </mt-tab-container-item>
-      </mt-tab-container>
-
   <tabbar :selected="selected"></tabbar>
  </div>
 
@@ -62,16 +38,17 @@
 <script>
 import { Search, Cell, Header, Navbar, TabItem, CellSwipe, MessageBox, Toast  } from 'mint-ui';
 import tabbar from './tabbar';
-import {memberInfoListRequest} from '@/api/user'
-  export default{
+import moment from "moment";
+import {memberInfoListRequest} from '@/api/user'  export default{
     components: {tabbar},
     data(){
       return {
-        navbarSelected: '1',
+        // navbarSelected: '1',
         infoKey: '',
-        orderKey: '',
+        // orderKey: '',
         selected: 'member',
-        memberInfos: []
+        memberInfos: [],
+        orderInfos: [],
 
       }
     },
@@ -158,7 +135,7 @@ import {memberInfoListRequest} from '@/api/user'
           }
         ]
       },
-      search(infoKey) {
+      searchMember(infoKey) {
         console.log(infoKey);
         // TODO: 根据关键字infoKey搜索， 调用查询api
         this.memberInfos = [
@@ -176,7 +153,11 @@ import {memberInfoListRequest} from '@/api/user'
           },
         ]
       },
-      deleteInfo(memberId) {
+      addMember() {
+        // TODO：进入添加会员页面
+        Toast("添加会员成功");
+      },  
+      deleteMemberInfo(memberId) {
         this.$messagebox.confirm('确定删除？').then(
           action => {         
             // TODO: 调用删除api
@@ -187,8 +168,8 @@ import {memberInfoListRequest} from '@/api/user'
           }
         )
       }
+    },
     }
-  }
 </script>
 <style>
 #memberPage .top {
@@ -197,11 +178,40 @@ import {memberInfoListRequest} from '@/api/user'
   z-index: 2;
 }
 
+#memberPage .add-person {
+  width: 30px;
+  height: 30px;
+}
+
+#memberPage .add-member {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-items: flex-start;
+  padding-left: 10px;
+  padding-top: 15px;
+  position: fixed;
+  z-index: 3;
+}
+
+#memberPage .add-member img{
+  width: 30px;
+  height: 30px;
+}
+
+#memberPage .add-member span{
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1296db;
+}
+
 #memberPage .mint-header.is-fixed {
   z-index: 2;
 }
 
-#memberPage .member-info {
+#memberPage .member-info, .order-info {
   height: 100%;
   margin-bottom: 55px;
 }
@@ -222,7 +232,7 @@ import {memberInfoListRequest} from '@/api/user'
   margin-bottom: 1px solid;
 }
 
-#memberPage.mint-cell-left, #memberPage .mint-cell-wrapper {
+#memberPage .mint-cell-left, #memberPage .mint-cell-wrapper {
   transform: translate3d(0px, 0px, 0px);
   background-image: none;
 }
