@@ -1,7 +1,7 @@
 <template>
      <div id="productsPage" style="width:100%;height:100%;margin-top:-10px">
         <mt-header fixed title="商品管理" style="height:50px">
-             <img class="add-product" src="../assets/plusNew.png" slot="right" @click="addProductInfoShow = true"/>
+             <img class="add-product" src="../assets/plusNew.png" slot="right" @click="addProductBtn()"/>
         </mt-header>
         <van-search 
             placeholder="请输入商品名称" 
@@ -38,13 +38,16 @@
         <van-dialog
             v-model="addProductInfoShow"
             show-cancel-button
-            title="添加商品信息">
-            <van-field label="商品名称"  label-align="center" placeholder="请输入商品名称" disabled left-icon="bag-o" size="large"/>
-            <van-field label="商品类别"  label-align="center" placeholder="请选择商品类别" left-icon="cluster-o" size="large" readonly @click="chooseCategory()" required/>
+            title="添加商品信息"
+            @confirm="addProductInfoConfirm()"
+            @concel="addProductInfoConcel()"
+            :before-close="addProductInfoBeforeClose"
+            >
+            <van-field label="商品名称"  v-model="addProductInfo.productName" label-align="center" placeholder="请输入商品名称" left-icon="bag-o" size="large"/>
+            <van-field label="商品类别" v-model="categoryNames" label-align="center" placeholder="请选择商品类别" left-icon="cluster-o" size="large" readonly @click="chooseCategory()" required/>
             <van-field label="商品定价"  type="password" placeholder="请输入定价" label-align="center" left-icon="balance-o" size="large"/> 
             <van-field label="商品数量" type="password" placeholder="请输入数量" label-align="center" left-icon="shopping-cart-o" size="large"/> 
-            <van-field label="商品描述" placeholder="请输入手机号" label-align="center" left-icon="comment-o" size="large"/> 
-            <!-- 上传商品图片-->
+            <van-field label="商品描述" placeholder="请输入商品描述" label-align="center" left-icon="comment-o" size="large"/> 
             <br/>
             <van-panel>
                 <div slot="header" style="text-align:left">
@@ -56,8 +59,13 @@
                     </div>
                 </div>
                 <br/>
-                <van-uploader>
-                    <img src="@/assets/products.png" style="width:80px;height:80px;" ref="uploadAvartar"/>
+                <van-uploader :after-read="productUpload">
+                    <div v-if="'' ===productSrc">
+                        <img src="@/assets/products.png" style="width:80px;height:80px;" ref="uploadProduct"/>
+                    </div>
+                     <div v-if="productSrc">
+                        <img :src="productSrc" style="width:80px;height:80px;" ref="uploadProduct"/>
+                    </div>
                 </van-uploader>
             </van-panel>
         </van-dialog>
@@ -103,7 +111,8 @@
             v-model="addCategoryInfoShow"
             show-cancel-button
             @confirm = "addategoryInfoConfirm()"
-            @concel  ="addategoryInfoConcel()">
+            @concel  ="addategoryInfoConcel()"
+            :before-close="addProductInfoBeforeClose">
             <van-nav-bar title="新增类别"/>
             <van-field label="类别名称" label-align="center" placeholder="请输入类别名称" left-icon="envelop-o" v-model="addCategoryInfo.categoryName"/>
             <van-field label="类别描述" label-align="center" placeholder="请输入类别描述" left-icon="comment-o" v-model="addCategoryInfo.describute"/>
@@ -136,6 +145,8 @@ export default {
                 productAmount:'',
                 describute:''
             }, 
+            // 商品类别拼接
+            categoryNames:'',
              // 可选类别列表   
             tags:[],
             // 已选类别列表
@@ -145,12 +156,18 @@ export default {
                 categoryName:'',
                 describute:'',
             },
+            // 上传图片
+            productSrc:'',
             // 展示添加商品弹出框
             addProductInfoShow:false,
             // 展示类别选择框
             categoryShow:false,
             // 展示添加类别框
             addCategoryInfoShow:false,
+            // 用户是否进行图片上传
+            isUploadSuccess:false,
+            // 校验通过标志
+            isChecked:false,
             selected:'productList',
         }
     },
@@ -168,7 +185,7 @@ export default {
                 }
                 // 赋值
                 this.productInfoList = result;
-                Toast.success('查询成功！')
+                Toast.success('查询成功')
             })
         },
         // 初始化商品类别记录列表
@@ -190,6 +207,79 @@ export default {
             // 主动查询商品类别
             this.initCategoryList();
         },
+        // 点击新增商品按钮
+        addProductBtn(){
+            this.addProductInfo = {
+                productName:'',
+                // 标签支持多选
+                categoryIdList:[],
+                price:0,
+                // 此属性保存在库存表中
+                productAmount:'',
+                describute:''
+            }
+            this.addProductInfoShow = true;
+            this.categoryNames = ''; 
+        },
+        // 提交新增商品
+        addProductInfoConfirm(){
+            // 校验参数
+            const {productName, price, productAmount,describute, categoryIdList} = this.addProductInfo;
+            // 商品名称不能为空
+            if(null == productName || '' === productName){
+                Toast.fail('商品名称不能为空');
+                this.addProductInfoShow = true;
+                return;
+            }
+            // 商品类别不能为空
+            if('' === this.categoryNames){
+                Toast.fail('商品类别不能为空');
+                return;
+            }
+            // 商品定价不能等于小于0
+            if(price <= 0){
+                Toast.fail('商品售价不能小于零');
+                return;
+            }
+            // 这里需要注意，用户中心应该允许配置仓库大小
+            if(productAmount <= 0){
+                Toast.fail('商品数量不能小于零');
+                return;
+            }
+            // 定义一个图片上传 isUploadSuccess
+            if(!this.isUploadSuccess){
+                Toast.fail('请先上传商品图片');
+                return; 
+            }
+            isChecked = true;
+        },
+        // 取消新增商品
+        addProductInfoConcel(){
+            this.addProductInfo = {
+                productName:'',
+                // 标签支持多选
+                categoryIdList:[],
+                price:0,
+                // 此属性保存在库存表中
+                productAmount:'',
+                describute:''
+            }
+            this.addProductInfoShow = false;
+            this.categoryNames = '';
+        },
+        // 关闭新增按钮的时候，校验数据
+        addProductInfoBeforeClose(action, done){
+            if(action === 'confirm'){
+                if(this.isChecked){
+                    this.isChecked = false;
+                    done()
+                } else {
+                    done(false)
+                }
+            } else {
+                done();
+            }
+        },
         // 点击可选类别标签
         tagChoose(tag){
             if(this.tagsSelectd.length >= 5){
@@ -200,7 +290,39 @@ export default {
             // 从可选列表中删除该类别
             this.tags.splice(this.tags.indexOf(tag), 1);
         },
-        // 点击新增类别标签
+        // 点击已选类别标签
+        selectTagClick(tag){
+            // 点击后从已选列表中删除
+            this.tagsSelectd.splice(this.tagsSelectd.indexOf(tag), 1);
+            // 可选列表新增该选项
+            this.tags.push(tag);
+        },
+        // 确认选择类别
+        confirmCategory(){
+            this.categoryNames = '';
+            // 表示用户未选择
+            if(null == this.tagsSelectd || this.tagsSelectd.length == 0){
+                Toast.fail('请选择商品类别')
+                return;
+            }
+            // 处理 新增页显示
+            if(this.tagsSelectd.length == 1){
+                // 用户只选择一个
+                this.categoryNames = this.tagsSelectd[0].categoryName;
+            } else {
+                this.tagsSelectd.map(item => {
+                  this.categoryNames = item.categoryName + ',' + this.categoryNames;  
+                })
+            }   
+            this.addProductInfo.categoryIdList = this.tagsSelectd;
+
+        },
+        // 取消选择类别
+        cancelCategory(){
+            this.tagsSelectd = [];
+            this.categoryNames = '';
+        }, 
+         // 点击新增类别标签
         addategoryInfo(){
             this.addCategoryInfoShow = true;
             this.addcategoryInfo = {
@@ -238,29 +360,12 @@ export default {
                 // 刷新标签列表
                 this.initCategoryList();
             })
+            this.isChecked = true;
         },
         // 取消新增
         addategoryInfoConcel(){},
-        // 点击已选类别标签
-        selectTagClick(tag){
-            // 点击后从已选列表中删除
-            this.tagsSelectd.splice(this.tagsSelectd.indexOf(tag), 1);
-            // 可选列表新增该选项
-            this.tags.push(tag);
-        },
-        // 确认选择类别
-        confirmCategory(){
-            // 表示用户未选择
-            if(null == this.tagsSelectd || this.tagsSelectd.length == 0){
-                Toast.fail('请选择商品类别')
-                return;
-            } this.tagsSelectd.map(item => {
-            })
-        },
-        // 取消选择类别
-        cancelCategory(){
-            this.tagsSelectd = [];
-        }
+        // 图片上传
+        productUpload(){}
     },
     components:{
         'tabbar':tabbar

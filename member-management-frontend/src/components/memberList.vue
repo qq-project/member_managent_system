@@ -188,7 +188,7 @@ export default {
               })
               return;
             }
-            // 处理会员生日
+            Toast.success('查询成功');
             this.memberInfoList = result;
 
           })
