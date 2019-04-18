@@ -33,9 +33,39 @@ export const memberInfoListRequest = params => {
         return data;
     });
 }
+
 /**
- * 请求当前登录用户信息
+ * 更新会员信息
  * @param {*} params 
+ */
+export const updateMemberInfoRequest = (params) => {
+    return postRequest('/api/memberInfo/updateMemberInfo', params).then(data => {
+        return data;
+    });
+}
+
+/**
+ * 保存会员信息
+ * @param {*} params 
+ */
+export const saveMemberInfoRequest = (params) => {
+    return postRequest('/api/memberInfo/saveMemberInfo', params).then(data =>{
+        return data;
+    })
+}
+
+/**
+ * 删除会员
+ * @param {*} params 
+ */
+export const deleteMemberInfoRequest = (params) =>{
+    postRequest('/api/memberInfo/deleteMemberInfo', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 查询当前用户信息 
  */
 export const userInfoRequest =() => {
     // 请求当前登录用户
@@ -45,13 +75,54 @@ export const userInfoRequest =() => {
 }
 
 /**
+ * 更新当前用户信息
+ * @param {*} params 
+ */
+export const saveUserInfoRequest = (params) =>{
+    // 更新当前用户信息，如果密码修改需要重新登录
+    return postRequest('api/user/saveUserInfo', params).then(data =>{
+        return data;
+    });
+}
+
+/**
+ * 查询商品列表
+ * @param {*} params 
+ */
+export const productInfoListRequest = (params) => {
+    return postRequest('/api/productInfo/productInfoList', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 查询类别列表
+ * @param {*} params 
+ */
+export const categoryInfoListRequest = (params) => {
+    return postRequest('/api/categoryInfo/categoryInfoList', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 新增商品类别信息
+ * @param {*} params 
+ */
+export const addCategoryInfoRequest = (params) => {
+    return postRequest('/api/categoryInfo/addCategoryInfo', params).then(data => {
+        return data;
+    })
+}
+
+
+/**
  *  登出
  * @param {*} params 
  */
 export const logoutRequest = () => {
     return getRequest('/api/user/logout')
 }
-
 
 /**
  * 文件上传请求

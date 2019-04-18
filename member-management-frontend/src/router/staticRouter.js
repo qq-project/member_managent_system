@@ -8,12 +8,14 @@ import products from '@/components/products'
 import usercenter from '@/components/usercenter'
 import staffs from '@/components/staffs'
 import userInfo from '@/components/userInfo'
+import memberList from '@/components/memberList'
+import productList from '@/components/productList'
   const staticRouter= [
     {
       // 默认路径是member
       path: '/',
       name: 'member',
-      component: member,
+      component: memberList,
       meta:{
         title:'会员管理页',
         requireAuth:true //判断是否需要登录，此处需要
@@ -21,8 +23,8 @@ import userInfo from '@/components/userInfo'
     },
     {
       path: '/member',
-      name: 'member',
-      component: member,
+      name: 'memberList',
+      component: memberList,
       meta:{
         title:'会员管理页',
         requireAuth:true //判断是否需要登录，此处需要
@@ -109,6 +111,14 @@ import userInfo from '@/components/userInfo'
       meta:{
         title:'会员管理页',
         requireAuth:false //判断是否需要登录，此处需要
+      }
+    },{
+      path: '/productList',
+      name: 'productList',
+      component: productList,
+      meta:{
+        title:'商品管理列表',
+        requireAuth:true //判断是否需要登录，此处需要
       }
     },
   ]

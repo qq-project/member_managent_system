@@ -155,4 +155,31 @@
         where valid = 'T'
         and id = #{id, jdbcType=INTEGER}
     </update>
+
+    <!--修改用户信息-->
+    <update id="updateUserInfo" parameterType="com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto">
+        update t_user_info
+        <set>
+            <if test="null != nickname and '' != nickname">
+              nickname = #{nickname, jdbcType=VARCHAR},
+            </if>
+            <if test="null != password and '' != password">
+              password = #{password, jdbcType=VARCHAR},
+            </if>
+            <if test="null != mobile and '' != mobile">
+              mobile = #{mobile, jdbcType=VARCHAR},
+            </if>
+            <if test="null != gender and '' != gender">
+              gender = #{gender, jdbcType=VARCHAR},
+            </if>
+            <if test="null != address and '' != address">
+              address = #{address, jdbcType=VARCHAR},
+            </if>
+            <if test="null != lastModifiedByName and '' != lastModifiedByName">
+              last_modified_by_name = #{lastModifiedByName, jdbcType=VARCHAR},
+            </if>
+            last_modified_time = NOW(3),
+        </set>
+        where id = #{id,jdbcType=INTEGER} and valid = 'T'
+    </update>
 </mapper>

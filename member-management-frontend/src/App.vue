@@ -25,6 +25,9 @@ export default {
   margin-top: 60px;
   width: 100%;
   height: 100%;
+  /*
+  background-image: url("https://qiqi-management.oss-cn-beijing.aliyuncs.com/data/gitama4.jpg?Expires=1555492958&OSSAccessKeyId=TMP.AQE3jHqt14RjwanqFyxdU3tng-gnftE5oh0hxMJyR4BjTpmoqzOHYSnpttf1MC4CFQDFjLkV0UFhICEeB7Pe2aOHc6ZNbwIVAPDSSLkIaKCWu7oOxYamBL2CX22a&Signature=GgmlOwcl3PDNddwSEm5sXz%2BMgIg%3D");
+  */
 }
 
 .mint-header, .mint-search {

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiqi.member_management.management.business.mapper.MemberInfoMapper">
+  <resultMap id="BaseResultMap" type="com.qiqi.member_management.management.business.model.MemberInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="VARCHAR" property="memberId" />
+    <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+    <result column="member_phone" jdbcType="VARCHAR" property="memberPhone" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="member_email" jdbcType="VARCHAR" property="memberEmail" />
+    <result column="gender" jdbcType="CHAR" property="gender" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="join_time" jdbcType="TIMESTAMP" property="joinTime" />
+    <result column="added_time" jdbcType="TIMESTAMP" property="addedTime" />
+    <result column="added_by_name" jdbcType="VARCHAR" property="addedByName" />
+    <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+    <result column="last_modified_by_name" jdbcType="VARCHAR" property="lastModifiedByName" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+      id, member_id, member_name, member_phone,
+      birthday, member_email, gender,
+      integral, join_time, added_time,
+      added_by_name, last_modified_time, last_modified_by_name,
+      valid
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_member_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qiqi.member_management.management.business.model.MemberInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_info (member_id, member_name, member_phone, 
+      birthday, member_email, gender, 
+      integral, join_time, added_time, 
+      added_by_name, last_modified_time, last_modified_by_name, 
+      valid)
+    values (#{memberId,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, #{memberPhone,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIME}, #{memberEmail,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, 
+      #{integral,jdbcType=INTEGER}, #{joinTime,jdbcType=TIMESTAMP}, #{addedTime,jdbcType=TIMESTAMP}, 
+      #{addedByName,jdbcType=VARCHAR}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{lastModifiedByName,jdbcType=VARCHAR}, 
+      #{valid,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qiqi.member_management.management.business.model.MemberInfo">
+    update t_member_info
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      member_phone = #{memberPhone,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIME},
+      member_email = #{memberEmail,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      integral = #{integral,jdbcType=INTEGER},
+      join_time = #{joinTime,jdbcType=TIMESTAMP},
+      added_time = #{addedTime,jdbcType=TIMESTAMP},
+      added_by_name = #{addedByName,jdbcType=VARCHAR},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      last_modified_by_name = #{lastModifiedByName,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, member_id, member_name, member_phone, birthday, member_email, gender, 
+    integral, join_time, added_time, added_by_name, last_modified_time, last_modified_by_name, 
+    valid
+    from t_member_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, member_id, member_name, member_phone, birthday, member_email,gender,
+    integral, join_time, added_time, added_by_name, last_modified_time, last_modified_by_name, 
+    valid
+    from t_member_info
+    where valid = 'T'
+    order by id DESC
+  </select>
+  <!-- 更新会员信息-->
+  <update id="updateMemberInfo" parameterType="com.qiqi.member_management.management.business.model.MemberInfo">
+    update t_member_info
+    <set>
+      <if test="null != memberName and '' != memberName">
+        member_name = #{memberName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != memberPhone and '' != memberPhone">
+        member_phone = #{memberPhone, jdbcType=VARCHAR},
+      </if>
+      <if test="null != gender and '' != gender">
+        gender = #{gender, jdbcType=CHAR},
+      </if>
+      <if test="null != integral and '' != integral">
+        integral = #{integral, jdbcType=INTEGER},
+      </if>
+      <if test="null != memberEmail and '' != memberEmail">
+        member_email = #{memberEmail, jdbcType=VARCHAR},
+      </if>
+      <if test="null != birthday">
+        birthday = #{birthday, jdbcType=DATE},
+      </if>
+      last_modified_time = NOW(3),
+      last_modified_by_name = #{lastModifiedByName, jdbcType=VARCHAR},
+    </set>
+    where valid = 'T' and id = #{id, jdbcType=INTEGER}
+  </update>
+
+  <!--查询最新一条的有效记录-->
+  <select id="queryLastMemberInfo"
+          resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_member_info
+    where valid = 'T'
+    order by id DESC
+  </select>
+
+
+  <!--新增会员信息-->
+  <insert id="saveMemberInfo" parameterType="com.qiqi.member_management.management.business.model.MemberInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="null != memberId and '' != memberId">
+        member_id,
+      </if>
+      <if test="null != memberName and '' != memberName">
+        member_name,
+      </if>
+      <if test="null != memberPhone and '' != memberPhone">
+        member_phone,
+      </if>
+      <if test="null != birthday">
+        birthday,
+      </if>
+      <if test="null != memberEmail and '' != memberEmail">
+        member_email,
+      </if>
+      <if test="null != gender and '' != gender">
+        gender,
+      </if>
+      <if test="null != integral">
+        integral,
+      </if>
+      join_time,
+      added_time,
+      <if test="null != addedByName and '' != addedByName">
+        added_by_name,
+      </if>
+        last_modified_time,
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        last_modified_by_name,
+      </if>
+      valid,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="null != memberId and '' != memberId">
+        #{memberId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != memberName and '' != memberName">
+        #{memberName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != memberPhone and '' != memberPhone">
+        #{memberPhone, jdbcType=VARCHAR},
+      </if>
+      <if test="null != birthday">
+        #{birthday, jdbcType=TIMESTAMP},
+      </if>
+      <if test="null != memberEmail and '' != memberEmail">
+        #{memberEmail, jdbcType=VARCHAR},
+      </if>
+      <if test="null != gender and '' != gender">
+        #{gender, jdbcType=CHAR},
+      </if>
+      <if test="null != integral">
+        #{integral, jdbcType=INTEGER},
+      </if>
+      NOW(3),
+      NOW(3),
+      <if test="null != addedByName and '' != addedByName">
+        #{addedByName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        #{lastModifiedByName, jdbcType=VARCHAR},
+      </if>
+      'T',
+    </trim>
+  </insert>
+
+  <!--作废会员信息-->
+  <update id="deleteMemberInfo" parameterType="java.lang.Integer">
+    update t_member_info
+    set valid = 'F'
+    ,last_modified_time=NOW(3)
+    ,last_modified_by_name='qiqi'
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据条件查询会员列表 queryMemberInfoList-->
+  <select id="queryMemberInfoList"
+          resultMap="BaseResultMap"
+          parameterType="com.qiqi.member_management.management.business.model.MemberInfo">
+    select <include refid="Base_Column_List"/>
+    from t_member_info
+    where valid = 'T'
+    <if test="null != memberName and '' != memberName ">
+      and (member_name like '%${memberName}%')
+    </if>
+    order by id DESC
+  </select>
+</mapper>

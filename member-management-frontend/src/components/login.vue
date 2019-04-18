@@ -2,6 +2,7 @@
 
   <div class="login">
 		<mt-header fixed title="用户登录" class="login-header"></mt-header>
+		<br/><br/><br/><br/><br/>
 		<div class="div-center">
 			<mt-field placeholder="用户名/手机号" v-model="loginForm.username" class="kuan"></mt-field>
 			<mt-field placeholder="密码" type="password" v-model="loginForm.password" class="kuan"></mt-field>
@@ -96,6 +97,8 @@ export default {
 <style lang='scss' scoped>
 .login {
   padding: 10px;
+	height:100%;
+	background-image: url('https://qiqi-management.oss-cn-beijing.aliyuncs.com/data/gitama4.jpg?Expires=1555550982&OSSAccessKeyId=TMP.AQGK_Ef_H1aLnRN6XjwDuotk5A41Ec66V--LeviL2Ib2In2YRSfr0KKstKAlAAAwLAIUVImnyJOVQGoeRuK9YKQu2ENzWU8CFG6RLRLEF7JsKbAS0O9xt6iNFkNF&Signature=mHvSgTuAt9kJkxa%2Bvxuhn%2FPaW2I%3D');
 	.div-center {
 		margin-top: 60px;
 	}

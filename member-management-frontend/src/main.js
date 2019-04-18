@@ -20,7 +20,6 @@ router.beforeEach((to, from, next) => {
     // 需要登录
     const token = localStorage.getItem("token");
     if('unLogin' === token){
-
       next({
         path:'/login',
       })

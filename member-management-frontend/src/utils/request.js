@@ -106,7 +106,7 @@ export const postRequest = (url, params) => {
         // 判断是否登录
         const {data} = res;
         if('300000' === data.resCode){
-            console.log('未登录');
+            MessageBox.alert('请登录！');
             // 将登录标志写进 localstorage中
             localStorage.setItem('token','unLogin');
         }

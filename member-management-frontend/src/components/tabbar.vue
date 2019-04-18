@@ -4,7 +4,7 @@
         <img slot="icon" src="../assets/member.png">
         会员
       </mt-tab-item>
-      <mt-tab-item id="products">
+      <mt-tab-item id="productList">
         <img slot="icon" src="../assets/products.png">
         商品
       </mt-tab-item>
@@ -37,8 +37,8 @@ export default {
                 case 'member':
                     this.$router.push('/member');
                 break;
-                case 'products':
-                    this.$router.push('/products');
+                case 'productList':
+                    this.$router.push('/productList');
                 break;
                 case 'order':
                     this.$router.push('/order');

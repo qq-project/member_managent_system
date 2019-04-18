@@ -1,5 +1,6 @@
 package com.qiqi.member_management.management.business.mapper;
 
+import com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto;
 import com.qiqi.member_management.management.business.model.UserInfo;
 import java.util.List;
 
@@ -28,4 +29,15 @@ public interface UserInfoMapper {
     int insertSelective(UserInfo userInfo);
 
     int updateimgSrc(UserInfo userInfo);
+
+    /**
+     * updateUserInfo(更新用户信息)
+     *
+     * @Param 
+     * @param requestDto
+     * @return void
+     * @exception 
+     * @Date  2019-04-16 11:35:40
+     **/
+    void updateUserInfo(UserModifiedRequestDto requestDto);
 }

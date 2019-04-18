@@ -3,7 +3,6 @@
     <mt-header fixed title="会员管理">
       <img @click="addMember" class="add-person" src="../assets/add-person.png" slot="right"/>
     </mt-header>
-
           <mt-search
             v-model="infoKey"
             cancel-text="取消"
@@ -12,6 +11,7 @@
           </mt-search>
           <div class="description">
             <p>姓名</p>
+            <p>性别</p>
             <p>电话</p>
             <p>积分</p>
           </div>
@@ -27,6 +27,7 @@
                 }
               ]">
               <p>{{memberInfo.name}}</p>
+              <p>{{memberInfo.gender}}</p>
               <p>{{memberInfo.tel}}</p>
               <p>{{memberInfo.integral}}</p>
             </mt-cell-swipe>
@@ -66,72 +67,84 @@ export default{
             memberId: 1,
             name: '王伟',
             tel: '14752558213',
+            gender:'女',
             integral: 300
           },
           {
             memberId: 2,
             name: '李文',
             tel: '18153843081',
+            gender:'女',
             integral: 280
           },
           {
             memberId: 3,
             name: '赵苏',
             tel: '15062154310',
+            gender:'女',
             integral: 80
           },
           {
             memberId: 4,
             name: '可乐',
             tel: '15062154310',
+            gender:'女',
             integral: 5
           },
           {
             memberId: 5,
             name: '欧艾斯',
             tel: '15062154310',
+            gender:'女',
             integral: 10080
           },
           {
             memberId: 6,
             name: '萨拉',
             tel: '15062154310',
+            gender:'男',
             integral: 80
           },          
           {
             memberId: 7,
             name: '大娜迦',
             tel: '15062154310',
+            gender:'男',
             integral: 1080
           },          
           {
             memberId: 8,
             name: '戴斯',
             tel: '15062154310',
+            gender:'男',
             integral: 800
           },
           {
             memberId: 9,
             name: '莫德凯撒',
             tel: '15062154310',
+            gender:'男',
             integral: 1080
           },          
           {
             memberId: 10,
             name: '大叔',
             tel: '15062154310',
+            gender:'男',
             integral: 800
           },          
           {
             memberId: 11,
             name: '褚珅',
             tel: '15062154310',
+            gender:'男',
             integral: 55
           },          
           {
             memberId: 12,
             name: '钱明达',
             tel: '15062154310',
+            gender:'男',
             integral: 584
           }
         ]

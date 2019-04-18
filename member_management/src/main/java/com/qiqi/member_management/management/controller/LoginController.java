@@ -5,8 +5,10 @@ import com.qiqi.member_management.common.util.MD5Util;
 import com.qiqi.member_management.management.business.biz.UserInfoBiz;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.UserLoginRequestDto;
+import com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto;
 import com.qiqi.member_management.management.business.model.User;
 import com.qiqi.member_management.management.business.model.UserInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -67,6 +69,29 @@ public class LoginController {
         return userInfoBiz.queryUserInfo();
     }
 
+
+    /**
+     * saveUserInfoRequest(更新当前用户信息)
+     *
+     * @Param 
+     * @param requestDto
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-16 11:31:50
+     **/
+    @RequestMapping("/saveUserInfo")
+    public ResponseDto saveUserInfo(@RequestBody UserModifiedRequestDto requestDto){
+        String password = requestDto.getPassword();
+        ResponseDto responseDto = userInfoBiz.saveUserInfo(requestDto);
+        responseDto.setResCode(ResponseDto.SUCCESS);
+        // 用户修改密码，后台强制进行退出登录操作
+        if (StringUtils.isNotBlank(password)){
+            Subject subject = SecurityUtils.getSubject();
+            subject.logout();
+        }
+        return responseDto;
+    }
+    
     /**
      * unauth(未登录跳转)
      *

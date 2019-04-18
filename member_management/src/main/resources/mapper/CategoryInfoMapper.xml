@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiqi.member_management.management.business.mapper.CategoryInfoMapper">
+  <resultMap id="BaseResultMap" type="com.qiqi.member_management.management.business.model.CategoryInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="describute" jdbcType="VARCHAR" property="describute" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="added_time" jdbcType="TIMESTAMP" property="addedTime" />
+    <result column="added_by_name" jdbcType="VARCHAR" property="addedByName" />
+    <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+    <result column="last_modified_by_name" jdbcType="VARCHAR" property="lastModifiedByName" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
+    <result column="category_type" jdbcType="VARCHAR" property="categoryType" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+      id,category_id, category_name, describute,
+      remark, added_time, added_by_name,
+      last_modified_time, last_modified_by_name,
+      valid, category_type
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_category_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qiqi.member_management.management.business.model.CategoryInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_category_info (category_id, category_name, describute, 
+      remark, added_time, added_by_name, 
+      last_modified_time, last_modified_by_name, 
+      valid, category_type)
+    values (#{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{describute,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{addedTime,jdbcType=TIMESTAMP}, #{addedByName,jdbcType=VARCHAR}, 
+      #{lastModifiedTime,jdbcType=TIMESTAMP}, #{lastModifiedByName,jdbcType=VARCHAR}, 
+      #{valid,jdbcType=CHAR}, #{categoryType,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.qiqi.member_management.management.business.model.CategoryInfo">
+    update t_category_info
+    set category_id = #{categoryId,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      describute = #{describute,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      added_time = #{addedTime,jdbcType=TIMESTAMP},
+      added_by_name = #{addedByName,jdbcType=VARCHAR},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      last_modified_by_name = #{lastModifiedByName,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=CHAR},
+      category_type = #{categoryType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, category_id, category_name, describute, remark, added_time, added_by_name, 
+    last_modified_time, last_modified_by_name, valid, category_type
+    from t_category_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, category_id, category_name, describute, remark, added_time, added_by_name, 
+    last_modified_time, last_modified_by_name, valid, category_type
+    from t_category_info
+  </select>
+  <!-- 查询类别列表-->
+  <select id="categoryInfoList"
+            resultType="com.qiqi.member_management.management.business.model.CategoryInfo" parameterType="java.util.Map">
+    select
+    id id,
+    category_id categoryId,
+    category_name categoryName,
+    describute describute,
+    remark remark,
+    added_time addedTime,
+    category_type categoryType
+    from t_category_info
+    where valid = 'T'
+    <if test="null != map.categoryName and '' != map.categoryName">
+      and (category_name like '%${map.categoryName}%')
+    </if>
+  </select>
+
+  <!--根据名称查询类别信息-->
+  <select id="queryCategoryInfoByName"
+          resultType="com.qiqi.member_management.management.business.model.CategoryInfo" parameterType="java.util.Map">
+    select
+    id id,
+    category_id categoryId,
+    category_name categoryName,
+    describute describute,
+    remark remark,
+    added_time addedTime,
+    category_type categoryType
+    from t_category_info
+    where valid = 'T'
+    <if test="null != map.categoryName and '' != map.categoryName">
+      and category_name =#{map.categoryName}
+    </if>
+    order by id DESC
+    limit 1
+  </select>
+
+  <!--getLastCategoryInfo-->
+  <select id="getLastCategoryInfo"
+          resultType="com.qiqi.member_management.management.business.model.CategoryInfo">
+    select
+      id id,
+      category_id categoryId,
+      category_name categoryName,
+      describute describute,
+      remark remark,
+      added_time addedTime,
+      category_type categoryType
+      from t_category_info
+      where valid = 'T'
+      order by id DESC
+      limit 1
+  </select>
+   <!-- 新增类别信息-->
+  <insert id="addCategoryInfo" parameterType="com.qiqi.member_management.management.business.model.CategoryInfo">
+      <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID()
+      </selectKey>
+      insert into t_category_info
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="null != categoryId and '' != categoryId">
+          category_id,
+        </if>
+        <if test="null != categoryName and '' != categoryName">
+          category_name,
+        </if>
+        <if test="null != describute and '' != describute">
+          describute,
+        </if>
+        <if test="null != remark and '' != remark">
+          remark,
+        </if>
+        added_time,
+        <if test="null != addedByName and '' != addedByName">
+          added_by_name,
+        </if>
+        last_modified_time,
+        <if test="null != lastModifiedByName and '' != lastModifiedByName">
+          last_modified_by_name,
+        </if>
+        <if test="null != valid and '' != valid">
+          valid,
+        </if>
+        <if test="null != categoryType and '' != categoryType">
+          category_type,
+        </if>
+      </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="null != categoryId and '' != categoryId">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="null != categoryName and '' != categoryName">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="null != describute and '' != describute">
+        #{describute,jdbcType=VARCHAR},
+      </if>
+      <if test="null != remark and '' != remark">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+        NOW(3),
+      <if test="null != addedByName and '' != addedByName">
+        #{addedByName,jdbcType=VARCHAR},
+      </if>
+        NOW(3),
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="null != valid and '' != valid">
+        #{valid,jdbcType=CHAR},
+      </if>
+      <if test="null != categoryType and '' != categoryType">
+        #{categoryType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

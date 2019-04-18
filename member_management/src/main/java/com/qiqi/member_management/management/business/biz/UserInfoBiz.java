@@ -6,14 +6,17 @@ import com.qiqi.member_management.common.exception.MsgManagement;
 import com.qiqi.member_management.common.util.CurrentUserInfoUtil;
 import com.qiqi.member_management.common.util.MD5Util;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
+import com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto;
 import com.qiqi.member_management.management.business.dto.request.UserRegisterRequestDto;
 import com.qiqi.member_management.management.business.mapper.UserInfoMapper;
 import com.qiqi.member_management.management.business.model.UserInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.security.provider.MD5;
 
 /**
  * UserInfoBiz类简述
@@ -109,7 +112,7 @@ public class UserInfoBiz {
         Subject subject = SecurityUtils.getSubject();
         if (null == subject || null == subject.getPrincipal()){
             // 表示当前用户未登录
-            throw new BizException("300000");
+            throw new BizException(300000);
         }
         // 获取当前用户
         UserInfo userInfo = CurrentUserInfoUtil.getCurrentUser();
@@ -128,5 +131,32 @@ public class UserInfoBiz {
      **/
     public void updateImgSrc(UserInfo userInfo){
         userInfoMapper.updateimgSrc(userInfo);
+    }
+
+    /**
+     * saveUserInfoRequest(更新当前用户信息)
+     *
+     * @Param 
+     * @param requestDto
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-16 11:32:05
+     **/
+    @Transactional
+    public ResponseDto saveUserInfo(UserModifiedRequestDto requestDto) {
+        ResponseDto responseDto = new ResponseDto();
+        // 获取当前登录用户
+        String password = requestDto.getPassword();
+        /**
+         * 1、当用户未进行密码修改时，直接进行新增
+         * 2、用户选择密码修改 email + password 新密码
+         **/
+        if(StringUtils.isNotBlank(password)){
+            UserInfo currentUser = CurrentUserInfoUtil.getCurrentUser();
+            requestDto.setPassword(MD5Util.encrypt(currentUser.getEmail(), password));
+        }
+        userInfoMapper.updateUserInfo(requestDto);
+        // 防止普通更新报错，待优化；
+        return responseDto;
     }
 }
