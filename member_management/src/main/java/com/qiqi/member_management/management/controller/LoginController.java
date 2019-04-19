@@ -6,14 +6,11 @@ import com.qiqi.member_management.management.business.biz.UserInfoBiz;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.UserLoginRequestDto;
 import com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto;
-import com.qiqi.member_management.management.business.model.User;
-import com.qiqi.member_management.management.business.model.UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
