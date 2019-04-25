@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiqi.member_management.management.business.mapper.ProductCategoryMapper">
+  <resultMap id="BaseResultMap" type="com.qiqi.member_management.management.business.model.ProductCategory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="added_by_name" jdbcType="VARCHAR" property="addedByName" />
+    <result column="added_by_time" jdbcType="TIMESTAMP" property="addedByTime" />
+    <result column="last_modified_by_name" jdbcType="VARCHAR" property="lastModifiedByName" />
+    <result column="last_modified_by_time" jdbcType="TIMESTAMP" property="lastModifiedByTime" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_product_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qiqi.member_management.management.business.model.ProductCategory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_product_category (product_id, category_id, added_by_name, 
+      added_by_time, last_modified_by_name, last_modified_by_time, 
+      valid)
+    values (#{productId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{addedByName,jdbcType=VARCHAR}, 
+      #{addedByTime,jdbcType=TIMESTAMP}, #{lastModifiedByName,jdbcType=VARCHAR}, #{lastModifiedByTime,jdbcType=TIMESTAMP}, 
+      #{valid,jdbcType=CHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.qiqi.member_management.management.business.model.ProductCategory">
+    update t_product_category
+    set product_id = #{productId,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=VARCHAR},
+      added_by_name = #{addedByName,jdbcType=VARCHAR},
+      added_by_time = #{addedByTime,jdbcType=TIMESTAMP},
+      last_modified_by_name = #{lastModifiedByName,jdbcType=VARCHAR},
+      last_modified_by_time = #{lastModifiedByTime,jdbcType=TIMESTAMP},
+      valid = #{valid,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, product_id, category_id, added_by_name, added_by_time, last_modified_by_name, 
+    last_modified_by_time, valid
+    from t_product_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, product_id, category_id, added_by_name, added_by_time, last_modified_by_name, 
+    last_modified_by_time, valid
+    from t_product_category
+  </select>
+
+
+  <!--新增商品类别信息-->
+  <insert id="saveProductCategory" parameterType="com.qiqi.member_management.management.business.model.ProductCategory">
+
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_product_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="null != productId and '' != productId">
+        product_id,
+      </if>
+      <if test="null != categoryId and '' != categoryId">
+        category_id,
+      </if>
+      <if test="null != addedByName and '' != addedByName">
+        added_by_name,
+      </if>
+      added_by_time,
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        last_modified_by_name,
+      </if>
+      last_modified_by_time,
+      valid,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="null != productId and '' != productId">
+        #{productId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != categoryId and '' != categoryId">
+        #{categoryId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != addedByName and '' != addedByName">
+        #{addedByName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        #{lastModifiedByName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      'T',
+    </trim>
+  </insert>
+
+  <!--根据条件查询商品类别关联关系-->
+  <select id="queryProductCategoryLists"
+          resultType="com.qiqi.member_management.management.business.model.ProductCategory" parameterType="com.qiqi.member_management.management.business.model.ProductCategory">
+    select *
+    from t_product_category
+    where valid = 'T'
+    <if test="null != productId and '' != productId">
+      and product_id = #{productId, jdbcType=VARCHAR}
+    </if>
+    <if test="null != categoryId and '' != categoryId">
+      and category_id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <update id="delStorageInfo" parameterType="com.qiqi.member_management.management.business.model.ProductCategory">
+    update t_product_category
+    set valid = 'F',
+    last_modified_by_time = NOW(3)
+    where valid = 'T' and id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

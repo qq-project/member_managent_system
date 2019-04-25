@@ -151,4 +151,21 @@ public class CategoryInfoBiz {
         Random random = new Random();
         return Contant.CATEGORY_TYPES[random.nextInt(3)];
     }
+
+    /**
+     * queryCategoryListByProductId(根据productId查询类别列表)
+     *
+     * @Param 
+     * @param productId
+     * @return java.util.List<com.qiqi.member_management.management.business.model.CategoryInfo>
+     * @exception 
+     * @Date  2019-04-22 10:39:47
+     **/
+    public List<CategoryInfo> queryCategoryListByProductId(String productId) {
+        List<CategoryInfo> categoryInfos = categoryInfoMapper.queryCategoryListByProductId(productId);
+        if (null == categoryInfos || categoryInfos.size() ==0){
+            throw new BizException("商品类别为空");
+        }
+        return categoryInfos;
+    }
 }

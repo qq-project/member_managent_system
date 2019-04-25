@@ -118,7 +118,8 @@
       order by id DESC
       limit 1
   </select>
-   <!-- 新增类别信息-->
+    
+    <!-- 新增类别信息-->
   <insert id="addCategoryInfo" parameterType="com.qiqi.member_management.management.business.model.CategoryInfo">
       <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
         SELECT LAST_INSERT_ID()
@@ -181,4 +182,21 @@
       </if>
     </trim>
   </insert>
+
+  <!--根据productId 查询类别列表-->
+  <select id="queryCategoryListByProductId"
+          resultType="com.qiqi.member_management.management.business.model.CategoryInfo"
+          parameterType="java.lang.String">
+   select
+    t1.id id,
+    t1.category_id categoryId,
+    t1.category_name categoryName,
+    t1.describute describute,
+    t1.remark remark,
+    t1.added_time addedTime,
+    t1.category_type categoryType
+    from  t_category_info t1
+    join t_product_category t2 on t2.category_id = t1.category_id and t2.valid = 'T' and t2.product_id = #{productId, jdbcType=VARCHAR}
+    where t1.valid = 'T'
+  </select>
 </mapper>

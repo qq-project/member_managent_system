@@ -69,6 +69,9 @@ module.exports = {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader'],
         include: __dirname
+      },{
+        test: /\.less$/,
+        loader: "style-loader!css-loader!less-loader",
       }
     ]
   },

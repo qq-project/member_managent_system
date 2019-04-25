@@ -46,4 +46,22 @@ public class FileUploadBiz {
         responseDto.setResult(userInfo);
         return responseDto;
     }
+
+    /**
+     * productUpload(上传商品图片)
+     *
+     * @Param 
+     * @param file
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-19 19:09:24
+     **/
+    public ResponseDto productUpload(MultipartFile file) {
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResCode(ResponseDto.SUCCESS);
+        // 阿里云文件上传
+        responseDto.setResult(AliYunOSSFileUploadUtil.fileUpload(file.getOriginalFilename(), file, file.getContentType()));
+        return responseDto;
+    }
+
 }

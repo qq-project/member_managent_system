@@ -96,6 +96,36 @@ export const productInfoListRequest = (params) => {
 }
 
 /**
+ * 修改商品信息
+ * @param {*} params 
+ */
+export const updateProductInfoRequest = (params) => {
+    return postRequest('/api/productInfo/updateProductInfo', params).then(data => {
+        return data;
+    }) 
+}
+
+/**
+ * 新增商品信息
+ * @param {*} params 
+ */
+export const saveProductInfoRequest = (params) => {
+    return postRequest('/api/productInfo/saveProductInfo', params).then(data => {
+        return data;
+    }) 
+}
+
+/**
+ * 删除商品信息
+ * @param {*} params 
+ */
+export const deleteProductInfoRequest = (params) => {
+    return postRequest('/api/productInfo/deleteProductInfo', params).then(data => {
+        return data;
+    }) 
+}
+
+/**
  * 查询类别列表
  * @param {*} params 
  */
@@ -111,6 +141,16 @@ export const categoryInfoListRequest = (params) => {
  */
 export const addCategoryInfoRequest = (params) => {
     return postRequest('/api/categoryInfo/addCategoryInfo', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 创建订单
+ * @param {*} params 
+ */
+export const createOrderRequest = (params) => {
+    return postRequest('/api/order/createOrder', params).then(data => {
         return data;
     })
 }

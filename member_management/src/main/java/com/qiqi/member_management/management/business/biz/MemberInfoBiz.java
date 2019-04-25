@@ -142,4 +142,32 @@ public class MemberInfoBiz {
         responseDto.setResCode(ResponseDto.SUCCESS);
         return responseDto;
     }
+
+    /**
+     * queryMemberInfo(请输入描述)
+     *
+     * @Param 
+     * @param memberInfo
+     * @return com.qiqi.member_management.management.business.model.MemberInfo
+     * @exception 
+     * @Date  2019-04-25 08:54:08
+     **/
+    public MemberInfo queryMemberInfo(MemberInfo memberInfo){
+        return memberInfoMapper.queryMemberInfo(memberInfo);
+    }
+
+    /**
+     * queryMemberInfoByMemberId(根据memberId查询会员信息)
+     *
+     * @Param 
+     * @param memberId
+     * @return com.qiqi.member_management.management.business.model.MemberInfo
+     * @exception 
+     * @Date  2019-04-25 08:55:24
+     **/
+    public MemberInfo queryMemberInfoByMemberId(String memberId){
+        MemberInfo memberInfo = new MemberInfo();
+        memberInfo.setMemberId(memberId);
+        return queryMemberInfo(memberInfo);
+    }
 }

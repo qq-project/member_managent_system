@@ -60,4 +60,15 @@ public interface MemberInfoMapper {
      * @Date  2019-04-17 14:50:40
      **/
     List<MemberInfo> queryMemberInfoList(MemberInfo memberInfo);
+
+    /**
+     * queryMemberInfo(查询会员信息)
+     *
+     * @Param 
+     * @param memberInfo
+     * @return com.qiqi.member_management.management.business.model.MemberInfo
+     * @exception 
+     * @Date  2019-04-25 08:50:24
+     **/
+    MemberInfo queryMemberInfo(MemberInfo memberInfo);
 }

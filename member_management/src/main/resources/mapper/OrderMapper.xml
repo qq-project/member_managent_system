@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiqi.member_management.management.business.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.qiqi.member_management.management.business.model.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="order_amount" jdbcType="INTEGER" property="orderAmount" />
+    <result column="order_pay" jdbcType="DECIMAL" property="orderPay" />
+    <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
+    <result column="order_status" jdbcType="CHAR" property="orderStatus" />
+    <result column="added_by_name" jdbcType="VARCHAR" property="addedByName" />
+    <result column="added_time" jdbcType="TIMESTAMP" property="addedTime" />
+    <result column="last_modified_by_name" jdbcType="VARCHAR" property="lastModifiedByName" />
+    <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qiqi.member_management.management.business.model.Order">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order (order_id, product_id, order_amount, 
+      order_pay, real_pay, order_status, 
+      added_by_name, added_time, last_modified_by_name, 
+      last_modified_time, valid)
+    values (#{orderId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{orderAmount,jdbcType=INETGER},
+      #{orderPay,jdbcType=DECIMAL}, #{realPay,jdbcType=DECIMAL}, #{orderStatus,jdbcType=CHAR}, 
+      #{addedByName,jdbcType=VARCHAR}, #{addedTime,jdbcType=TIMESTAMP}, #{lastModifiedByName,jdbcType=VARCHAR}, 
+      #{lastModifiedTime,jdbcType=TIMESTAMP}, #{valid,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qiqi.member_management.management.business.model.Order">
+    update t_order
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      order_amount = #{orderAmount,jdbcType=INTEGER},
+      order_pay = #{orderPay,jdbcType=DECIMAL},
+      real_pay = #{realPay,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=CHAR},
+      added_by_name = #{addedByName,jdbcType=VARCHAR},
+      added_time = #{addedTime,jdbcType=TIMESTAMP},
+      last_modified_by_name = #{lastModifiedByName,jdbcType=VARCHAR},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      valid = #{valid,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, order_id, product_id, order_amount, order_pay, real_pay, order_status, 
+    added_by_name, added_time, last_modified_by_name, last_modified_time, valid
+    from t_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, order_id, product_id, order_amount, order_pay, real_pay, order_status, 
+    added_by_name, added_time, last_modified_by_name, last_modified_time, valid
+    from t_order
+  </select>
+  <!--查询最新订单信息-->
+    <select id="getLastOrderInfo" resultType="com.qiqi.member_management.management.business.model.Order">
+      select
+      id, order_id, product_id, order_amount, order_pay, real_pay, order_status,
+      added_by_name, added_time, last_modified_by_name, last_modified_time, valid
+      from t_order
+      order by id DESC
+      limit 1
+    </select>
+
+  <insert id="saveOrder" parameterType="com.qiqi.member_management.management.business.model.Order">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="null != orderId and '' != orderId">
+        order_id,
+      </if>
+      <if test="null != productId and '' != productId">
+        product_id,
+      </if>
+      <if test="null != orderAmount">
+        order_amount,
+      </if>
+      <if test="null != orderPay">
+        order_pay,
+      </if>
+      <if test="null != realPay">
+        real_pay,
+      </if>
+      <if test="null != orderStatus and '' != orderStatus">
+        order_status,
+      </if>
+      <if test="null != addedByName and '' != addedByName">
+        added_by_name,
+      </if>
+      added_time,
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        last_modified_by_name
+      </if>
+      last_modified_time,
+       valid
+    </trim>
+    <trim prefix=" values (" suffix=")" suffixOverrides=",">
+      <if test="null != orderId and '' != orderId">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="null != productId and '' != productId">
+        #{productId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != orderAmount">
+        #{orderAmount, jdbcType=INTEGER},
+      </if>
+      <if test="null != orderPay">
+        #{orderPay, jdbcType=DECIMAL},
+      </if>
+      <if test="null != realPay">
+        #{realPay, jdbcType=DECIMAL},
+      </if>
+      <if test="null != orderStatus and '' != orderStatus">
+        #{orderStatus, jdbcType=VARCHAR},
+      </if>
+      <if test="null != addedByName and '' != addedByName">
+        #{addedByName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        #{lastModifiedByName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      'T'
+    </trim>
+  </insert>
+
+</mapper>

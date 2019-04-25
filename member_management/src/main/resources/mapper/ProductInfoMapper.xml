@@ -96,11 +96,163 @@
         and t1.id = #{id, djdbcType=INTEGER}
       </if>
       <if test="null != productName and '' != productName">
-        and (t1.product_name like '%${productName}%'
+        and (t1.product_name like '%${productName}%')
       </if>
       <if test="null != categoryId and '' != categoryId">
         and t1.category_id = #{categoryId,jdbcType=VARCHAR}
       </if>
       order by t1.id DESC
     </select>
+  <!--根据商品名称查询商品信息-->
+    <select id="queryProductInfoByName"
+            resultType="com.qiqi.member_management.management.business.model.ProductInfo"
+            parameterType="java.lang.String">
+      select *
+      from t_product_info
+      where valid = 'T'
+      <if test="null != productName and '' != productName">
+        and product_name = #{productName, jdbcType=VARCHAR}
+      </if>
+      order by id DESC
+      limit 1
+    </select>
+  <!--查询最新一条有效数据-->
+  <select id="getLastProductInfo"
+          resultType="com.qiqi.member_management.management.business.model.ProductInfo">
+     select * from t_product_info
+     where valid = 'T'
+     order by id DESC
+     limit 1
+  </select>
+
+  <insert id="saveProductInfo" parameterType="com.qiqi.member_management.management.business.model.ProductInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_product_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="null != productId and '' != productId">
+        product_id,
+      </if>
+      <if test="null != productName and '' != productName">
+        product_name,
+      </if>
+      <if test="null != categoryId and '' != categoryId">
+        category_id,
+      </if>
+      <if test="null != storageId and '' != storageId">
+        storage_id,
+      </if>
+      <if test="null != price">
+        price,
+      </if>
+      <if test="null != describute and '' != describute">
+        describute,
+      </if>
+      <if test="null != specification and '' != specification">
+        specification,
+      </if>
+      <if test="null != scope and '' != scope">
+        scope,
+      </if>
+      added_time,
+      <if test="null != addedByName and '' != addedByName">
+        added_by_name,
+      </if>
+      last_modified_time,
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        last_modified_by_name,
+      </if>
+      valid,
+      <if test="null != productImgSrc and '' != productImgSrc">
+        product_img_src,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="null != productId and '' != productId">
+        #{productId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != productName and '' != productName">
+        #{productName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != categoryId and '' != categoryId">
+        #{categoryId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != storageId and '' != storageId">
+        #{storageId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != price">
+        #{price},
+      </if>
+      <if test="null != describute and '' != describute">
+        #{describute, jdbcType=VARCHAR},
+      </if>
+      <if test="null != specification and '' != specification">
+        #{specification, jdbcType=VARCHAR},
+      </if>
+      <if test="null != scope and '' != scope">
+        #{scope, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      <if test="null != addedByName and '' != addedByName">
+        #{addedByName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        #{lastModifiedByName, jdbcType=VARCHAR},
+      </if>
+      'T',
+      <if test="null != productImgSrc and '' != productImgSrc">
+        #{productImgSrc, jdbcType=VARCHAR},
+      </if>
+    </trim>
+
+  </insert>
+
+  <!--作废商品信息-->
+  <update id="deleteProductInfo" parameterType="com.qiqi.member_management.management.business.model.ProductInfo">
+    update t_product_info set valid = 'F'
+    where valid = 'T' and id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--更新商品信息-->
+  <update id="updateProductInfo" parameterType="com.qiqi.member_management.management.business.model.ProductInfo">
+    update t_product_info
+    <set>
+      <if test="null != productName and '' != productName">
+        product_name = #{productName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != categoryId and '' != categoryId">
+        category_id = #{categoryId, jdbcTypeVARCHAR},
+      </if>
+      <if test="null != storageId and '' != storageId">
+        storage_id = #{storageId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != price">
+        price = #{price},
+      </if>
+      <if test="null != describute and '' != describute">
+        describute = #{describute, jdbcType=VARCHAR},
+      </if>
+      <if test="null != specification and '' != specification">
+        specification = #{specification, jdbcType=specification},
+      </if>
+      <if test="null != scope and '' != scope">
+        scope = #{scope, jdbcType=VARCHAR},
+      </if>
+      added_time = NOW(3),
+      <if test="null != addedByName and '' != addedByName">
+        added_by_name = #{addedByName, jdbcType=VARCHAR},
+      </if>
+      last_modified_time = NOW(3),
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        last_modified_by_name = #{lastModifiedByName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != productImgSrc and '' != productImgSrc">
+        product_img_src = #{productImgSrc, jdbcType=VARCHAR},
+      </if>
+    </set>
+    where valid = 'T' and id = #{id, jdbcType=INTEGER}
+  </update>
+
 </mapper>

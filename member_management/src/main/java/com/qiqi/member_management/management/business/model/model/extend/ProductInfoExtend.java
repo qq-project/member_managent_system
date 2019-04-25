@@ -1,6 +1,9 @@
 package com.qiqi.member_management.management.business.model.model.extend;
 
+import com.qiqi.member_management.management.business.model.CategoryInfo;
 import com.qiqi.member_management.management.business.model.ProductInfo;
+
+import java.util.List;
 
 /**
  * ProductInfoExtend类简述
@@ -16,6 +19,7 @@ public class ProductInfoExtend extends ProductInfo {
 
     private Integer productAmount;
 
+    private List<CategoryInfo> categoryInfoList;
     public String getCategoryName() {
         return categoryName;
     }
@@ -30,5 +34,13 @@ public class ProductInfoExtend extends ProductInfo {
 
     public void setProductAmount(Integer productAmount) {
         this.productAmount = productAmount;
+    }
+
+    public List<CategoryInfo> getCategoryInfoList() {
+        return categoryInfoList;
+    }
+
+    public void setCategoryInfoList(List<CategoryInfo> categoryInfoList) {
+        this.categoryInfoList = categoryInfoList;
     }
 }

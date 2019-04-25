@@ -274,9 +274,7 @@ import { Dialog } from 'vant';
       // 头像处理
       avartarUpload(file, detail){
           if(undefined == file ){
-            this.$dialog.alert({
-              message:'请选择文件'
-            });
+            Toast.fail('请选择图片')
             return;
           }
            // 文件上传 操作
@@ -285,12 +283,10 @@ import { Dialog } from 'vant';
             const {resCode, resMsg, result} = data;
             this.isShowConfirmButton = false;
             if('000000' !== resCode){
-              this.$dialog.alert({
-                message:resMsg
-              });
-            this.isShowConfirmButton = true;
-            // 将图片显示为上传的图片
-            return;
+              Toast.fail('上传图片失败，失败原因：'+resMsg);  
+              this.isShowConfirmButton = true;
+              // 将图片显示为上传的图片
+              return;
           }
             // 上传成功
             this.isShowConfirmButton = true;

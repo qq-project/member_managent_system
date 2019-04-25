@@ -14,6 +14,8 @@ public class CodeBuilderUtil {
      * 补零
      **/
     private static final String SEPERATOR = "0";
+
+    private static final Integer NEXT_ONE = 1;
     /**
      * codeGenerator(编号生成器)
      *
@@ -29,6 +31,8 @@ public class CodeBuilderUtil {
          if(null == id){
              return null;
          }
+         // 编号下一位
+         id = id + NEXT_ONE;
          int length = maxSize - prefix.length() - id.toString().length();
          StringBuilder sb = new StringBuilder();
          sb.append(prefix);

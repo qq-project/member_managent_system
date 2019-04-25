@@ -41,13 +41,53 @@ public class FileUploadController {
     public ResponseDto userAvartarUpload(HttpServletRequest request){
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest)request;
         MultipartFile file = multipartRequest.getFile("avartar");
+        ResponseDto responseDto = getResponseDto(file);
+        // 处理图片 保存到本地
+        if(null != responseDto){
+            return responseDto;
+        }
+        return fileUploadBiz.userAvartarUpload(file);
+    }
+
+    /**
+     * productUpload(商品图片上传)
+     *
+     * @Param 
+     * @param request
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-19 18:58:51
+     **/
+    @RequestMapping("/productUpload")
+    public ResponseDto productUpload(HttpServletRequest request){
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
+        // 获取上传的文件
+        MultipartFile file = multipartHttpServletRequest.getFile("productImg");
+        ResponseDto responseDto = getResponseDto(file);
+        if (null != responseDto){
+            return responseDto;
+        }
+        return fileUploadBiz.productUpload(file);
+    }
+
+    /**
+     * getResponseDto(统一处理文件上传失败响应)
+     *
+     * @Param 
+     * @param file
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-19 19:04:53
+     **/
+    public ResponseDto getResponseDto(MultipartFile file){
+        ResponseDto responseDto = null;
         if (null == file || file.isEmpty()){
-            ResponseDto responseDto = new ResponseDto();
+            responseDto = new ResponseDto();
             responseDto.setResCode("100005");
             responseDto.setResMsg(MsgManagement.getMsg(100005));
             return responseDto;
         }
-        // 处理图片 保存到本地
-        return fileUploadBiz.userAvartarUpload(file);
+        return responseDto;
     }
+
 }

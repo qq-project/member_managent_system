@@ -58,4 +58,136 @@
     added_name, added_time, last_modified_by_name, last_modified_time, valid
     from t_storage_info
   </select>
+  <!--获取最新的库存信息-->
+    <select id="getLastStotageInfo"
+            resultType="com.qiqi.member_management.management.business.model.StorageInfo">
+    select id, storage_id, storage_name, storage_size, product_amount, rule, remark,
+    added_name, added_time, last_modified_by_name, last_modified_time, valid
+    from t_storage_info
+    where valid = 'T'
+    order by id DESC
+    limit 1
+    </select>
+  
+  <!--新增库存信息-->
+  <insert id="saveStorageInfo" parameterType="com.qiqi.member_management.management.business.model.StorageInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_storage_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="null != storageId and '' != storageId">
+        storage_id,
+      </if>
+      <if test="null != storageName and '' != storageName">
+        storage_name,
+      </if>
+      <if test="null != storageSize">
+        storage_size,
+      </if>
+      <if test="null != productAmount">
+        product_amount,
+      </if>
+      <if test="null != rule and '' != rule">
+        rule,
+      </if>
+      <if test="null != remark and '' != remark">
+        remark,
+      </if>
+      <if test="null != addedName and '' != addedName">
+        added_name,
+      </if>
+      added_time,
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        last_modified_by_name,
+      </if>
+      last_modified_time,
+      valid,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="null != storageId and '' != storageId">
+        #{storageId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != storageName and '' != storageName">
+        #{storageName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != storageSize">
+        #{storageSize},
+      </if>
+      <if test="null != productAmount">
+        #{productAmount},
+      </if>
+      <if test="null != rule and '' != rule">
+        #{rule, jdbcType=VARCHAR},
+      </if>
+      <if test="null != remark and '' != remark">
+        #{remark, jdbcType=VARCHAR},
+      </if>
+      <if test="null != addedName and '' != addedName">
+        #{addedName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        #{lastModifiedByName, jdbcType=VARCHAR},
+      </if>
+      NOW(3),
+      'T',
+    </trim>
+  </insert>
+
+  <!--更新-->
+  <update id="updateStorageInfo" parameterType="com.qiqi.member_management.management.business.model.StorageInfo">
+    update t_storage_info
+    <set>
+      <if test="null != storageId and '' != storageId">
+        storage_id = #{storageId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != storageName and '' != storageName">
+        storage_name = #{storageName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != storageSize and '' != storageSize">
+        storage_size = #{storageSize, jdbcType=VARCHAR},
+      </if>
+      <if test="null != productAmount and '' != productAmount">
+        product_amount = #{productAmount, jdbcType=VARCHAR},
+      </if>
+      <if test="null != rule and '' != rule">
+        rule = #{rule, jdbcType=VARCHAR},
+      </if>
+      <if test="null != remark and '' != remark">
+        remark = #{remark, jdbcType=VARCHAR},
+      </if>
+      <if test="null != lastModifiedByName and '' != lastModifiedByName">
+        last_modified_by_name = #{lastModifiedByName, jdbcType=VARCHAR},
+      </if>
+      <if test="null != valid and '' != valid">
+        valid = #{valid, jdbcType=VARCHAR},
+      </if>
+    </set>
+    where valid = 'T'
+    <if test = "null != id">
+     and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="null != storageId and '' != storageId">
+      and storage_id = #{storageId, jdbcType=VARCHAR}
+    </if>
+    
+  </update>
+
+<!--查询库存信息-->
+  <select id="queryStorageByStorageId"
+          resultMap="BaseResultMap"
+          parameterType="com.qiqi.member_management.management.business.model.StorageInfo">
+    select
+      id, storage_id, storage_name, storage_size, product_amount, rule, remark,
+      added_name, added_time, last_modified_by_name, last_modified_time, valid
+    from  t_storage_info
+    where valid = 'T'
+    <if test="null != storageId and '' != storageId">
+      and storage_id = #{storageId, jdbcType=VARCHAR}
+    </if>
+    order by id DESC
+    limit 1
+  </select>
+
 </mapper>

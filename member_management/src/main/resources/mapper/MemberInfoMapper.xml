@@ -209,4 +209,17 @@
     </if>
     order by id DESC
   </select>
+  
+    <select id="queryMemberInfo"  resultMap="BaseResultMap"
+      parameterType="com.qiqi.member_management.management.business.model.MemberInfo">
+      select
+      <include refid="Base_Column_List"/>
+      from t_member_info
+      where valid = 'T'
+      <if test="null != memberId and '' != memberId">
+        and member_id = #{memberId, jdbcType=VARCHAR}
+      </if>
+      order by id DESC
+      limit 1
+    </select>
 </mapper>

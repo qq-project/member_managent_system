@@ -37,7 +37,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--对应的数据库表-->
-        <table tableName="t_category_info" domainObjectName="CategoryInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="t_member_order" domainObjectName="MemberOrder" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
     </context>

@@ -50,4 +50,15 @@ public interface CategoryInfoMapper {
      * @Date  2019-04-18 11:05:19
      **/
     void addCategoryInfo(CategoryInfo categoryInfo);
+
+    /**
+     * queryCategoryListByProductId(查询类列表)
+     *
+     * @Param 
+     * @param productId
+     * @return java.util.List<com.qiqi.member_management.management.business.model.CategoryInfo>
+     * @exception 
+     * @Date  2019-04-22 10:41:08
+     **/
+    List<CategoryInfo> queryCategoryListByProductId(@Param("productId") String productId);
 }
