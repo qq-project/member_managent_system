@@ -4,6 +4,7 @@ import com.qiqi.member_management.management.business.biz.OrderBiz;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.OrderCreateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class OrderController {
      * @Date  2019-04-25 08:41:18
      **/
     @RequestMapping("/createOrder")
-    public ResponseDto createOrder(OrderCreateRequestDto requestDto){
+    public ResponseDto createOrder(@RequestBody OrderCreateRequestDto requestDto){
         return orderBiz.createOrder(requestDto);
     }
 }

@@ -27,7 +27,7 @@
       order_pay, real_pay, order_status, 
       added_by_name, added_time, last_modified_by_name, 
       last_modified_time, valid)
-    values (#{orderId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{orderAmount,jdbcType=INETGER},
+    values (#{orderId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{orderAmount,jdbcType=INTEGER},
       #{orderPay,jdbcType=DECIMAL}, #{realPay,jdbcType=DECIMAL}, #{orderStatus,jdbcType=CHAR}, 
       #{addedByName,jdbcType=VARCHAR}, #{addedTime,jdbcType=TIMESTAMP}, #{lastModifiedByName,jdbcType=VARCHAR}, 
       #{lastModifiedTime,jdbcType=TIMESTAMP}, #{valid,jdbcType=CHAR})
@@ -97,10 +97,10 @@
       </if>
       added_time,
       <if test="null != lastModifiedByName and '' != lastModifiedByName">
-        last_modified_by_name
+        last_modified_by_name,
       </if>
       last_modified_time,
-       valid
+       valid,
     </trim>
     <trim prefix=" values (" suffix=")" suffixOverrides=",">
       <if test="null != orderId and '' != orderId">
@@ -119,7 +119,7 @@
         #{realPay, jdbcType=DECIMAL},
       </if>
       <if test="null != orderStatus and '' != orderStatus">
-        #{orderStatus, jdbcType=VARCHAR},
+        #{orderStatus, jdbcType=CHAR},
       </if>
       <if test="null != addedByName and '' != addedByName">
         #{addedByName, jdbcType=VARCHAR},
@@ -129,7 +129,7 @@
         #{lastModifiedByName, jdbcType=VARCHAR},
       </if>
       NOW(3),
-      'T'
+      'T',
     </trim>
   </insert>
 

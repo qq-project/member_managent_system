@@ -45,7 +45,7 @@
                 </div>   
                  <div class="van-sku-actions" v-if="!isCartShow">
                      <br/><br/>
-                        <van-submit-bar :price="totalAmount" button-text="提交订单" @submit="productBuy()">
+                        <van-submit-bar :price="orderPay" button-text="提交订单" @submit="productBuy()">
                             <br/><br/>
                             <div class="van-cell-group van-hairline--top-bottom van-sku-messages" slot="top">
                                 <div class="van-cell van-cell--required van-field">
@@ -142,14 +142,13 @@ export default {
                     } 
                     this.disableStepperInput = false;
                     this.orderProductAmount = data;
-                    this.totalAmount = (this.productInfo.price) * (this.orderProductAmount) * 100;
-
+                    this.orderPay = (this.productInfo.price) * (this.orderProductAmount) * 100;
                 }
             },
             // 订单商品数量
             orderProductAmount:1,
             // 订单金额
-            totalAmount:0,
+            orderPay:0,
             // 商品数量
             productAmount:0,
             // 是否禁用步进器输入
@@ -179,7 +178,7 @@ export default {
             this.productInfo.price = e.price;
             this.productAmount = e.productAmount;
             this.productInfoSku.stock_num = e.productAmount;
-            this.totalAmount = (this.orderProductAmount) * (this.productInfo.price) * 100
+            this.orderPay = (this.orderProductAmount) * (this.productInfo.price) * 100
             this.memberId = '';
         },
         // 直接下单
@@ -194,7 +193,7 @@ export default {
             this.productInfo.price = e.price;
             this.productAmount = e.productAmount;
             this.productInfoSku.stock_num = e.productAmount;
-            this.totalAmount = (this.orderProductAmount) * (this.productInfo.price)* 100
+            this.orderPay = (this.orderProductAmount) * (this.productInfo.price)* 100
             this.memberId = '';
         },
         // 添加购物车
@@ -216,7 +215,7 @@ export default {
                 productId:this.productInfo.productId,
                 price: this.productInfo.price,
                 orderAmount:this.orderProductAmount,
-                totalAmount:this.totalAmount,
+                orderPay:(this.orderPay)/100,
                 memberId:this.memberId
             }
             // 请求后台创建订单接口

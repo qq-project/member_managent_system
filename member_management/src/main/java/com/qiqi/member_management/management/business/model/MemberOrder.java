@@ -24,7 +24,7 @@ public class MemberOrder {
 
     private Date lastModifiedTime;
 
-    private String lastModifedByName;
+    private String lastModifiedByName;
 
     private String valid;
 
@@ -108,12 +108,12 @@ public class MemberOrder {
         this.lastModifiedTime = lastModifiedTime;
     }
 
-    public String getLastModifedByName() {
-        return lastModifedByName;
+    public String getLastModifiedByName() {
+        return lastModifiedByName;
     }
 
-    public void setLastModifedByName(String lastModifedByName) {
-        this.lastModifedByName = lastModifedByName == null ? null : lastModifedByName.trim();
+    public void setLastModifiedByName(String lastModifiedByName) {
+        this.lastModifiedByName = lastModifiedByName == null ? null : lastModifiedByName.trim();
     }
 
     public String getValid() {

@@ -52,6 +52,7 @@
     <select id="getLastOrderRel" resultType="com.qiqi.member_management.management.business.model.OrderRel">
       select id, order_rel_id, order_id, added_by_name, added_time, last_modified_by_name,
       last_modified_time, valid
+      from t_order_rel
       where valid = 'T'
       order by id DESC
       limit 1
@@ -72,7 +73,7 @@
       <if test="null != addedByName and '' != addedByName">
         added_by_name,
       </if>
-      added_time
+      added_time,
       <if test="null != lastModifiedByName and '' != lastModifiedByName">
         last_modified_by_name,
       </if>
@@ -89,7 +90,7 @@
       <if test="null != addedByName and '' != addedByName">
         #{addedByName, jdbcType=VARCHAR},
       </if>
-      NOW(3)
+      NOW(3),
       <if test="null != lastModifiedByName and '' != lastModifiedByName">
         #{lastModifiedByName, jdbcType=VARCHAR},
       </if>
