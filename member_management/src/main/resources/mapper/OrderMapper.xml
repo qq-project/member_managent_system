@@ -178,5 +178,33 @@
     </set>
     where id = #{id,jdbcType=INTEGER} and valid = 'T'
   </update>
+  <!--查询订单列表-->
+  <select id="queryOrderLists" resultType="com.qiqi.member_management.management.business.vo.OrderListVo"
+    parameterType="java.util.Map">
+    select
+    t1.id id,
+    t1.order_id orderId,
+    t1.product_id productId,
+    t1.order_amount orderAmount,
+    t1.order_pay orderPay,
+    t1.real_pay realPay,
+    t2.product_name productName,
+    t2.describute describute,
+    t2.price price,
+    t2.product_img_src productImgSrc,
+    t3.product_amount productAmount
+    from t_order t1
+    left join t_product_info t2 on t2.product_id = t1.product_id and t2.valid = 'T'
+    left join t_storage_info t3 on t3.product_id = t2.product_id and t3.valid = 'T'
+    where t1.valid = 'T'
+    <if test="null != map.orderId and '' != map.orderId">
+      and t1.order_id = #{map.orderId, jdbcType=VARCHAR}
+    </if>
+    <if test="null != map.orderType and '' != map.orderType">
+      and t1.order_status = #{map.orderType, jdbcType=VARCHAR}
+    </if>
+    order by id DESC
+  </select>
+
 
 </mapper>

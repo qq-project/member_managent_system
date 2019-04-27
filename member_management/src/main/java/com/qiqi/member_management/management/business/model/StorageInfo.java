@@ -7,6 +7,8 @@ public class StorageInfo {
 
     private String storageId;
 
+    private String productId;
+
     private String storageName;
 
     private Integer storageSize;
@@ -121,5 +123,13 @@ public class StorageInfo {
 
     public void setValid(String valid) {
         this.valid = valid == null ? null : valid.trim();
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }

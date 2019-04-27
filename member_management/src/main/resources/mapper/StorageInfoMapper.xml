@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.qiqi.member_management.management.business.model.StorageInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="storage_id" jdbcType="VARCHAR" property="storageId" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
     <result column="storage_name" jdbcType="VARCHAR" property="storageName" />
     <result column="storage_size" jdbcType="INTEGER" property="storageSize" />
     <result column="product_amount" jdbcType="INTEGER" property="productAmount" />
@@ -23,11 +24,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_storage_info (storage_id, storage_name, storage_size, 
+    insert into t_storage_info (storage_id,product_id, storage_name, storage_size,
       product_amount, rule, remark, 
       added_name, added_time, last_modified_by_name, 
       last_modified_time, valid)
-    values (#{storageId,jdbcType=VARCHAR}, #{storageName,jdbcType=VARCHAR}, #{storageSize,jdbcType=INTEGER}, 
+    values (#{storageId,jdbcType=VARCHAR},#{productId,jdbcType=VARCHAR}, #{storageName,jdbcType=VARCHAR}, #{storageSize,jdbcType=INTEGER},
       #{productAmount,jdbcType=INTEGER}, #{rule,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{addedName,jdbcType=VARCHAR}, #{addedTime,jdbcType=TIMESTAMP}, #{lastModifiedByName,jdbcType=VARCHAR}, 
       #{lastModifiedTime,jdbcType=TIMESTAMP}, #{valid,jdbcType=CHAR})
@@ -35,6 +36,7 @@
   <update id="updateByPrimaryKey" parameterType="com.qiqi.member_management.management.business.model.StorageInfo">
     update t_storage_info
     set storage_id = #{storageId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
       storage_name = #{storageName,jdbcType=VARCHAR},
       storage_size = #{storageSize,jdbcType=INTEGER},
       product_amount = #{productAmount,jdbcType=INTEGER},
@@ -48,20 +50,20 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, storage_id, storage_name, storage_size, product_amount, rule, remark, 
+    select id, storage_id, productId, storage_name, storage_size, product_amount, rule, remark,
     added_name, added_time, last_modified_by_name, last_modified_time, valid
     from t_storage_info
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, storage_id, storage_name, storage_size, product_amount, rule, remark, 
+    select id, storage_id, productId, storage_name, storage_size, product_amount, rule, remark,
     added_name, added_time, last_modified_by_name, last_modified_time, valid
     from t_storage_info
   </select>
   <!--获取最新的库存信息-->
     <select id="getLastStotageInfo"
             resultType="com.qiqi.member_management.management.business.model.StorageInfo">
-    select id, storage_id, storage_name, storage_size, product_amount, rule, remark,
+    select id, storage_id,product_id, storage_name, storage_size, product_amount, rule, remark,
     added_name, added_time, last_modified_by_name, last_modified_time, valid
     from t_storage_info
     where valid = 'T'
@@ -78,6 +80,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="null != storageId and '' != storageId">
         storage_id,
+      </if>
+      <if test="null != productId and '' != productId">
+        product_id,
       </if>
       <if test="null != storageName and '' != storageName">
         storage_name,
@@ -107,6 +112,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="null != storageId and '' != storageId">
         #{storageId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != productId and '' != productId">
+        #{productId, jdbcType=VARCHAR},
       </if>
       <if test="null != storageName and '' != storageName">
         #{storageName, jdbcType=VARCHAR},
@@ -142,6 +150,9 @@
       <if test="null != storageId and '' != storageId">
         storage_id = #{storageId, jdbcType=VARCHAR},
       </if>
+      <if test="null != productId and '' != productId">
+        product_id = #{productId, jdbcType=VARCHAR},
+      </if>
       <if test="null != storageName and '' != storageName">
         storage_name = #{storageName, jdbcType=VARCHAR},
       </if>
@@ -168,8 +179,8 @@
     <if test = "null != id">
      and id = #{id,jdbcType=INTEGER}
     </if>
-    <if test="null != storageId and '' != storageId">
-      and storage_id = #{storageId, jdbcType=VARCHAR}
+    <if test="null != productId and '' != productId">
+      and product_id = #{productId, jdbcType=VARCHAR}
     </if>
     
   </update>
@@ -179,12 +190,15 @@
           resultMap="BaseResultMap"
           parameterType="com.qiqi.member_management.management.business.model.StorageInfo">
     select
-      id, storage_id, storage_name, storage_size, product_amount, rule, remark,
+      id, storage_id, product_id, storage_name, storage_size, product_amount, rule, remark,
       added_name, added_time, last_modified_by_name, last_modified_time, valid
     from  t_storage_info
     where valid = 'T'
     <if test="null != storageId and '' != storageId">
       and storage_id = #{storageId, jdbcType=VARCHAR}
+    </if>
+    <if test="null != productId and '' != productId">
+      and product_id = #{productId, jdbcType=VARCHAR}
     </if>
     order by id DESC
     limit 1

@@ -72,28 +72,21 @@
         t1.id,
         t1.product_id productId,
         t1.product_name productName,
-        t1.category_id categoryId,
-        t1.storage_id storageId,
         t1.price price,
         t1.describute describute,
         t1.specification specification,
         t1.scope scope,
         t1.added_time addedTime,
         t1.product_img_src productImgSrc,
-        t2.category_name categoryName,
         t3.product_amount productAmount
       from t_product_info t1
-      left join t_category_info t2 on t1.category_id = t2.category_id and t2.valid = 'T'
-      left join t_storage_info t3 on t1.storage_id = t3.storage_id and t3.valid = 'T'
+      left join t_storage_info t3 on t1.product_id = t3.product_id and t3.valid = 'T'
       where t1.valid = 'T'
       <if test="null != id">
         and t1.id = #{id, djdbcType=INTEGER}
       </if>
       <if test="null != productName and '' != productName">
         and (t1.product_name like '%${productName}%')
-      </if>
-      <if test="null != categoryId and '' != categoryId">
-        and t1.category_id = #{categoryId,jdbcType=VARCHAR}
       </if>
       order by t1.id DESC
     </select>
@@ -131,12 +124,6 @@
       <if test="null != productName and '' != productName">
         product_name,
       </if>
-      <if test="null != categoryId and '' != categoryId">
-        category_id,
-      </if>
-      <if test="null != storageId and '' != storageId">
-        storage_id,
-      </if>
       <if test="null != price">
         price,
       </if>
@@ -168,12 +155,6 @@
       </if>
       <if test="null != productName and '' != productName">
         #{productName, jdbcType=VARCHAR},
-      </if>
-      <if test="null != categoryId and '' != categoryId">
-        #{categoryId, jdbcType=VARCHAR},
-      </if>
-      <if test="null != storageId and '' != storageId">
-        #{storageId, jdbcType=VARCHAR},
       </if>
       <if test="null != price">
         #{price},
@@ -215,12 +196,6 @@
     <set>
       <if test="null != productName and '' != productName">
         product_name = #{productName, jdbcType=VARCHAR},
-      </if>
-      <if test="null != categoryId and '' != categoryId">
-        category_id = #{categoryId, jdbcTypeVARCHAR},
-      </if>
-      <if test="null != storageId and '' != storageId">
-        storage_id = #{storageId, jdbcType=VARCHAR},
       </if>
       <if test="null != price">
         price = #{price},

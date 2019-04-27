@@ -108,8 +108,6 @@ public class ProductInfoBiz {
         return responseDto;
     }
 
-
-
     /**
      * handleSaveProductInfoAttr(处理新增商品参数)
      *
@@ -135,20 +133,19 @@ public class ProductInfoBiz {
         productInfo.setDescribute(requestDto.getDescribute());
         productInfo.setPrice(requestDto.getPrice());
         // 库存信息处理，生成库存编号
-        String storageId = CodeBuilderUtil.codeGenerator(storageInfoBiz.getLastStorageInfo().getId(), Contant.STORAGE_ID_LENGTH, Contant.STORAGE_ID_PREFIX);
-        productInfo.setStorageId(storageId);
         // 常量处理
         productInfo.setAddedByName(Contant.ADDED_NAME);
         productInfo.setLastModifiedByName(Contant.ADDED_NAME);
         productInfo.setValid(Contant.VALID_T);
         // 处理库存信息
-        storageInfo.setStorageId(storageId);
+        storageInfo.setStorageId(CodeBuilderUtil.codeGenerator(storageInfoBiz.getLastStorageInfo().getId(), Contant.STORAGE_ID_LENGTH, Contant.STORAGE_ID_PREFIX));
         // 库存名默认就是商品名
         storageInfo.setStorageName(requestDto.getProductName());
+        storageInfo.setProductId(productId);
         storageInfo.setProductAmount(requestDto.getProductAmount());
-        storageInfo.setStorageSize(requestDto.getProductAmount() * Contant.STORAGE_SIZE);
         storageInfo.setAddedName(Contant.ADDED_NAME);
         storageInfo.setLastModifiedByName(Contant.ADDED_NAME);
+        storageInfo.setProductAmount(requestDto.getProductAmount());
         storageInfo.setValid(Contant.VALID_T);
         // 处理 商品类别关系信息
         for(CategoryInfo categoryInfo : requestDto.getCategoryIdList()){
@@ -177,8 +174,7 @@ public class ProductInfoBiz {
         ResponseDto responseDto = new ResponseDto();
         responseDto.setResCode(ResponseDto.SUCCESS);
         if(null == productInfo.getId()
-                || StringUtils.isBlank(productInfo.getProductId())
-                || StringUtils.isBlank(productInfo.getStorageId())){
+                || StringUtils.isBlank(productInfo.getProductId())){
             logger.error(MsgManagement.getMsg(100006));
             throw new BizException(100006);
         }
@@ -186,7 +182,6 @@ public class ProductInfoBiz {
         productInfoMapper.deleteProductInfo(productInfo);
         // 作废商品库存信息
         StorageInfo storageInfo = new StorageInfo();
-        storageInfo.setStorageId(productInfo.getStorageId());
         storageInfo.setValid(Contant.VALID_F);
         storageInfoBiz.updateStorageInfo(storageInfo);
         // 批量作废商品类别关联信息
@@ -223,13 +218,14 @@ public class ProductInfoBiz {
         productInfo.setDescribute(requestDto.getDescribute());
         productInfo.setProductImgSrc(requestDto.getProductImgSrc());
         // 判断是否超过指定库存
-        StorageInfo storageInfo = new StorageInfo();
-        storageInfo.setStorageId(requestDto.getStorageId());
-        storageInfo = storageInfoBiz.queryStorage(storageInfo);
+        StorageInfo storageInfo = storageInfoBiz.queryStorageByProductId(requestDto.getProductId());
+        if (null == storageInfo){
+            throw new BizException(100033, storageInfo.getStorageSize().toString());
+        }
         int compareVal = -1;
         if(storageInfo.getStorageSize().compareTo(requestDto.getProductAmount()) == compareVal ){
-            logger.error(MsgManagement.getMsg(100033, storageInfo.getStorageSize().toString()));
-            throw new BizException(100033, storageInfo.getStorageSize().toString());
+            logger.error(MsgManagement.getMsg(100034));
+            throw new BizException(100034);
         }
         // 更新商品数量
         storageInfo.setProductAmount(requestDto.getProductAmount());

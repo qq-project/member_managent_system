@@ -66,8 +66,20 @@ public class StorageInfoBiz {
      **/
     public StorageInfo queryStorage(StorageInfo storageInfo) {
         return storageInfoMapper.queryStorageByStorageId(storageInfo);
-        
     }
 
-    
+    /**
+     * queryStorageByProductId(根据商品Id查询库存信息)
+     *
+     * @Param 
+     * @param productId
+     * @return com.qiqi.member_management.management.business.model.StorageInfo
+     * @exception 
+     * @Date  2019-04-27 10:34:54
+     **/
+    public StorageInfo queryStorageByProductId(String productId){
+        StorageInfo storageInfo = new StorageInfo();
+        storageInfo.setProductId(productId);
+        return queryStorage(storageInfo);
+    }
 }

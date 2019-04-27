@@ -6,7 +6,7 @@ import java.util.Date;
 public class MemberOrder {
     private Integer id;
 
-    private String orderRelId;
+    private String orderId;
 
     private String memberId;
 
@@ -15,6 +15,8 @@ public class MemberOrder {
     private BigDecimal realTotalPay;
 
     private Integer orderTotalAmount;
+
+    private String orderType;
 
     private String remark;
 
@@ -34,14 +36,6 @@ public class MemberOrder {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getOrderRelId() {
-        return orderRelId;
-    }
-
-    public void setOrderRelId(String orderRelId) {
-        this.orderRelId = orderRelId == null ? null : orderRelId.trim();
     }
 
     public String getMemberId() {
@@ -122,5 +116,21 @@ public class MemberOrder {
 
     public void setValid(String valid) {
         this.valid = valid == null ? null : valid.trim();
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
     }
 }

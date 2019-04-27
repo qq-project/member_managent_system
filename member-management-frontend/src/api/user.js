@@ -155,7 +155,15 @@ export const createOrderRequest = (params) => {
     })
 }
 
-
+/**
+ * 查询会员订单列表
+ * @param {*} params 
+ */
+export const memberOrderListRequest = (params) => {
+    return postRequest('/api/memberOrder/queryMemberOrderList', params).then(data => {
+        return data;
+    })
+}
 /**
  *  登出
  * @param {*} params 
