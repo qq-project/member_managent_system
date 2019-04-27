@@ -5,8 +5,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="product_id" jdbcType="VARCHAR" property="productId" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
-    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
-    <result column="storage_id" jdbcType="VARCHAR" property="storageId" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="describute" jdbcType="VARCHAR" property="describute" />
     <result column="specification" jdbcType="VARCHAR" property="specification" />
@@ -26,13 +24,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_product_info (product_id, product_name, category_id, 
-      storage_id, price, describute, 
+    insert into t_product_info (product_id, product_name, price, describute,
       specification, scope, added_time, 
       added_by_name, last_modified_time, last_modified_by_name, 
       valid, product_img_src)
-    values (#{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, 
-      #{storageId,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{describute,jdbcType=VARCHAR}, 
+    values (#{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{describute,jdbcType=VARCHAR},
       #{specification,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, #{addedTime,jdbcType=TIMESTAMP}, 
       #{addedByName,jdbcType=VARCHAR}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{lastModifiedByName,jdbcType=VARCHAR}, 
       #{valid,jdbcType=CHAR}, #{productImgSrc,jdbcType=VARCHAR})
@@ -41,8 +37,6 @@
     update t_product_info
     set product_id = #{productId,jdbcType=VARCHAR},
       product_name = #{productName,jdbcType=VARCHAR},
-      category_id = #{categoryId,jdbcType=VARCHAR},
-      storage_id = #{storageId,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       describute = #{describute,jdbcType=VARCHAR},
       specification = #{specification,jdbcType=VARCHAR},
@@ -56,14 +50,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, product_id, product_name, category_id, storage_id, price, describute, 
+    select id, product_id, product_name, price, describute,
     specification, scope, added_time, added_by_name, last_modified_time, last_modified_by_name, 
     valid, product_img_src
     from t_product_info
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, product_id, product_name, category_id, storage_id, price, describute, 
+    select id, product_id, product_name, price, describute,
     specification, scope, added_time, added_by_name, last_modified_time, last_modified_by_name, 
     valid, product_img_src
     from t_product_info

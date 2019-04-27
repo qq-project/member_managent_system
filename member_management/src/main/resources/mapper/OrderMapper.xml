@@ -68,7 +68,7 @@
       limit 1
     </select>
 
-  <insert id="saveOrder" parameterType="com.qiqi.member_management.management.business.model.Order">
+    <insert id="saveOrder" parameterType="com.qiqi.member_management.management.business.model.Order">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -132,5 +132,51 @@
       'T',
     </trim>
   </insert>
+  <select id="queryOrder"
+          resultMap="BaseResultMap"
+          parameterType="com.qiqi.member_management.management.business.model.Order">
+    select id, order_id, product_id, order_amount, order_pay, real_pay, order_status,
+    added_by_name, added_time, last_modified_by_name, last_modified_time, valid
+    from t_order
+    where valid = 'T'
+    <if test="null != productId and '' != productId">
+      and product_id = #{productId, jdbcType=VARCHAR}
+    </if>
+    <if test="null != orderStatus and '' != orderStatus">
+      and order_status = #{orderStatus, jdbcType=VARCHAR}
+    </if>
+    order by id DESC
+    limit 1
+  </select>
+  <!--修改订单-->
+  <update id="updateOrder">
+    update t_order
+    <set>
+      <if test="null != orderId and '' != orderId">
+        order_id = #{orderId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != productId and '' != productId">
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="null != orderAmount">
+        order_amount = #{orderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="null != orderPay">
+        order_pay = #{orderPay,jdbcType=DECIMAL},
+      </if>
+      <if test="null != realPay">
+        real_pay = #{realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="null != realPay">
+        real_pay = #{realPay,jdbcType=DECIMAL},
+      </if>
+      last_modified_by_name = 'qiqi',
+      last_modified_time = NOW(3),
+      <if test="null != valid and '' != valid">
+        valid = #{valid,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER} and valid = 'T'
+  </update>
 
 </mapper>

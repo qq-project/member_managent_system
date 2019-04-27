@@ -26,6 +26,11 @@ public class OrderCreateRequestDto {
 
     private BigDecimal orderPay;
 
+    /**
+     * 订单状态 10 待下单，20 已下单
+     **/
+    private String orderStatus;
+
     public Integer getId() {
         return id;
     }
@@ -73,5 +78,12 @@ public class OrderCreateRequestDto {
     public void setOrderPay(BigDecimal orderPay) {
         this.orderPay = orderPay;
     }
-    
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }

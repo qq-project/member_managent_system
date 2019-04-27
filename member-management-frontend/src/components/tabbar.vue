@@ -8,9 +8,9 @@
         <img slot="icon" src="../assets/products.png">
         商品
       </mt-tab-item>
-      <mt-tab-item id="order">
-        <img slot="icon" src="../assets/order.png">
-        订单
+      <mt-tab-item id="cart">
+        <img slot="icon" src="../assets/cart.png">
+        购物车
       </mt-tab-item>
       <mt-tab-item id="usercenter">
         <img slot="icon" src="../assets/usercenter.png">
@@ -40,8 +40,8 @@ export default {
                 case 'productList':
                     this.$router.push('/productList');
                 break;
-                case 'order':
-                    this.$router.push('/order');
+                case 'cart':
+                    this.$router.push('/cart/orderCart');
                 break;
                 case 'usercenter':
                     this.$router.push('/usercenter');

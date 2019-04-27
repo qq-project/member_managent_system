@@ -34,4 +34,26 @@ public interface OrderMapper {
      * @Date  2019-04-25 09:45:07
      **/
     void saveOrder(Order order);
+
+    /**
+     * queryOrder(查询订单)
+     *
+     * @Param 
+     * @param order
+     * @return com.qiqi.member_management.management.business.model.Order
+     * @exception 
+     * @Date  2019-04-27 09:21:24
+     **/
+    Order queryOrder(Order order);
+
+    /**
+     * updateOrder(修改订单)
+     *
+     * @Param 
+     * @param order
+     * @return void
+     * @exception 
+     * @Date  2019-04-27 09:43:46
+     **/
+    void updateOrder(Order order);
 }

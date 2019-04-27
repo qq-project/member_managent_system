@@ -1,6 +1,6 @@
 <template>
   <div id="usercenter">
-    <mt-header fixed title="个人中心"></mt-header>
+    <mt-header fixed title="个人中心" style="height:50px"></mt-header>
     <div class="profile">
         <img v-bind:src="userInfo.avatar" alt="头像" style="border-radius: 50%;" @click="detail">
       <div class="middle">

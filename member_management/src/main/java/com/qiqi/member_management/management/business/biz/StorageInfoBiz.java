@@ -68,4 +68,6 @@ public class StorageInfoBiz {
         return storageInfoMapper.queryStorageByStorageId(storageInfo);
         
     }
+
+    
 }

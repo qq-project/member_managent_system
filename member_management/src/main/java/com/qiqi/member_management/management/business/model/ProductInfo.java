@@ -10,10 +10,6 @@ public class ProductInfo {
 
     private String productName;
 
-    private String categoryId;
-
-    private String storageId;
-
     private BigDecimal price;
 
     private String describute;
@@ -56,22 +52,6 @@ public class ProductInfo {
 
     public void setProductName(String productName) {
         this.productName = productName == null ? null : productName.trim();
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId == null ? null : categoryId.trim();
-    }
-
-    public String getStorageId() {
-        return storageId;
-    }
-
-    public void setStorageId(String storageId) {
-        this.storageId = storageId == null ? null : storageId.trim();
     }
 
     public BigDecimal getPrice() {

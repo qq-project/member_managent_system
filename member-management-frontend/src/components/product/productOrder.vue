@@ -202,6 +202,27 @@ export default {
                 Toast.fail('请输入会员编号！');
                 return;
             } 
+            // 参数封装
+            let params = {
+                id:this.productInfo.id,
+                productId:this.productInfo.productId,
+                price: this.productInfo.price,
+                orderAmount:this.orderProductAmount,
+                orderPay:(this.orderPay)/100,
+                memberId:this.memberId,
+                // 订单状态
+                orderStatus:'10'
+            }
+            // 请求后台创建订单接口
+            createOrderRequest(params).then(data => {
+                const {resCode, resMsg} = data;
+                if('000000' !== resCode){
+                    Toast.fail(resMsg);
+                    return;
+                }
+                Toast.success('加入购物车成功');
+                this.sku_show = false;
+            })
         },
         // 购买
         productBuy(){
@@ -216,7 +237,9 @@ export default {
                 price: this.productInfo.price,
                 orderAmount:this.orderProductAmount,
                 orderPay:(this.orderPay)/100,
-                memberId:this.memberId
+                memberId:this.memberId,
+                // 订单状态
+                orderStatus:'20'
             }
             // 请求后台创建订单接口
             createOrderRequest(params).then(data => {

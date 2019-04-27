@@ -1,6 +1,6 @@
 <template>
  <div id="orderPage">
-    <mt-header fixed title="订单管理"></mt-header>
+    <mt-header fixed title="订单管理" style="height:50px"></mt-header>
     <mt-search
       v-model="orderKey"
       cancel-text="取消"
