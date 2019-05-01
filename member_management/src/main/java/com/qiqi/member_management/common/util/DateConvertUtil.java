@@ -21,6 +21,7 @@ public class DateConvertUtil {
 
     private static final String yyyyMMDDPattern = "yyyy-MM-dd";
 
+    private static final String yyyyMMDDHHMMSSPattern = "yyyy-MM-dd HH:mm:ss";
     private static final Logger logger = LoggerFactory.getLogger(DateConvertUtil.class);
     /**
      * convertStringToDate(yyyy-MM-dd)
@@ -37,6 +38,27 @@ public class DateConvertUtil {
         try {
             date = sdf.parse(dateStr);
             return date;
+        } catch (Exception e) {
+            logger.error(MsgManagement.getMsg(200001));
+            throw new BizException(200001);
+        }
+    }
+
+    /**
+     * convertDateToString(将日期转换成字符串)
+     *
+     * @Param 
+     * @param date
+     * @return java.util.Date
+     * @exception 
+     * @Date  2019-05-01 13:08:27
+     **/
+    public static String convertDateToString(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyyMMDDHHMMSSPattern);
+        String dateStr = "";
+        try {
+            dateStr = sdf.format(date);
+            return dateStr;
         } catch (Exception e) {
             logger.error(MsgManagement.getMsg(200001));
             throw new BizException(200001);

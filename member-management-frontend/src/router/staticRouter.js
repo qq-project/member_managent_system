@@ -11,6 +11,7 @@ import memberList from '@/components/memberList'
 import productList from '@/components/productList'
 import productDetail from '@/components/product/productDetail'
 import orderCart from '@/components/cart/orderCart'
+import userList from '@/components/user/userList'
   const staticRouter= [
     {
       // 默认路径是member
@@ -52,8 +53,8 @@ import orderCart from '@/components/cart/orderCart'
     },
     {
       path: '/staffs',
-      name: 'staffs',
-      component: staffs,
+      name: 'userList',
+      component: userList,
       meta:{
         title:'会员管理页',
         requireAuth:true //判断是否需要登录，此处需要

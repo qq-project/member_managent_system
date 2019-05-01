@@ -8,7 +8,9 @@ import com.qiqi.member_management.common.util.DateConvertUtil;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.MemberInfoSaveRequestDto;
 import com.qiqi.member_management.management.business.mapper.MemberInfoMapper;
+import com.qiqi.member_management.management.business.model.IntegralConfig;
 import com.qiqi.member_management.management.business.model.MemberInfo;
+import com.qiqi.member_management.management.business.model.model.extend.MemberIntegralInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ import java.util.List;
 public class MemberInfoBiz {
     @Autowired
     private MemberInfoMapper memberInfoMapper;
+    @Autowired
+    private IntegralConfigBiz integralConfigBiz;
 
     private static final Logger logger = LoggerFactory.getLogger(MemberInfoBiz.class);
     /**
@@ -169,5 +173,33 @@ public class MemberInfoBiz {
         MemberInfo memberInfo = new MemberInfo();
         memberInfo.setMemberId(memberId);
         return queryMemberInfo(memberInfo);
+    }
+
+    /**
+     * getMemberIntegralInfo(根据memberId 获取会员积分情况)
+     *
+     * @Param 
+     * @param memberId
+     * @return com.qiqi.member_management.management.business.model.model.extend.MemberIntegralInfo
+     * @exception 
+     * @Date  2019-04-28 08:44:38
+     **/
+    public MemberIntegralInfo getMemberIntegralInfo(String memberId){
+        MemberIntegralInfo memberIntegralInfo = new MemberIntegralInfo();
+        // 根据memberId查询会员详情
+        MemberInfo memberInfo = queryMemberInfoByMemberId(memberId);
+        if (null == memberInfo){
+            logger.error(MsgManagement.getMsg(100010));
+            throw new BizException(100010);
+        }
+        // 查询会员积分登记
+        IntegralConfig integralConfig = integralConfigBiz.queryInfoByIntegral(memberInfo.getIntegral());
+        if (null == integralConfig || null == integralConfig.getLevel()){
+            logger.error(MsgManagement.getMsg(100051));
+            throw new BizException(100051);
+        }
+        memberIntegralInfo.setMemberInfo(memberInfo);
+        memberIntegralInfo.setIntegralConfig(integralConfig);
+        return memberIntegralInfo;
     }
 }

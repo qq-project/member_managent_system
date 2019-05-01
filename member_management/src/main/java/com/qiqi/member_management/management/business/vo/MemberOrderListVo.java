@@ -3,6 +3,7 @@ package com.qiqi.member_management.management.business.vo;
 import com.qiqi.member_management.management.business.model.Order;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class MemberOrderListVo {
 
     private BigDecimal discount;
 
+    private String orderTime;
 
     List<OrderListVo> orderCart;
 
@@ -87,5 +89,13 @@ public class MemberOrderListVo {
 
     public void setMemberId(String memberId) {
         this.memberId = memberId;
+    }
+
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
     }
 }

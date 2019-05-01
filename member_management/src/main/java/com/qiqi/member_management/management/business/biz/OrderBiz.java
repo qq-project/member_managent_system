@@ -8,6 +8,7 @@ import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.OrderCreateRequestDto;
 import com.qiqi.member_management.management.business.mapper.OrderMapper;
 import com.qiqi.member_management.management.business.model.*;
+import com.qiqi.member_management.management.business.model.model.extend.MemberIntegralInfo;
 import com.qiqi.member_management.management.business.vo.OrderListVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +35,8 @@ public class OrderBiz {
     private static final Logger logger = LoggerFactory.getLogger(OrderBiz.class);
     @Autowired
     private OrderMapper orderMapper;
-
     @Autowired
     private MemberInfoBiz memberInfoBiz;
-    @Autowired
-    private IntegralConfigBiz integralConfigBiz;
     @Autowired
     private MemberOrderBiz memberOrderBiz;
     @Autowired
@@ -58,28 +56,25 @@ public class OrderBiz {
         ResponseDto responseDto = new ResponseDto();
         responseDto.setResCode(ResponseDto.SUCCESS);
         // 根据memberId查询会员详情
-        MemberInfo memberInfo = memberInfoBiz.queryMemberInfoByMemberId(requestDto.getMemberId());
-        if (null == memberInfo){
-            logger.error(MsgManagement.getMsg(100010));
-            throw new BizException(100010);
-        }
-        // 查询会员积分登记
-        IntegralConfig integralConfig = integralConfigBiz.queryInfoByIntegral(memberInfo.getIntegral());
-        if (null == integralConfig || null == integralConfig.getLevel()){
-            logger.error(MsgManagement.getMsg(100051));
-            throw new BizException(100051);
-        }
+        MemberIntegralInfo memberIntegralInfo = memberInfoBiz.getMemberIntegralInfo(requestDto.getMemberId());
+        IntegralConfig integralConfig = memberIntegralInfo.getIntegralConfig();
         // 库存更新
         handleStorageInfo(requestDto.getProductId(), requestDto.getOrderAmount());
         // 根据 订单状态判断该订单是 10 加入购物车,20 已下单
         Order order = null;
-        // 加入购物车 默认 同一会员下，同一商品的 加入购物车状态只有一个
+        MemberOrder memberOrder = null;
+        // 判断该会员下是否已经存在状态为 加入购物车的商品订单
         if (Contant.ORDER_UNDO.equals(requestDto.getOrderStatus())){
-            order = queryOrderByProductId(requestDto.getProductId(),Contant.ORDER_UNDO);
+            // 查询未下单会员订单信息
+            memberOrder = memberOrderBiz.queryUnDoneMemberOrder(requestDto.getMemberId(), requestDto.getOrderStatus());
+            if(null != memberOrder){
+                // 根据订单编号、商品ID查询未下单订单
+                order = queryOrderByProductId(memberOrder.getOrderId(), requestDto.getProductId(),Contant.ORDER_UNDO);
+            }
         }
         // 此时第一次添加 或者直接购买
         if (null == order){
-            handleFirstOrderInsert(requestDto, integralConfig.getDiscount());
+            handleFirstOrderInsert(requestDto, integralConfig, memberOrder);
             // 更新会员积分
         } else {
             // 此处表示用户添加购物车同一商品
@@ -93,19 +88,19 @@ public class OrderBiz {
      *
      * @Param 
      * @param requestDto
-     * @param discount 会员享受折扣
+     * @param integralConfig 会员积分配置
      * @return void
      * @exception 
      * @Date  2019-04-27 09:33:28
      **/
-    public void handleFirstOrderInsert(OrderCreateRequestDto requestDto, BigDecimal discount){
+    public void handleFirstOrderInsert(OrderCreateRequestDto requestDto, IntegralConfig integralConfig, MemberOrder memberOrderParam){
         //保存订单
         Order order = new Order();
         order.setOrderAmount(requestDto.getOrderAmount());
         order.setOrderPay(requestDto.getOrderPay());
         // 真实价格
-        order.setRealPay(requestDto.getOrderPay().multiply(discount));
-        // 已下单
+        order.setRealPay(requestDto.getOrderPay().multiply(integralConfig.getDiscount()));
+        // 设置订单状态
         order.setOrderStatus(requestDto.getOrderStatus());
         order.setProductId(requestDto.getProductId());
         String orederId = "";
@@ -123,18 +118,21 @@ public class OrderBiz {
             // 下单
             memberOrder.setOrderType(Contant.ORDER_DONE);
             memberOrderBiz.saveMemberOrder(memberOrder);
+            // 更新会员积分
+            MemberInfo memberInfo = memberInfoBiz.queryMemberInfoByMemberId(requestDto.getMemberId());
+            memberInfo.setIntegral(memberInfo.getIntegral() + (order.getOrderPay().multiply(integralConfig.getRate())).intValue());
+            memberInfoBiz.updateMemberInfo(memberInfo);
         } else if(Contant.ORDER_UNDO.equals(requestDto.getOrderStatus())){
-            MemberOrder memberOrder = memberOrderBiz.queryUnDoneMemberOrder(requestDto.getMemberId(), requestDto.getOrderStatus());
-            if (null != memberOrder){
-                orederId = memberOrder.getOrderId();
+            if (null != memberOrderParam){
+                orederId = memberOrderParam.getOrderId();
             } else {
                 // 只有会员订单不存在未下单时，才新增一条未下单记录
                 orederId = CodeBuilderUtil.codeGenerator(memberOrderBiz.getLastOrderInfo().getId(), Contant.ORDER_ID_LENGTH, Contant.ORDER_ID_PREFIX);
-                memberOrder = new MemberOrder();
-                memberOrder.setOrderId(orederId);
-                memberOrder.setMemberId(requestDto.getMemberId());
-                memberOrder.setOrderType(Contant.ORDER_UNDO);
-                memberOrderBiz.saveMemberOrder(memberOrder);
+                memberOrderParam = new MemberOrder();
+                memberOrderParam.setOrderId(orederId);
+                memberOrderParam.setMemberId(requestDto.getMemberId());
+                memberOrderParam.setOrderType(Contant.ORDER_UNDO);
+                memberOrderBiz.saveMemberOrder(memberOrderParam);
             }
         }
         order.setOrderId(orederId);
@@ -189,10 +187,11 @@ public class OrderBiz {
      * @exception 
      * @Date  2019-04-27 09:20:57
      **/
-    public Order queryOrderByProductId(String productId, String orderStatus){
+    public Order queryOrderByProductId(String orderId, String productId, String orderStatus){
         Order order = new Order();
         order.setProductId(productId);
         order.setOrderStatus(orderStatus);
+        order.setOrderId(orderId);
         return orderMapper.queryOrder(order);
     }
 
@@ -237,5 +236,41 @@ public class OrderBiz {
         params.put("orderId", orderId);
         params.put("orderType", orderType);
         return orderMapper.queryOrderLists(params);
+    }
+
+    /**
+     * updateOrder(更新订单)
+     *
+     * @Param 
+     * @param order
+     * @return void
+     * @exception 
+     * @Date  2019-05-01 10:35:50
+     **/
+    public void updateOrder(Order order){
+        orderMapper.updateOrder(order);
+    }
+
+    /**
+     * cartOrderDel(删除购物车订单)
+     *
+     * @Param 
+     * @param order
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-05-01 11:46:50
+     **/
+    @Transactional
+    public ResponseDto cartOrderDel(Order order) {
+        order.setValid(Contant.VALID_F);
+        // 作废该笔订单
+        orderMapper.updateOrder(order);
+        // 还原商品库存
+        StorageInfo storageInfo = storageInfoBiz.queryStorageByProductId(order.getProductId());
+        storageInfo.setProductAmount(storageInfo.getProductAmount() + order.getOrderAmount());
+        storageInfoBiz.updateStorageInfo(storageInfo);
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResCode(ResponseDto.SUCCESS);
+        return responseDto;
     }
 }

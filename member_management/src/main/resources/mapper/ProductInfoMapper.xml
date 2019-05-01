@@ -112,7 +112,8 @@
      limit 1
   </select>
 
-  <insert id="saveProductInfo" parameterType="com.qiqi.member_management.management.business.model.ProductInfo">
+
+    <insert id="saveProductInfo" parameterType="com.qiqi.member_management.management.business.model.ProductInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -224,4 +225,16 @@
     where valid = 'T' and id = #{id, jdbcType=INTEGER}
   </update>
 
+  <select id="queryProductInfo"
+          resultMap="BaseResultMap"
+          parameterType="java.lang.String">
+    select
+    id, product_id, product_name, price, describute,
+    specification, scope, added_time, added_by_name, last_modified_time, last_modified_by_name,
+    valid, product_img_src
+    from t_product_info
+    where valid = 'T' and product_id = #{productId, jdbcType=VARCHAR}
+    order by id DESC
+    limit 1
+  </select>
 </mapper>

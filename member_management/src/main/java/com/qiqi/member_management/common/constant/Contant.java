@@ -129,6 +129,15 @@ public class Contant {
      * 订单关联总长度
      **/
     public static Integer ORDER_REL_ID_LENGTH = 8;
-    
 
+    /**
+     * 订单关联编号前缀
+     **/
+
+    public static String INTEGRAL_ID_PREFIX = "IT";
+
+    /**
+     * 订单关联总长度
+     **/
+    public static Integer INTEGRAL_ID_LENGTH = 8;
 }

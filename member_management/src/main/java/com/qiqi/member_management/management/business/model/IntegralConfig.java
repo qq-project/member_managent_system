@@ -26,6 +26,8 @@ public class IntegralConfig {
 
     private String valid;
 
+    private BigDecimal rate;
+
     public Integer getId() {
         return id;
     }
@@ -112,5 +114,13 @@ public class IntegralConfig {
 
     public void setValid(String valid) {
         this.valid = valid == null ? null : valid.trim();
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 }

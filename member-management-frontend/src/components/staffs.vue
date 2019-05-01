@@ -1,6 +1,6 @@
 <template>
  <div id="staffPage">
-    <mt-header fixed title="员工管理">
+    <mt-header fixed title="员工管理" style="height:50px">
       <router-link to="/usercenter" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>

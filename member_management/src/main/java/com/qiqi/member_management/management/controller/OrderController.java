@@ -3,6 +3,7 @@ package com.qiqi.member_management.management.controller;
 import com.qiqi.member_management.management.business.biz.OrderBiz;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.OrderCreateRequestDto;
+import com.qiqi.member_management.management.business.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +37,18 @@ public class OrderController {
         return orderBiz.createOrder(requestDto);
     }
 
+    /**
+     * cartOrderDel(删除购物车商品)
+     *
+     * @Param 
+     * @param order
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-05-01 11:46:09
+     **/
+    @RequestMapping("/cartOrderDel")
+    public ResponseDto cartOrderDel(@RequestBody Order order){
+        return orderBiz.cartOrderDel(order);
+    }
 
 }

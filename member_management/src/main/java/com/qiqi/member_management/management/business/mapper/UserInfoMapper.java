@@ -1,7 +1,10 @@
 package com.qiqi.member_management.management.business.mapper;
 
+import com.qiqi.member_management.management.business.dto.request.UserListRequestDto;
 import com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto;
 import com.qiqi.member_management.management.business.model.UserInfo;
+import com.qiqi.member_management.management.business.vo.UserListVo;
+
 import java.util.List;
 
 public interface UserInfoMapper {
@@ -40,4 +43,15 @@ public interface UserInfoMapper {
      * @Date  2019-04-16 11:35:40
      **/
     void updateUserInfo(UserModifiedRequestDto requestDto);
+
+    /**
+     * userList(查询用户列表)
+     *
+     * @Param 
+     * @param requestDto
+     * @return java.util.List<com.qiqi.member_management.management.business.model.UserInfo>
+     * @exception 
+     * @Date  2019-05-01 17:19:07
+     **/
+    List<UserListVo> userList(UserListRequestDto requestDto);
 }

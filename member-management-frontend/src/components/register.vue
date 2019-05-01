@@ -121,7 +121,7 @@ export default {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
   .reg-center{
-    margin-top: 30px;
+    margin-top: 60px;
   }
   .kuan {
     border: 1px solid #ccc;

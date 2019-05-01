@@ -182,4 +182,25 @@
         </set>
         where id = #{id,jdbcType=INTEGER} and valid = 'T'
     </update>
+
+    <!--查询用户列表-->
+    <select id="userList"
+            resultType="com.qiqi.member_management.management.business.vo.UserListVo"
+            parameterType="com.qiqi.member_management.management.business.model.UserInfo">
+     select
+     id,
+     nickname name,
+     mobile tel,
+     address
+     from  t_user_info
+     where valid = 'T'
+        <if test="null != nickname and '' != nickname">
+            and (nickname like '%${nickname}%'),
+        </if>
+        <if test="null != email and '' != email">
+            and email = #{email, jdbcType=VARCHAR},
+        </if>
+        order by id DESC
+    </select>
+
 </mapper>

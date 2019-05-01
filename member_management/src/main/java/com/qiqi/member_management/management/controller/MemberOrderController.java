@@ -3,6 +3,7 @@ package com.qiqi.member_management.management.controller;
 import com.qiqi.member_management.management.business.biz.MemberOrderBiz;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
 import com.qiqi.member_management.management.business.dto.request.MemberOrderListRequestDto;
+import com.qiqi.member_management.management.business.dto.request.MemberOrderSubmitRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,5 +36,19 @@ public class MemberOrderController {
     @RequestMapping("/queryMemberOrderList")
     public ResponseDto queryMemberOrderList(@RequestBody MemberOrderListRequestDto requestDto){
         return memberOrderBiz.queryMemberOrderList(requestDto);
+    }
+
+    /**
+     * memberOrderSubmit(购物车下单请求)
+     *
+     * @Param 
+     * @param requestDto
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-04-28 08:24:39
+     **/
+    @RequestMapping("/memberOrderSubmit")
+    public ResponseDto memberOrderSubmit(@RequestBody MemberOrderSubmitRequestDto requestDto){
+        return memberOrderBiz.memberOrderSubmit(requestDto);
     }
 }

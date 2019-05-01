@@ -1,6 +1,6 @@
 <!-- 会员列表展示页-->
 <template>
-    <div id="memberList" style="margin-top:-10px">
+    <div id="memberList" style="margin-top:-10px;">
     <mt-header fixed title="会员列表" style="height:50px">
       <img class="add-person" src="../assets/add-person.png" slot="right" @click="addPerson"/>
     </mt-header>
@@ -11,16 +11,19 @@
       v-model="searchName"
       @search="searchMember()"
       @cancel="searchConcel()" 
-      @input="searchInput()"/> 
-      <!--会员信息展示卡片--> 
-      <van-contact-card
-        v-for="item in memberInfoList"
-        :key="item.id"
-        type="edit"
-        :name="item.memberName"
-        :tel="item.memberPhone"
-        @click="editMember(item)"/>
-
+      @input="searchInput()"
+      style="margin-top:60px"/> 
+      <!--会员信息展示卡片-->
+      <div style="margin-bottom:70px"> 
+        <van-contact-card
+          v-for="item in memberInfoList"
+          :key="item.id"
+          type="edit"
+          :name="item.memberName"
+          :tel="item.memberPhone"
+          @click="editMember(item)"
+          />
+      </div>
       <!-- 弹出层使用 编辑-->
       <van-popup v-model="popupShow"
        position="right"
@@ -188,7 +191,6 @@ export default {
               })
               return;
             }
-            Toast.success('查询成功');
             this.memberInfoList = result;
 
           })

@@ -10,6 +10,7 @@
             v-model="searchName"
             @cancel="searchConcel()" 
             @input="searchInput()"
+            style="margin-top:60px"
        />  
        <!--商品卡片展示-->
         <van-card
@@ -242,10 +243,6 @@ export default {
                 }
                 // 赋值
                 this.productInfoList = result;
-                Toast.success({
-                    message:'查询成功',
-                    duration:1500
-                })
             })
         },
         // 初始化商品类别记录列表
@@ -595,7 +592,7 @@ export default {
                 }
                 // 赋值
                 this.productInfoList = result;
-                Toast.success('查询成功')
+                //Toast.success('查询成功')
             })
         },
         // 点击进行商品详情，也就是下单页面

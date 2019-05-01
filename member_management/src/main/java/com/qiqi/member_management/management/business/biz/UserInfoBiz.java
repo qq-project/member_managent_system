@@ -6,10 +6,12 @@ import com.qiqi.member_management.common.exception.MsgManagement;
 import com.qiqi.member_management.common.util.CurrentUserInfoUtil;
 import com.qiqi.member_management.common.util.MD5Util;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
+import com.qiqi.member_management.management.business.dto.request.UserListRequestDto;
 import com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto;
 import com.qiqi.member_management.management.business.dto.request.UserRegisterRequestDto;
 import com.qiqi.member_management.management.business.mapper.UserInfoMapper;
 import com.qiqi.member_management.management.business.model.UserInfo;
+import com.qiqi.member_management.management.business.vo.UserListVo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -17,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.security.provider.MD5;
+
+import java.util.List;
 
 /**
  * UserInfoBiz类简述
@@ -157,6 +161,23 @@ public class UserInfoBiz {
         }
         userInfoMapper.updateUserInfo(requestDto);
         // 防止普通更新报错，待优化；
+        return responseDto;
+    }
+
+    /**
+     * userList(查询用户列表)
+     *
+     * @Param 
+     * @param requestDto
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-05-01 17:18:24
+     **/
+    public ResponseDto userList(UserListRequestDto requestDto) {
+        List<UserListVo> userInfoList = userInfoMapper.userList(requestDto);
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResCode(ResponseDto.SUCCESS);
+        responseDto.setResult(userInfoList);
         return responseDto;
     }
 }

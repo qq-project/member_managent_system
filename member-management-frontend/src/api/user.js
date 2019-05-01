@@ -164,6 +164,78 @@ export const memberOrderListRequest = (params) => {
         return data;
     })
 }
+
+/**
+ * 会员订单提交(下单)
+ * @param {*} params 
+ */
+export const memberOrderSubmitRequest = (params) => {
+    return postRequest('/api/memberOrder/memberOrderSubmit', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 删除购物车订单
+ * @param {*} params 
+ */
+export const cartOrderDelRequest = (params) => {
+    return postRequest('/api/order/cartOrderDel', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 查询积分配置信息列表
+ * @param {*} params 
+ */
+export const integralConfigListRequest = (params) => {
+    return postRequest('/api/integralConfig/queryIntegralList', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 更新积分配置信息
+ * @param {*} params 
+ */
+export const updateIntegralConfigRequest = (params) => {
+    return postRequest('/api/integralConfig/updateIntegralConfig', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 获取当前积分配置表最大的范围
+ * @param {*} params 
+ */
+export const getIntegralMaxAmountRequest = (params) => {
+    return postRequest('/api/integralConfig/getIntegralMaxAmount', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 新增积分配置信息
+ * @param {*} params 
+ */
+export const saveIntegralConfigRequest = (params) => {
+    return postRequest('/api/integralConfig/saveIntegralConfig', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 查询员工列表
+ * @param {*} params 
+ */
+export const userListRequest = (params) => {
+    return postRequest('/api/userInfo/userList', params).then(data => {
+        return data;
+    })
+}
+
+
 /**
  *  登出
  * @param {*} params 

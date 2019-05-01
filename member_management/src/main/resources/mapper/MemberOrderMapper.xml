@@ -138,22 +138,22 @@
   <select id="queryMemberOrderList"
           resultMap="BaseResultMap"
           parameterType="com.qiqi.member_management.management.business.dto.request.MemberOrderListRequestDto">
-
-    select id, order_id, member_id, order_total_pay, real_total_pay, order_total_amount,order_type
-    remark, added_time, added_by_name, last_modified_time, last_modified_by_name, valid
-    from t_member_order
-    where valid = 'T'
+    select t1.id, t1.order_id, t1.member_id, t1.order_total_pay, t1.real_total_pay, t1.order_total_amount,t1.order_type,
+    t1.remark, t1.added_time, t1.added_by_name, t1.last_modified_time, t1.last_modified_by_name, t1.valid
+    from t_member_order t1
+    join t_member_info t2 on t2.member_id = t1.member_id and t2.valid = 'T'
+    where t1.valid = 'T'
     <if test="null != params.memberName and '' != params.memberName">
-       and (member_name like '%${params.memberName,jdbcType=VARCHAR}%')
+       and (t2.member_name like '%${params.memberName}%')
     </if>
     <if test="null != params.orderType and '' != params.orderType">
-       and order_type = #{params.orderType, jdbcType=VARCHAR}
+       and t1.order_type = #{params.orderType, jdbcType=VARCHAR}
     </if>
-    order by ID DESC
+    order by t1.last_modified_time DESC
   </select>
   <!--查询会员信息-->
-  <select id="queryMemberOrder"  resultMap="BaseResultMap">
-    select id, order_id, member_id, order_total_pay, real_total_pay, order_total_amount,order_type
+  <select id="queryMemberOrder"  resultMap="BaseResultMap" parameterType="com.qiqi.member_management.management.business.model.MemberOrder">
+    select id, order_id, member_id, order_total_pay, real_total_pay, order_total_amount,order_type,
     remark, added_time, added_by_name, last_modified_time, last_modified_by_name, valid
     from t_member_order
     where valid = 'T'
@@ -162,6 +162,9 @@
     </if>
     <if test="null != orderType and '' != orderType">
       and order_type = #{orderType, jdbcType=VARCHAR}
+    </if>
+    <if test="null != orderId and '' != orderId">
+      and order_id = #{orderId, jdbcType=VARCHAR}
     </if>
     order by id DESC
     limit 1
@@ -174,4 +177,41 @@
     order by id DESC
     limit 1
   </select>
+
+  <!--更新会员订单信息-->
+  <update id="updateMemberInfo"
+    parameterType="com.qiqi.member_management.management.business.model.MemberOrder">
+    update t_member_order
+    <set>
+      <if test="null != orderId and '' != orderId">
+        order_id = #{orderId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != memberId and '' != memberId">
+        member_id = #{memberId, jdbcType=VARCHAR},
+      </if>
+      <if test="null != orderTotalPay">
+        order_total_pay = #{orderTotalPay, jdbcType=DECIMAL},
+      </if>
+      <if test="null != realTotalPay">
+        real_total_pay = #{realTotalPay, jdbcType=DECIMAL},
+      </if>
+      <if test="null != orderTotalAmount">
+        order_total_amount = #{orderTotalAmount, jdbcType=INTEGER},
+      </if>
+      <if test="null != orderType and '' != orderType">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="null != remark and '' != remark">
+        remark = #{remark, jdbcType=VARCHAR},
+      </if>
+
+      last_modified_time = NOW(3),
+      last_modified_by_name = 'qiqi',
+      <if test="null != valid and '' != valid">
+        valid = #{valid, jdbcType=CHAR},
+      </if>
+    </set>
+    where valid = 'T' and id = #{id, jdbcType=INTEGER}
+  </update>
+
 </mapper>

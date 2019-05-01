@@ -252,4 +252,16 @@ public class ProductInfoBiz {
         return responseDto;
     }
 
+    /**
+     * queryProductInfo(根据商品编号获取商品信息)
+     *
+     * @Param 
+     * @param productId
+     * @return com.qiqi.member_management.management.business.model.ProductInfo
+     * @exception 
+     * @Date  2019-05-01 10:20:38
+     **/
+    public ProductInfo queryProductInfo(String productId) {
+        return productInfoMapper.queryProductInfo(productId);
+    }
 }

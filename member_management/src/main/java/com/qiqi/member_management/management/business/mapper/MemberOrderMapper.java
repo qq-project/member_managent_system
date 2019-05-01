@@ -60,4 +60,15 @@ public interface MemberOrderMapper {
      * @Date  2019-04-27 12:52:55
      **/
     MemberOrder getLastOrderInfo();
+
+    /**
+     * updateMemberInfo(更新会员订单信息)
+     *
+     * @Param 
+     * @param memberOrder
+     * @return void
+     * @exception 
+     * @Date  2019-05-01 10:50:27
+     **/
+    void updateMemberInfo(MemberOrder memberOrder);
 }

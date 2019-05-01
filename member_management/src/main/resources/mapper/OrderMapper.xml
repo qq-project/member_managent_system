@@ -145,6 +145,9 @@
     <if test="null != orderStatus and '' != orderStatus">
       and order_status = #{orderStatus, jdbcType=VARCHAR}
     </if>
+    <if test="null != orderId and '' != orderId">
+      and order_id = #{orderId, jdbcType=VARCHAR}
+    </if>
     order by id DESC
     limit 1
   </select>
@@ -169,6 +172,9 @@
       </if>
       <if test="null != realPay">
         real_pay = #{realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="null != orderStatus">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
       </if>
       last_modified_by_name = 'qiqi',
       last_modified_time = NOW(3),

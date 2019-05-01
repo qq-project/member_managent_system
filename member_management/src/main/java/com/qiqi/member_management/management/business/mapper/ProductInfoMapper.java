@@ -83,4 +83,15 @@ public interface ProductInfoMapper {
      * @Date  2019-04-22 19:07:47
      **/
     void updateProductInfo(ProductInfo productInfo);
+
+    /**
+     * queryProductInfo(根据productId获取商品信息)
+     *
+     * @Param 
+     * @param productId
+     * @return com.qiqi.member_management.management.business.model.ProductInfo
+     * @exception 
+     * @Date  2019-05-01 10:21:13
+     **/
+    ProductInfo queryProductInfo(String productId);
 }
