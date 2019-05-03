@@ -12,6 +12,7 @@ import productList from '@/components/productList'
 import productDetail from '@/components/product/productDetail'
 import orderCart from '@/components/cart/orderCart'
 import userList from '@/components/user/userList'
+import saleInfo from '@/components/sale/saleInfo'
   const staticRouter= [
     {
       // 默认路径是member
@@ -138,6 +139,14 @@ import userList from '@/components/user/userList'
         title:'购物车',
         requireAuth:true //判断是否需要登录，此处需要
       }
-    }
+    },{
+      path: '/sale/saleInfo',
+      name: 'saleInfo',
+      component: saleInfo,
+      meta:{
+        title:'购物车',
+        requireAuth:true //判断是否需要登录，此处需要
+      }
+    },
   ]
 export default staticRouter

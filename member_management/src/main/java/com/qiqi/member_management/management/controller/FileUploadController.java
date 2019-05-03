@@ -1,18 +1,17 @@
 package com.qiqi.member_management.management.controller;
 
 import com.qiqi.member_management.common.exception.MsgManagement;
+import com.qiqi.member_management.common.util.CurrentUserInfoUtil;
 import com.qiqi.member_management.management.business.biz.FileUploadBiz;
 import com.qiqi.member_management.management.business.dto.ResponseDto;
+import com.qiqi.member_management.management.business.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
 
 /**
  * FileUploadController类简述
@@ -40,7 +39,9 @@ public class FileUploadController {
     @RequestMapping("/userAvartarUpload")
     public ResponseDto userAvartarUpload(HttpServletRequest request){
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest)request;
-        MultipartFile file = multipartRequest.getFile("avartar");
+        // 获取当前登录用户
+        UserInfo userInfo = CurrentUserInfoUtil.getCurrentUser();
+        MultipartFile file = multipartRequest.getFile("avartar" +userInfo.getEmail());
         ResponseDto responseDto = getResponseDto(file);
         // 处理图片 保存到本地
         if(null != responseDto){

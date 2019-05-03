@@ -211,6 +211,37 @@
     </if>
     order by id DESC
   </select>
+  <!--统计商品销售情况-->
+    <select id="saleInfoProduct"
+            resultType="com.qiqi.member_management.management.business.vo.ProductTotalVo">
+     select sum(real_pay) totalAmount, sum(order_amount) totalCount, t2.product_name productName, t1.product_id productId
+      from t_order t1
+	  left join t_product_info t2 on t1.product_id = t2.product_id and t2.valid = 'T'
+	  where t1.order_status = '20' and t1.valid = 'T'
+      group by t1.product_id
+	  order by totalAmount DESC
+      limit 5
+    </select>
+  
+  <select id="orderInfoProduct" resultType="com.qiqi.member_management.management.business.vo.OrderInfoDaysVo">
+    select t1.member_name memberName, t1.member_id memberId, sum(t3.order_amount) totalCount, sum(t3.real_pay) totalAmount
+    from t_member_info t1
+     join t_member_order t2 on t2.member_id = t1.member_id and t2.valid = 'T' and t2.order_type = '20'
+     join t_order t3 on t3.order_id = t2.order_id and t3.valid = 'T' and t3.order_status = '20'
+    where t1.valid = 'T'
+    group by t1.member_id
+    order by totalAmount DESC
+    limit 5
+  </select>
+  <!--每日销量图-->
+  <select id="orderInfoDay" resultType="com.qiqi.member_management.management.business.vo.OrderDayVo">
+    select sum(real_pay) totalAmount, DATE_FORMAT(added_time,'%y/%m/%d') days
+    from t_order
+    where valid = 'T'
+    group by TO_DAYS(added_time)
+    order by totalAmount DESC
+    limit 5
+  </select>
 
 
 </mapper>

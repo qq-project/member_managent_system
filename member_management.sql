@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2019-04-26 09:15:48
+Date: 2019-05-03 15:12:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -66,15 +66,19 @@ CREATE TABLE `t_integral_config` (
   `last_modified_by_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `valid` char(2) COLLATE utf8_bin DEFAULT NULL,
+  `rate` decimal(3,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='积分配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='积分配置表';
 
 -- ----------------------------
 -- Records of t_integral_config
 -- ----------------------------
-INSERT INTO `t_integral_config` VALUES ('1', 'IT100001', '1', '100', '1', '0.95', 'qiqi', '2019-04-26 08:26:18', 'qiqi', '2019-04-26 08:24:23', 'T');
-INSERT INTO `t_integral_config` VALUES ('2', 'IT100002', '101', '300', '2', '0.90', 'qiqi', '2019-04-26 08:26:45', 'qiqi', '2019-04-26 08:24:23', 'T');
-INSERT INTO `t_integral_config` VALUES ('3', 'IT100003', '301', '500', '3', '0.85', 'qiqi', '2019-04-26 08:27:02', 'qiqi', '2019-04-26 08:24:23', 'T');
+INSERT INTO `t_integral_config` VALUES ('1', 'IT100001', '1', '100', '1', '0.95', 'qiqi', '2019-05-01 16:36:40', 'qiqi', '2019-05-01 16:36:40', 'T', '0.10');
+INSERT INTO `t_integral_config` VALUES ('2', 'IT100002', '101', '300', '2', '0.90', 'qiqi', '2019-05-01 16:36:40', 'qiqi', '2019-05-01 16:36:40', 'T', '0.10');
+INSERT INTO `t_integral_config` VALUES ('3', 'IT100003', '301', '500', '3', '0.85', 'qiqi', '2019-05-01 16:36:40', 'qiqi', '2019-05-01 16:36:40', 'T', '0.10');
+INSERT INTO `t_integral_config` VALUES ('4', 'IT100004', '501', '2000', null, '0.80', 'qiqi', '2019-05-01 16:36:40', 'qiqi', '2019-05-01 16:36:40', 'T', '0.10');
+INSERT INTO `t_integral_config` VALUES ('5', null, '2001', '5000', null, '0.75', 'qiqi', '2019-05-01 16:36:40', 'qiqi', '2019-05-01 16:36:40', 'T', '0.10');
+INSERT INTO `t_integral_config` VALUES ('6', null, '5001', '10000', null, '0.70', 'qiqi', '2019-05-01 16:36:40', 'qiqi', '2019-05-01 16:36:40', 'T', '0.10');
 
 -- ----------------------------
 -- Table structure for t_member_info
@@ -103,12 +107,12 @@ CREATE TABLE `t_member_info` (
 -- ----------------------------
 INSERT INTO `t_member_info` VALUES ('1', '10001', '褚珅', '15262057926', '2019-04-17', '1028438733@qq.com', '1', '100', '2019-04-17 15:35:03', '2019-04-15 21:04:12', 'qiqi', '2019-04-15 21:04:12', 'qiqi', 'T');
 INSERT INTO `t_member_info` VALUES ('2', '10002', '琪琪', '15262057926', '2019-04-15', '1028438733@qq.com', '2', '100', '2019-04-17 15:35:13', '2019-04-15 21:04:12', 'qiqi', '2019-04-15 21:04:12', 'qiqi', 'T');
-INSERT INTO `t_member_info` VALUES ('3', '10003', '琪小琪', '15262057926', '2019-04-03', '1028438733@qq.com', '1', '100', '2019-04-17 15:35:07', '2019-04-15 21:04:12', 'qiqi', '2019-04-17 09:00:11', 'qiqi', 'T');
-INSERT INTO `t_member_info` VALUES ('4', 'M000003', '陈平安', '13671592354', '2019-04-03', '1028438733@qq.com', '1', '200', '2019-04-17 15:35:17', '2019-04-17 11:40:16', 'qiqi', '2019-04-17 11:40:16', 'qiqi', 'T');
-INSERT INTO `t_member_info` VALUES ('5', 'M000004', '宁姚', '15996989760', '2019-04-02', 'pingan.163.com', '2', '200', '2019-04-17 15:35:24', '2019-04-17 11:41:47', 'qiqi', '2019-04-17 11:41:55', 'qiqi', 'T');
+INSERT INTO `t_member_info` VALUES ('3', '10003', '琪小琪', '15262057926', '2019-04-03', '1028438733@qq.com', '1', '102', '2019-05-01 11:54:52', '2019-04-15 21:04:12', 'qiqi', '2019-05-01 11:54:52', 'qiqi', 'T');
+INSERT INTO `t_member_info` VALUES ('4', 'M000003', '陈平安', '13671592354', '2019-04-03', '1028438733@qq.com', '1', '202', '2019-05-01 11:54:18', '2019-04-17 11:40:16', 'qiqi', '2019-05-01 11:54:18', 'qiqi', 'T');
+INSERT INTO `t_member_info` VALUES ('5', 'M000004', '宁姚', '15996989760', '2019-04-02', 'pingan.163.com', '2', '225', '2019-05-01 11:20:27', '2019-04-17 11:41:47', 'qiqi', '2019-05-01 11:20:27', 'qiqi', 'T');
 INSERT INTO `t_member_info` VALUES ('6', 'M000005', '裴女侠', '13676768970', '2018-04-17', 'lps@163.com', '2', '100', '2019-04-17 15:37:40', '2019-04-17 11:44:07', 'qiqi', '2019-04-17 15:37:40', 'qiqi', 'T');
 INSERT INTO `t_member_info` VALUES ('7', 'M000006', '周米粒', '13678960988', '2015-04-17', 'lps@zml.com', '2', '200', '2019-04-17 15:38:20', '2019-04-17 15:38:20', 'qiqi', '2019-04-17 15:38:20', 'qiqi', 'T');
-INSERT INTO `t_member_info` VALUES ('8', 'M000007', '朱敛', '13656778907', '1979-04-17', 'lps@zl.com', '1', '200', '2019-04-18 16:14:11', '2019-04-17 15:39:17', 'qiqi', '2019-04-18 16:14:11', 'qiqi', 'T');
+INSERT INTO `t_member_info` VALUES ('8', 'M000007', '朱敛', '13656778907', '1979-04-17', 'lps@zl.com', '1', '322', '2019-05-01 11:22:56', '2019-04-17 15:39:17', 'qiqi', '2019-05-01 11:22:56', 'qiqi', 'T');
 
 -- ----------------------------
 -- Table structure for t_member_order
@@ -116,11 +120,12 @@ INSERT INTO `t_member_info` VALUES ('8', 'M000007', '朱敛', '13656778907', '19
 DROP TABLE IF EXISTS `t_member_order`;
 CREATE TABLE `t_member_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `order_rel_id` varchar(11) COLLATE utf8_bin NOT NULL,
+  `order_id` varchar(11) COLLATE utf8_bin NOT NULL COMMENT '会员订单编号id',
   `member_id` varchar(11) COLLATE utf8_bin NOT NULL,
   `order_total_pay` decimal(10,2) DEFAULT NULL,
   `real_total_pay` decimal(10,2) DEFAULT NULL,
   `order_total_amount` int(11) DEFAULT NULL,
+  `order_type` varchar(11) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态（10：加入购物车；20：下单）',
   `remark` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `added_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `added_by_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
@@ -128,12 +133,22 @@ CREATE TABLE `t_member_order` (
   `last_modified_by_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `valid` char(2) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='会员订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='会员订单表';
 
 -- ----------------------------
 -- Records of t_member_order
 -- ----------------------------
-INSERT INTO `t_member_order` VALUES ('1', 'OR000002', 'M000006', '2000.00', '1800.00', '2', null, '2019-04-26 08:57:48', null, '2019-04-26 08:57:48', null, 'T');
+INSERT INTO `t_member_order` VALUES ('1', 'O100001', 'M000003', '1.00', '1.00', '1', '20', null, '2019-04-27 13:17:55', 'qiqi', '2019-04-27 13:07:36', '1', 'T');
+INSERT INTO `t_member_order` VALUES ('8', 'O000002', 'M000007', '30.00', '27.00', '1', '20', null, '2019-04-27 13:10:35', 'qiqi', '2019-04-27 13:08:54', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('9', 'O000009', 'M000006', '30.00', '27.00', '1', '20', null, '2019-04-27 13:10:39', 'qiqi', '2019-04-27 13:10:16', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('10', 'O000010', 'M000004', '250.00', '225.00', null, '20', null, '2019-05-01 11:20:25', 'qiqi', '2019-05-01 11:20:25', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('11', 'O000011', 'M000007', '60.00', '51.00', null, '20', null, '2019-05-01 11:20:56', 'qiqi', '2019-05-01 11:20:56', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('12', 'O000012', 'M000007', '60.00', '51.00', null, '20', null, '2019-05-01 11:22:56', 'qiqi', '2019-05-01 11:22:56', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('13', 'O000013', 'M000005', null, null, null, '10', null, '2019-05-01 11:23:46', 'qiqi', '2019-05-01 11:23:46', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('14', 'O000014', 'M000007', null, null, null, '10', null, '2019-05-01 11:23:58', 'qiqi', '2019-05-01 11:23:58', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('15', 'O000015', 'M000003', '20.00', '18.00', '1', '20', null, '2019-05-01 11:54:18', 'qiqi', '2019-05-01 11:54:18', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('16', 'O000016', '10003', '20.00', '19.00', '1', '20', null, '2019-05-01 11:54:52', 'qiqi', '2019-05-01 11:54:52', 'qiqi', 'T');
+INSERT INTO `t_member_order` VALUES ('17', 'O000017', 'M000003', null, null, null, '10', null, '2019-05-01 11:55:02', 'qiqi', '2019-05-01 11:55:02', 'qiqi', 'T');
 
 -- ----------------------------
 -- Table structure for t_order
@@ -153,13 +168,26 @@ CREATE TABLE `t_order` (
   `last_modified_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `valid` char(2) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='订单明细表';
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='订单明细表';
 
 -- ----------------------------
 -- Records of t_order
 -- ----------------------------
-INSERT INTO `t_order` VALUES ('1', 'O100001', 'P100001', '10', '1000.00', '900.00', '20', 'qiqi', '2019-04-26 08:37:17', 'qiqi', '2019-04-26 08:37:23', 'T');
-INSERT INTO `t_order` VALUES ('7', 'O000002', 'P000005', '2', '2000.00', '1800.00', '20', 'qiqi', '2019-04-26 08:57:45', 'qiqi', '2019-04-26 08:57:45', 'T');
+INSERT INTO `t_order` VALUES ('14', 'O000002', 'P000008', '1', '30.00', '27.00', '20', 'qiqi', '2019-04-27 13:08:54', 'qiqi', '2019-04-27 13:08:54', 'T');
+INSERT INTO `t_order` VALUES ('15', 'O000009', 'P000008', '1', '30.00', '27.00', '20', 'qiqi', '2019-04-27 13:10:16', 'qiqi', '2019-04-27 13:10:16', 'T');
+INSERT INTO `t_order` VALUES ('16', 'O000010', 'P000008', '5', '150.00', '135.00', '20', 'qiqi', '2019-05-01 11:20:03', 'qiqi', '2019-05-01 11:20:03', 'T');
+INSERT INTO `t_order` VALUES ('21', 'O000010', 'P000004', '1', '100.00', '90.00', '20', 'qiqi', '2019-05-01 11:19:52', 'qiqi', '2019-05-01 11:19:52', 'T');
+INSERT INTO `t_order` VALUES ('22', 'O000011', 'P000006', '3', '60.00', '51.00', '20', 'qiqi', '2019-05-01 11:20:56', 'qiqi', '2019-05-01 11:20:56', 'T');
+INSERT INTO `t_order` VALUES ('23', 'O000011', 'P000005', '1', '1000.00', '900.00', '20', 'qiqi', '2019-05-01 11:20:49', 'qiqi', '2019-05-01 11:20:49', 'T');
+INSERT INTO `t_order` VALUES ('24', 'O000011', 'P000004', '1', '100.00', '90.00', '20', 'qiqi', '2019-05-01 11:20:49', 'qiqi', '2019-05-01 11:20:49', 'T');
+INSERT INTO `t_order` VALUES ('25', 'O000012', 'P000006', '3', '60.00', '51.00', '20', 'qiqi', '2019-05-01 11:22:56', 'qiqi', '2019-05-01 11:22:56', 'T');
+INSERT INTO `t_order` VALUES ('26', 'O000013', 'P000002', '5', '500.00', '475.00', '10', 'qiqi', '2019-05-01 11:54:07', 'qiqi', '2019-05-01 11:54:07', 'F');
+INSERT INTO `t_order` VALUES ('27', 'O000014', 'P000006', '1', '20.00', '17.00', '10', 'qiqi', '2019-05-01 11:53:41', 'qiqi', '2019-05-01 11:53:41', 'F');
+INSERT INTO `t_order` VALUES ('28', 'O000014', 'P000002', '3', '300.00', '255.00', '10', 'qiqi', '2019-05-01 11:33:51', 'qiqi', '2019-05-01 11:33:51', 'T');
+INSERT INTO `t_order` VALUES ('29', 'O000014', 'P000006', '1', '20.00', '17.00', '10', 'qiqi', '2019-05-01 11:53:56', 'qiqi', '2019-05-01 11:53:56', 'F');
+INSERT INTO `t_order` VALUES ('30', 'O000015', 'P000006', '1', '20.00', '18.00', '20', 'qiqi', '2019-05-01 11:54:18', 'qiqi', '2019-05-01 11:54:18', 'T');
+INSERT INTO `t_order` VALUES ('31', 'O000016', 'P000006', '1', '20.00', '19.00', '20', 'qiqi', '2019-05-01 11:54:52', 'qiqi', '2019-05-01 11:54:52', 'T');
+INSERT INTO `t_order` VALUES ('32', 'O000017', 'P000006', '1', '20.00', '18.00', '10', 'qiqi', '2019-05-01 11:55:02', 'qiqi', '2019-05-01 11:55:02', 'T');
 
 -- ----------------------------
 -- Table structure for t_order_rel
@@ -175,13 +203,19 @@ CREATE TABLE `t_order_rel` (
   `last_modified_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `valid` char(2) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='订单关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='订单关联表';
 
 -- ----------------------------
 -- Records of t_order_rel
 -- ----------------------------
 INSERT INTO `t_order_rel` VALUES ('1', 'OR100001', 'O100001', 'qiqi', '2019-04-26 08:52:40', 'qiqi', '2019-04-26 08:52:45', 'T');
 INSERT INTO `t_order_rel` VALUES ('4', 'OR000002', 'O000002', 'qiqi', '2019-04-26 08:57:45', 'qiqi', '2019-04-26 08:57:45', 'T');
+INSERT INTO `t_order_rel` VALUES ('5', 'OR000005', 'O000008', 'qiqi', '2019-04-27 09:54:30', 'qiqi', '2019-04-27 09:54:30', 'T');
+INSERT INTO `t_order_rel` VALUES ('6', 'OR000006', 'O000009', 'qiqi', '2019-04-27 09:55:35', 'qiqi', '2019-04-27 09:55:35', 'T');
+INSERT INTO `t_order_rel` VALUES ('7', 'OR000007', 'O000010', 'qiqi', '2019-04-27 10:44:37', 'qiqi', '2019-04-27 10:44:37', 'T');
+INSERT INTO `t_order_rel` VALUES ('8', 'OR000008', 'O000011', 'qiqi', '2019-04-27 10:44:51', 'qiqi', '2019-04-27 10:44:51', 'T');
+INSERT INTO `t_order_rel` VALUES ('9', 'OR000009', 'O000012', 'qiqi', '2019-04-27 12:15:21', 'qiqi', '2019-04-27 12:15:21', 'T');
+INSERT INTO `t_order_rel` VALUES ('10', 'OR000010', 'O000013', 'qiqi', '2019-04-27 12:18:28', 'qiqi', '2019-04-27 12:18:28', 'T');
 
 -- ----------------------------
 -- Table structure for t_product_category
@@ -197,7 +231,7 @@ CREATE TABLE `t_product_category` (
   `last_modified_by_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `valid` char(2) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='商品类别关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='商品类别关系表';
 
 -- ----------------------------
 -- Records of t_product_category
@@ -249,11 +283,20 @@ INSERT INTO `t_product_category` VALUES ('44', 'P000005', 'C000005', 'qiqi', '20
 INSERT INTO `t_product_category` VALUES ('45', 'P000005', 'C000011', 'qiqi', '2019-04-22 20:51:33', 'qiqi', '2019-04-22 20:51:33', 'F');
 INSERT INTO `t_product_category` VALUES ('46', 'P000005', 'C000010', 'qiqi', '2019-04-22 20:51:33', 'qiqi', '2019-04-22 20:51:33', 'F');
 INSERT INTO `t_product_category` VALUES ('47', 'P000005', 'C000005', 'qiqi', '2019-04-22 20:51:33', 'qiqi', '2019-04-22 20:51:33', 'F');
-INSERT INTO `t_product_category` VALUES ('48', 'P000005', 'C000011', 'qiqi', '2019-04-22 20:51:33', 'qiqi', '2019-04-22 20:51:33', 'T');
-INSERT INTO `t_product_category` VALUES ('49', 'P000005', 'C000010', 'qiqi', '2019-04-22 20:51:33', 'qiqi', '2019-04-22 20:51:33', 'T');
-INSERT INTO `t_product_category` VALUES ('50', 'P000005', 'C000005', 'qiqi', '2019-04-22 20:51:33', 'qiqi', '2019-04-22 20:51:33', 'T');
+INSERT INTO `t_product_category` VALUES ('48', 'P000005', 'C000011', 'qiqi', '2019-04-27 10:30:17', 'qiqi', '2019-04-27 10:30:17', 'F');
+INSERT INTO `t_product_category` VALUES ('49', 'P000005', 'C000010', 'qiqi', '2019-04-27 10:30:17', 'qiqi', '2019-04-27 10:30:17', 'F');
+INSERT INTO `t_product_category` VALUES ('50', 'P000005', 'C000005', 'qiqi', '2019-04-27 10:30:17', 'qiqi', '2019-04-27 10:30:17', 'F');
 INSERT INTO `t_product_category` VALUES ('51', 'P000004', 'C000004', 'qiqi', '2019-04-23 11:07:28', 'qiqi', '2019-04-23 11:07:28', 'F');
 INSERT INTO `t_product_category` VALUES ('52', 'P000004', 'C000004', 'qiqi', '2019-04-23 11:07:28', 'qiqi', '2019-04-23 11:07:28', 'T');
+INSERT INTO `t_product_category` VALUES ('53', 'P000005', 'C000011', 'qiqi', '2019-04-27 10:31:31', 'qiqi', '2019-04-27 10:31:31', 'F');
+INSERT INTO `t_product_category` VALUES ('54', 'P000005', 'C000010', 'qiqi', '2019-04-27 10:31:31', 'qiqi', '2019-04-27 10:31:31', 'F');
+INSERT INTO `t_product_category` VALUES ('55', 'P000005', 'C000005', 'qiqi', '2019-04-27 10:31:31', 'qiqi', '2019-04-27 10:31:31', 'F');
+INSERT INTO `t_product_category` VALUES ('56', 'P000005', 'C000011', 'qiqi', '2019-04-27 10:31:31', 'qiqi', '2019-04-27 10:31:31', 'T');
+INSERT INTO `t_product_category` VALUES ('57', 'P000005', 'C000010', 'qiqi', '2019-04-27 10:31:31', 'qiqi', '2019-04-27 10:31:31', 'T');
+INSERT INTO `t_product_category` VALUES ('58', 'P000005', 'C000005', 'qiqi', '2019-04-27 10:31:31', 'qiqi', '2019-04-27 10:31:31', 'T');
+INSERT INTO `t_product_category` VALUES ('59', 'P000006', 'C000003', 'qiqi', '2019-04-27 10:31:55', 'qiqi', '2019-04-27 10:31:55', 'T');
+INSERT INTO `t_product_category` VALUES ('60', 'P000006', 'C000012', 'qiqi', '2019-04-27 10:31:55', 'qiqi', '2019-04-27 10:31:55', 'T');
+INSERT INTO `t_product_category` VALUES ('61', 'P000008', 'C000008', 'qiqi', '2019-04-27 10:44:25', 'qiqi', '2019-04-27 10:44:25', 'T');
 
 -- ----------------------------
 -- Table structure for t_product_info
@@ -263,8 +306,6 @@ CREATE TABLE `t_product_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `product_id` varchar(11) COLLATE utf8_bin NOT NULL COMMENT '商品ID',
   `product_name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT '商品名称',
-  `category_id` varchar(11) COLLATE utf8_bin DEFAULT NULL COMMENT '类别编号',
-  `storage_id` varchar(11) COLLATE utf8_bin DEFAULT NULL COMMENT '库存编号',
   `price` decimal(10,2) DEFAULT NULL COMMENT '商品价格',
   `describute` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '商品描述',
   `specification` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '商品规格',
@@ -276,17 +317,43 @@ CREATE TABLE `t_product_info` (
   `valid` char(1) COLLATE utf8_bin DEFAULT NULL COMMENT '是否有效',
   `product_img_src` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='商品信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='商品信息表';
 
 -- ----------------------------
 -- Records of t_product_info
 -- ----------------------------
-INSERT INTO `t_product_info` VALUES ('1', 'P000001', '2018秋冬新款男士休闲时尚军绿飞行夹克秋冬新款男', '', 'S000001', '100.00', '秋冬款', '哈哈哈', '10', '2019-04-22 10:52:42', 'qiqi', '2019-04-17 20:30:59', 'qiqi', 'T', '//img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg');
-INSERT INTO `t_product_info` VALUES ('2', 'P000002', '2018秋冬新款男士休闲时尚军绿飞行夹克秋冬新款男', '', 'S000001', '100.00', '秋冬款', '哈哈哈', '10', '2019-04-22 13:10:02', 'qiqi', '2019-04-17 20:30:59', 'qiqi', 'T', '//img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg');
-INSERT INTO `t_product_info` VALUES ('3', 'P000003', '羊毛衫', null, 'S000002', '100.00', '春季新款', null, null, '2019-04-22 11:07:50', 'qiqi', '2019-04-22 10:27:29', 'qiqi', 'T', '//img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg');
-INSERT INTO `t_product_info` VALUES ('4', 'P000004', '春季贾佳', null, 'S000003', '100.00', '111', null, null, '2019-04-23 11:07:28', 'qiqi', '2019-04-23 11:07:28', 'qiqi', 'T', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/timg1.png?Expires=1871348846&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=wtpYwsV8ioBFrzXGwcyk4xHdjNQ%3D');
-INSERT INTO `t_product_info` VALUES ('5', 'P000005', '春季贾佳家111', null, 'S000004', '1000.00', '1111', null, null, '2019-04-22 20:52:07', 'qiqi', '2019-04-22 20:51:33', 'qiqi', 'T', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/2_161641_2.jpg?Expires=1871297452&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=Y37Y%2FwM5n68ZEmvdpO1xl4qIQ8A%3D');
-INSERT INTO `t_product_info` VALUES ('6', 'P000006', '琪琪傻子', null, 'S000005', '1111.00', '111', null, null, '2019-04-22 13:03:24', 'qiqi', '2019-04-22 11:12:11', 'qiqi', 'F', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/login_bg.png?Expires=1871262730&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=UAszgsMYta34I2qOWH38IaGY07c%3D');
+INSERT INTO `t_product_info` VALUES ('1', 'P000001', '2018秋冬新款男士休闲时尚军绿飞行夹克秋冬新款男', '100.00', '秋冬款', '哈哈哈', '10', '2019-04-22 10:52:42', 'qiqi', '2019-04-17 20:30:59', 'qiqi', 'T', '//img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg');
+INSERT INTO `t_product_info` VALUES ('2', 'P000002', '2018秋冬新款男士休闲时尚军绿飞行夹克秋冬新款男', '100.00', '秋冬款', '哈哈哈', '10', '2019-04-22 13:10:02', 'qiqi', '2019-04-17 20:30:59', 'qiqi', 'T', '//img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg');
+INSERT INTO `t_product_info` VALUES ('3', 'P000003', '羊毛衫', '100.00', '春季新款', null, null, '2019-04-22 11:07:50', 'qiqi', '2019-04-22 10:27:29', 'qiqi', 'T', '//img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg');
+INSERT INTO `t_product_info` VALUES ('4', 'P000004', '春季贾佳', '100.00', '111', null, null, '2019-04-23 11:07:28', 'qiqi', '2019-04-23 11:07:28', 'qiqi', 'T', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/timg1.png?Expires=1871348846&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=wtpYwsV8ioBFrzXGwcyk4xHdjNQ%3D');
+INSERT INTO `t_product_info` VALUES ('5', 'P000005', '春季贾佳家111', '1000.00', '1111', null, null, '2019-04-27 10:31:31', 'qiqi', '2019-04-27 10:31:31', 'qiqi', 'T', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/2_161641_2.jpg?Expires=1871297452&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=Y37Y%2FwM5n68ZEmvdpO1xl4qIQ8A%3D');
+INSERT INTO `t_product_info` VALUES ('7', 'P000006', '春季小琪琪', '20.00', '小琪琪', null, null, '2019-04-27 10:31:55', 'qiqi', '2019-04-27 10:31:55', 'qiqi', 'T', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/gitama2.jpg?Expires=1871692314&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=GNI3CWX7YVQM07YLVBRc%2F461lQU%3D');
+INSERT INTO `t_product_info` VALUES ('8', 'P000008', '春季大琪琪', '30.00', '春季小气', null, null, '2019-04-27 10:44:25', 'qiqi', '2019-04-27 10:44:25', 'qiqi', 'T', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/login_bg.png?Expires=1871693064&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=Eb2KHoiIJDxdrdksYE0TuRMDmU0%3D');
+
+-- ----------------------------
+-- Table structure for t_sms_records
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sms_records`;
+CREATE TABLE `t_sms_records` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sign_name` varchar(11) DEFAULT NULL COMMENT '签名',
+  `template_code` varchar(20) DEFAULT '模板编码',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
+  `biz_id` varchar(50) DEFAULT '' COMMENT '短信编号',
+  `member_name` varchar(50) DEFAULT NULL COMMENT '会员名',
+  `member_id` varchar(11) DEFAULT NULL COMMENT '会员编号',
+  `code` varchar(8) DEFAULT NULL COMMENT '短信验证码',
+  `added_time` timestamp NULL DEFAULT NULL COMMENT '添加时间',
+  `added_by_name` varchar(20) DEFAULT NULL COMMENT '新增人',
+  `last_modified_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `last_modified_by_name` varchar(20) DEFAULT NULL COMMENT '最后修改人',
+  `valid` char(2) DEFAULT NULL COMMENT '有效标识',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_sms_records
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_storage_info
@@ -295,6 +362,7 @@ DROP TABLE IF EXISTS `t_storage_info`;
 CREATE TABLE `t_storage_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `storage_id` varchar(11) COLLATE utf8_bin DEFAULT NULL COMMENT '库存ID',
+  `product_id` varchar(11) COLLATE utf8_bin DEFAULT NULL,
   `storage_name` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '库存名',
   `storage_size` int(11) DEFAULT NULL COMMENT '库存容量',
   `product_amount` int(11) DEFAULT NULL COMMENT '商品数量',
@@ -306,16 +374,18 @@ CREATE TABLE `t_storage_info` (
   `last_modified_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后修改时间',
   `valid` char(2) COLLATE utf8_bin DEFAULT NULL COMMENT '是否有效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='库存信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='库存信息表';
 
 -- ----------------------------
 -- Records of t_storage_info
 -- ----------------------------
-INSERT INTO `t_storage_info` VALUES ('1', 'S000001', '华东仓库', '1000', '10', '无', null, 'qiqi', '2019-04-17 20:41:15', 'qiqi', '2019-04-17 20:33:30', 'T');
-INSERT INTO `t_storage_info` VALUES ('2', 'S000002', '羊毛衫', '10000', '100', null, null, 'qiqi', '2019-04-22 10:52:27', 'qiqi', '2019-04-22 10:27:34', 'T');
-INSERT INTO `t_storage_info` VALUES ('3', 'S000003', '春季贾佳', '100', '10', null, null, 'qiqi', '2019-04-22 11:00:13', 'qiqi', '2019-04-22 11:00:13', 'T');
-INSERT INTO `t_storage_info` VALUES ('4', 'S000004', '春季贾佳家', '100', '10', null, null, 'qiqi', '2019-04-22 11:11:30', 'qiqi', '2019-04-22 11:11:30', 'T');
-INSERT INTO `t_storage_info` VALUES ('5', 'S000005', '琪琪傻子', '10', '1', null, null, 'qiqi', '2019-04-22 13:03:24', 'qiqi', '2019-04-22 11:12:11', 'F');
+INSERT INTO `t_storage_info` VALUES ('1', 'S000001', 'P000001', '华东仓库', '1000', '10', '无', null, 'qiqi', '2019-04-27 10:18:26', 'qiqi', '2019-04-17 20:33:30', 'T');
+INSERT INTO `t_storage_info` VALUES ('2', 'S000002', 'P000002', '羊毛衫', '10000', '97', null, null, 'qiqi', '2019-05-01 11:54:07', 'qiqi', '2019-04-22 10:27:34', 'T');
+INSERT INTO `t_storage_info` VALUES ('3', 'S000003', 'P000003', '春季贾佳', '100', '9', null, null, 'qiqi', '2019-04-27 12:14:09', 'qiqi', '2019-04-22 11:00:13', 'T');
+INSERT INTO `t_storage_info` VALUES ('4', 'S000004', 'P000004', '春季贾佳家', '100', '1', null, null, 'qiqi', '2019-05-01 11:19:52', 'qiqi', '2019-04-22 11:11:30', 'T');
+INSERT INTO `t_storage_info` VALUES ('5', 'S000005', 'P000005', '琪琪傻子', '10', '1', null, null, 'qiqi', '2019-05-01 11:15:25', 'qiqi', '2019-04-22 11:12:11', 'T');
+INSERT INTO `t_storage_info` VALUES ('6', 'S000006', 'P000006', '春季小琪琪', null, '4', null, null, 'qiqi', '2019-05-01 11:55:02', 'qiqi', '2019-04-27 10:31:55', 'T');
+INSERT INTO `t_storage_info` VALUES ('7', 'S000007', 'P000008', '春季大琪琪', null, '2', null, null, 'qiqi', '2019-05-01 11:20:03', 'qiqi', '2019-04-27 10:44:25', 'T');
 
 -- ----------------------------
 -- Table structure for t_user_info
@@ -337,9 +407,10 @@ CREATE TABLE `t_user_info` (
   `last_modified_by_name` varchar(11) COLLATE utf8_bin DEFAULT NULL COMMENT '最后修改人',
   `valid` char(2) COLLATE utf8_bin DEFAULT NULL COMMENT '是否有效(T：有效，F：无效)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='记录系统用户信息';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='记录系统用户信息';
 
 -- ----------------------------
 -- Records of t_user_info
 -- ----------------------------
-INSERT INTO `t_user_info` VALUES ('1', '褚珅', '1028438733@qq.com', '5fa39c52a2f547f8f3be7ff050ff6b2f', '15262057926', '2', '上海市杨浦区', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/avartar?Expires=1871025593&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=U0PLJcshm1n48EsOjRlJvFcgnjQ%3D', '1', '2019-04-19 17:20:50', 'qiqi', '2019-04-19 17:20:50', 'qiqi', 'T');
+INSERT INTO `t_user_info` VALUES ('1', '琪琪', '1028438733@qq.com', '882c0eeda202bf9c5bbb7aa6e4d87033', '15262057926', '2', '上海市杨浦区', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/avartar1028438733%40qq.com?Expires=1872126532&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=wByy6twFC8Dm5Z8S7wWGfSufd24%3D', '1', '2019-05-02 11:19:06', 'qiqi', '2019-05-02 11:19:06', 'qiqi', 'T');
+INSERT INTO `t_user_info` VALUES ('2', '宁姚', '123456@qq.com', '4960ee752b65e6118682198fac34e47e', '15262057926', '1', '上海市大柏树', 'http://qiqi-management.oss-cn-beijing.aliyuncs.com/avartar?Expires=1872060180&OSSAccessKeyId=LTAILFfm6C9zjLYO&Signature=hxNFkd0AQN10qNJJgeDLfZEP9X0%3D', '1', '2019-05-02 12:01:14', 'qiqi', '2019-05-02 11:18:57', 'qiqi', 'T');

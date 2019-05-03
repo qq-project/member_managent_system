@@ -9,7 +9,10 @@ import com.qiqi.member_management.management.business.dto.request.OrderCreateReq
 import com.qiqi.member_management.management.business.mapper.OrderMapper;
 import com.qiqi.member_management.management.business.model.*;
 import com.qiqi.member_management.management.business.model.model.extend.MemberIntegralInfo;
+import com.qiqi.member_management.management.business.vo.OrderDayVo;
+import com.qiqi.member_management.management.business.vo.OrderInfoDaysVo;
 import com.qiqi.member_management.management.business.vo.OrderListVo;
+import com.qiqi.member_management.management.business.vo.ProductTotalVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -272,5 +275,41 @@ public class OrderBiz {
         ResponseDto responseDto = new ResponseDto();
         responseDto.setResCode(ResponseDto.SUCCESS);
         return responseDto;
+    }
+
+    /**
+     * saleInfoProduct(统计商品销售情况)
+     *
+     * @Param 
+     * @return java.util.List<com.qiqi.member_management.management.business.vo.ProductTotalVo>
+     * @exception 
+     * @Date  2019-05-03 12:15:18
+     **/
+    public List<ProductTotalVo> saleInfoProduct() {
+        return orderMapper.saleInfoProduct();
+    }
+
+    /**
+     * orderInfoProduct(请输入描述)
+     *
+     * @Param 
+     * @return java.util.List<com.qiqi.member_management.management.business.vo.OrderInfoDaysVo>
+     * @exception 
+     * @Date  2019-05-03 13:50:16
+     **/
+    public List<OrderInfoDaysVo> orderInfoProduct() {
+        return orderMapper.orderInfoProduct();
+    }
+
+    /**
+     * orderBiz(每日销量图)
+     *
+     * @Param 
+     * @return java.util.List<com.qiqi.member_management.management.business.vo.OrderDayVo>
+     * @exception 
+     * @Date  2019-05-03 14:55:36
+     **/
+    public List<OrderDayVo> orderInfoDay() {
+        return orderMapper.orderInfoDay();
     }
 }

@@ -1,7 +1,10 @@
 package com.qiqi.member_management.management.business.mapper;
 
 import com.qiqi.member_management.management.business.model.Order;
+import com.qiqi.member_management.management.business.vo.OrderDayVo;
+import com.qiqi.member_management.management.business.vo.OrderInfoDaysVo;
 import com.qiqi.member_management.management.business.vo.OrderListVo;
+import com.qiqi.member_management.management.business.vo.ProductTotalVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -71,4 +74,34 @@ public interface OrderMapper {
      * @Date  2019-04-27 11:32:19
      **/
     List<OrderListVo> queryOrderLists(@Param("map") Map<String,Object> params);
+
+    /**
+     * saleInfoProduct(统计商品销售情况)
+     *
+     * @Param 
+     * @return java.util.List<com.qiqi.member_management.management.business.vo.ProductTotalVo>
+     * @exception 
+     * @Date  2019-05-03 12:15:43
+     **/
+    List<ProductTotalVo> saleInfoProduct();
+
+    /**
+     * orderInfoProduct(请输入描述)
+     *
+     * @Param 
+     * @return java.util.List<com.qiqi.member_management.management.business.vo.OrderInfoDaysVo>
+     * @exception 
+     * @Date  2019-05-03 13:50:31
+     **/
+    List<OrderInfoDaysVo> orderInfoProduct();
+
+    /**
+     * orderInfoDay(每日销量图)
+     *
+     * @Param 
+     * @return java.util.List<com.qiqi.member_management.management.business.vo.OrderDayVo>
+     * @exception 
+     * @Date  2019-05-03 14:56:40
+     **/
+    List<OrderDayVo> orderInfoDay();
 }

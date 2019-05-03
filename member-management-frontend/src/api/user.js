@@ -235,6 +235,67 @@ export const userListRequest = (params) => {
     })
 }
 
+/**
+ * 查询用户详情(查询数据库)
+ * @param {*} params 
+ */
+export const userDetailRequest = (params) => {
+    return postRequest('/api/userInfo/userDetail', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 用户信息编辑
+ * @param {*} params 
+ */
+export const userUpdateRequest = (params) => {
+    return postRequest('/api/userInfo/updateUserInfo', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 删除用户信息
+ * @param {*} params 
+ */
+export const userDelRequest = (params) => {
+    return postRequest('/api/userInfo/userDel', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 商品销售情况查询
+ * @param {*} params 
+ */
+export const saleInfoProductRequest = (params) => {
+    return postRequest('/api/saleInfo/saleInfoProduct', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * h会员订单
+ * @param {*} params 
+ */
+export const orderInfoProductRequest = (params) => {
+    return postRequest('/api/saleInfo/orderInfoProduct', params).then(data => {
+        return data;
+    })
+}
+
+/**
+ * 订单(天)情况查询
+ * @param {*} params 
+ */
+export const orderInfoDayRequest = (params) => {
+    return postRequest('/api/saleInfo/orderInfoDay', params).then(data => {
+        return data;
+    })
+}
+
+
 
 /**
  *  登出

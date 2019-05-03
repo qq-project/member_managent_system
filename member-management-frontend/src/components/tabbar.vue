@@ -10,7 +10,7 @@
       </mt-tab-item>
       <mt-tab-item id="cart">
         <img slot="icon" src="../assets/cart.png">
-        购物车
+        订单中心
       </mt-tab-item>
       <mt-tab-item id="usercenter">
         <img slot="icon" src="../assets/usercenter.png">

@@ -54,4 +54,26 @@ public interface UserInfoMapper {
      * @Date  2019-05-01 17:19:07
      **/
     List<UserListVo> userList(UserListRequestDto requestDto);
+
+    /**
+     * userDetail(查询用户详情)
+     *
+     * @Param 
+     * @param userInfo
+     * @return com.qiqi.member_management.management.business.model.UserInfo
+     * @exception 
+     * @Date  2019-05-02 10:27:41
+     **/
+    UserInfo userDetail(UserInfo userInfo);
+
+    /**
+     * delUserInfo(删除用户信息)
+     *
+     * @Param 
+     * @param id
+     * @return void
+     * @exception 
+     * @Date  2019-05-02 11:45:23
+     **/
+    void delUserInfo(Integer id);
 }

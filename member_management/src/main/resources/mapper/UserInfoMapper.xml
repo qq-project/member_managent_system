@@ -21,7 +21,7 @@
     delete from t_user_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qiqi.member_management.management.business.model.UserInfo">
+    <insert id="insert" parameterType="com.qiqi.member_management.management.business.model.UserInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -178,6 +178,9 @@
             <if test="null != lastModifiedByName and '' != lastModifiedByName">
               last_modified_by_name = #{lastModifiedByName, jdbcType=VARCHAR},
             </if>
+            <if test="null != valid and '' != valid">
+                valid = #{valid, jdbcType=CHAR}
+            </if>
             last_modified_time = NOW(3),
         </set>
         where id = #{id,jdbcType=INTEGER} and valid = 'T'
@@ -203,4 +206,20 @@
         order by id DESC
     </select>
 
+    <!--查询用户详情-->
+    <select id="userDetail" resultMap="BaseResultMap"
+            parameterType="com.qiqi.member_management.management.business.model.UserInfo">
+    select id, nickname, email, password, mobile, gender, address, img_src, admin_flag,
+    added_time, added_by_name, last_modified_time, last_modified_by_name, valid
+    from t_user_info
+    where valid = 'T' and id = #{id, jdbcType=INTEGER}
+    order by id DESC
+    limit 1
+    </select>
+
+    <update id="delUserInfo" parameterType="com.qiqi.member_management.management.business.model.UserInfo">
+        update t_user_info
+        set valid = 'F', last_modified_time=NOW(3),last_modified_by_name='qiqi'
+        where valid = 'T' and id = #{id, jdbcType=VARCHAR}
+    </update>
 </mapper>

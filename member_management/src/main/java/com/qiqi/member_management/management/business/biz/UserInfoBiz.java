@@ -11,15 +11,20 @@ import com.qiqi.member_management.management.business.dto.request.UserModifiedRe
 import com.qiqi.member_management.management.business.dto.request.UserRegisterRequestDto;
 import com.qiqi.member_management.management.business.mapper.UserInfoMapper;
 import com.qiqi.member_management.management.business.model.UserInfo;
+import com.qiqi.member_management.management.business.vo.UserListShowVo;
 import com.qiqi.member_management.management.business.vo.UserListVo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.security.provider.MD5;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -36,6 +41,7 @@ public class UserInfoBiz {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserInfoBiz.class);
     /**
      * queryUserByEmail(根据邮箱查询用户信息)
      *
@@ -175,9 +181,114 @@ public class UserInfoBiz {
      **/
     public ResponseDto userList(UserListRequestDto requestDto) {
         List<UserListVo> userInfoList = userInfoMapper.userList(requestDto);
+        // 遍历列表 将当前登录用户筛选出来
+        Iterator<UserListVo> iterator = userInfoList.iterator();
+        List<UserListVo> userInfoDisabledList = new ArrayList<>();
+        while(iterator.hasNext()){
+            UserListVo userListVo = iterator.next();
+            if (CurrentUserInfoUtil.getCurrentUser().getId().equals(userListVo.getId())){
+                userInfoDisabledList.add(userListVo);
+                // 当前用户  筛除
+                iterator.remove();
+            }
+        }
         ResponseDto responseDto = new ResponseDto();
         responseDto.setResCode(ResponseDto.SUCCESS);
-        responseDto.setResult(userInfoList);
+        UserListShowVo userListShowVo = new UserListShowVo();
+        userListShowVo.setUserListVoList(userInfoList);
+        userListShowVo.setUserListDisabledVoList(userInfoDisabledList);
+        responseDto.setResult(userListShowVo);
+        return responseDto;
+    }
+
+    /**
+     * userDetail(查询用户详情)
+     *
+     * @Param 
+     * @param userInfo
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-05-02 10:26:36
+     **/
+    public ResponseDto userDetail(UserInfo userInfo) {
+        ResponseDto responseDto = new ResponseDto();
+        // 查询数据库
+        userInfo = userInfoMapper.userDetail(userInfo);
+        if (null == userInfo){
+            logger.error(MsgManagement.getMsg(100070));
+            throw new BizException(100070);
+        }
+        responseDto.setResCode(ResponseDto.SUCCESS);
+        responseDto.setResult(userInfo);
+        return responseDto;
+    }
+
+    /**
+     * updateUserInfo(修改用户信息)
+     *
+     * @Param 
+     * @param userInfo
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-05-02 10:57:11
+     **/
+    public ResponseDto updateUserInfo(UserInfo userInfo) {
+        // 根据id查询用户信息
+        if (null == userInfoMapper.userDetail(userInfo)){
+            logger.error(MsgManagement.getMsg(100070));
+            throw new BizException(100070);
+        }
+        // 类型转换
+        userInfoMapper.updateUserInfo(convertUserInfo(userInfo));
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResCode(ResponseDto.SUCCESS);
+        return responseDto;
+    }
+
+    /**
+     * convertUserInfo(格式转换)
+     *
+     * @Param 
+     * @param userInfo
+     * @return com.qiqi.member_management.management.business.dto.request.UserModifiedRequestDto
+     * @exception 
+     * @Date  2019-05-02 10:59:25
+     **/
+    private UserModifiedRequestDto convertUserInfo(UserInfo userInfo){
+        UserModifiedRequestDto requestDto = new UserModifiedRequestDto();
+        requestDto.setId(userInfo.getId());
+        requestDto.setNickname(userInfo.getNickname());
+        requestDto.setMobile(userInfo.getMobile());
+        requestDto.setAddress(userInfo.getAddress());
+        requestDto.setLastModifiedByName(Contant.ADDED_NAME);
+        return requestDto;
+    }
+
+    /**
+     * delUserInfo(删除用户信息)
+     *
+     * @Param 
+     * @param userInfo
+     * @return com.qiqi.member_management.management.business.dto.ResponseDto
+     * @exception 
+     * @Date  2019-05-02 11:40:32
+     **/
+    public ResponseDto delUserInfo(UserInfo userInfo) {
+        // 校验用户信息
+        userInfo = userInfoMapper.userDetail(userInfo);
+        if (null == userInfo){
+            logger.error(MsgManagement.getMsg(100070));
+            throw new BizException(100070);
+        }
+        // 校验删除用户是否是当前登录用户
+        if (userInfo.getEmail().equals(CurrentUserInfoUtil.getCurrentUser().getEmail())){
+            logger.error(MsgManagement.getMsg(100071));
+            throw new BizException(100071);
+        }
+        // 删除操作
+        userInfoMapper.delUserInfo(userInfo.getId());
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResCode(ResponseDto.SUCCESS);
         return responseDto;
     }
 }

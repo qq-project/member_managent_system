@@ -140,4 +140,14 @@ public class Contant {
      * 订单关联总长度
      **/
     public static Integer INTEGRAL_ID_LENGTH = 8;
+
+    /**
+     * 短信签名
+     **/
+    public static final String SIGN_NAME = "";
+
+    /**
+     * 短信模板
+     **/
+    public static final String TEMPALTE_CODE = "";
 }

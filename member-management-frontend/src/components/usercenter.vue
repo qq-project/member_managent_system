@@ -24,6 +24,10 @@
       <img slot="icon" src="../assets/notice.png" width="24" height="24">
     </mt-cell>
     <div class="split"></div>
+    <mt-cell title="销售管理" to="/sale/saleInfo" is-link>
+      <img slot="icon" src="../assets/sale.png" width="24" height="24">
+    </mt-cell>
+    <div class="split"></div>
     <div @click="logout">
       <mt-cell title="退出登录" >
         <img slot="icon" src="../assets/logout2.png" width="24" height="24">
@@ -278,7 +282,7 @@ import { Dialog } from 'vant';
             return;
           }
            // 文件上传 操作
-          fileUploadRequest(file.file, 'api/upload/userAvartarUpload', 'avartar').then(data => {
+          fileUploadRequest(file.file, 'api/upload/userAvartarUpload', 'avartar'+this.userInfo.email).then(data => {
             // 处理响应后
             const {resCode, resMsg, result} = data;
             this.isShowConfirmButton = false;
@@ -357,6 +361,7 @@ import { Dialog } from 'vant';
   width: 100%;
   height: 30%;
   background-color: #fff;
+  margin-top:20px
 }
 
 #usercenter .profile img {
