@@ -15,10 +15,12 @@
     <mt-cell title="积分配置" to="/points" is-link>
       <img slot="icon" src="../assets/points.png" width="24" height="24">
     </mt-cell>
-    <div class="split"></div>
-    <mt-cell title="员工管理" to="/staffs" is-link>
-      <img slot="icon" src="../assets/staffs.png" width="24" height="24">
-    </mt-cell>
+    <div v-if="adminFlag === '0'">
+      <div class="split"></div>
+      <mt-cell title="员工管理" to="/staffs" is-link>
+        <img slot="icon" src="../assets/staffs.png" width="24" height="24">
+      </mt-cell>
+    </div>
     <div class="split"></div>
     <mt-cell title="推广管理" to="/notice" is-link>
       <img slot="icon" src="../assets/notice.png" width="24" height="24">
@@ -125,6 +127,7 @@ import { Dialog } from 'vant';
         isShowConfirmButton:true,
         detailShow:false,
         isShowConfirmButton2:false,
+        adminFlag:'1',
         userInfoDialog:{
            nickname: '',
            email: '',
@@ -159,7 +162,7 @@ import { Dialog } from 'vant';
         this.userInfo.address = address;
         this.userInfo.gender = gender;
         this.userInfoDialog.nickname = nickname || '大裴女侠';
-        
+        this.adminFlag = result.adminFlag;
         // 初始化 userInfoDialog
         if(null == imgSrc || '' === imgSrc){
           this.isUploadFile = true;

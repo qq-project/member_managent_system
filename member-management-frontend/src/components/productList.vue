@@ -1,5 +1,5 @@
 <template>
-     <div id="productsPage" style="width:100%;height:100%;margin-top:-10px">
+     <div id="productsPage" style="width:100%;height:100%;margin-top:-10px;">
         <mt-header fixed title="商品管理" style="height:50px">
              <img class="add-product" src="../assets/plusNew.png" slot="right" @click="addProductBtn()"/>
         </mt-header>
@@ -12,36 +12,40 @@
             @input="searchInput()"
             style="margin-top:60px"
        />  
-       <!--商品卡片展示-->
-        <van-card
-            v-for="product in productInfoList"
-            :key="product.id"
-            :num="product.productAmount"
-            :price="product.price"
-            :tag="product.categoryInfoList[0].categoryName"
-            :thumb="product.productImgSrc"
-            style="text-align:left"
-            @click="productInfoDetail(product)">
-            <!--标题-->
-            <div slot="title">
-                <strong>{{product.productName}}</strong>
-            </div>
-            <!--描述-->
-            <div slot="desc">
-                {{product.describute}}
-            </div>
-            <div slot="tags" class="card__tags">
-                <van-tag plain type="danger" 
-                    v-for="tag in product.categoryInfoList"
-                    :key="tag.id"
-                >
-                    {{ tag.categoryName }}</van-tag>
-            </div>
-            <div slot="footer" class="card__footer">
-                <van-button round size="mini" plain type="danger" @click.stop="updateProductInfo(product)">修改</van-button>
-                <van-button round size="mini" type="danger" @click.stop="deleteProductInfo(product)">删除</van-button>
-            </div>
-        </van-card>
+       <div style="margin-bottom:100px">
+        <!--商品卡片展示-->
+            <van-card
+                v-for="product in productInfoList"
+                :key="product.id"
+                :num="product.productAmount"
+                :price="product.price"
+                :tag="product.categoryInfoList[0].categoryName"
+                style="text-align:left"
+                @click="productInfoDetail(product)">
+                <!--标题-->
+                <div slot="title">
+                    <strong>{{product.productName}}</strong>
+                </div>
+                <!--描述-->
+                <div slot="desc">
+                    {{product.describute}}
+                </div>
+                <div slot="tags" class="card__tags">
+                    <van-tag plain type="danger" 
+                        v-for="tag in product.categoryInfoList"
+                        :key="tag.id"
+                    >
+                        {{ tag.categoryName }}</van-tag>
+                </div>
+                <div slot="thumb">
+                    <img :src="product.productImgSrc" width="90px" height="90px"/>
+                </div>
+                <div slot="footer" class="card__footer">
+                    <van-button round size="mini" plain type="danger" @click.stop="updateProductInfo(product)">修改</van-button>
+                    <van-button round size="mini" type="danger" @click.stop="deleteProductInfo(product)">删除</van-button>
+                </div>
+            </van-card>
+       </div>
         <tabbar :selected="selected"></tabbar>
         <!-- 新增商品弹框-->
         <van-dialog

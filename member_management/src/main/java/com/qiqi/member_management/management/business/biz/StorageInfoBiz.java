@@ -52,7 +52,6 @@ public class StorageInfoBiz {
      **/
     public void updateStorageInfo(StorageInfo storageInfo) {
         storageInfoMapper.updateStorageInfo(storageInfo);
-        
     }
 
     /**

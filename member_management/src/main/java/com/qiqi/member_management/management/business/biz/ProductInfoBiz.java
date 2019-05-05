@@ -182,6 +182,7 @@ public class ProductInfoBiz {
         productInfoMapper.deleteProductInfo(productInfo);
         // 作废商品库存信息
         StorageInfo storageInfo = new StorageInfo();
+        storageInfo.setProductId(productInfo.getProductId());
         storageInfo.setValid(Contant.VALID_F);
         storageInfoBiz.updateStorageInfo(storageInfo);
         // 批量作废商品类别关联信息

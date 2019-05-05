@@ -200,7 +200,7 @@
     t2.product_img_src productImgSrc,
     t3.product_amount productAmount
     from t_order t1
-    left join t_product_info t2 on t2.product_id = t1.product_id and t2.valid = 'T'
+    join t_product_info t2 on t2.product_id = t1.product_id and t2.valid = 'T'
     left join t_storage_info t3 on t3.product_id = t2.product_id and t3.valid = 'T'
     where t1.valid = 'T'
     <if test="null != map.orderId and '' != map.orderId">
