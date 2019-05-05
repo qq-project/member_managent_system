@@ -223,10 +223,10 @@ public class ProductInfoBiz {
             throw new BizException(100033, storageInfo.getStorageSize().toString());
         }
         int compareVal = -1;
-        if(storageInfo.getStorageSize().compareTo(requestDto.getProductAmount()) == compareVal ){
+        /*if(storageInfo.getStorageSize().compareTo(requestDto.getProductAmount()) == compareVal ){
             logger.error(MsgManagement.getMsg(100034));
             throw new BizException(100034);
-        }
+        }*/
         // 更新商品数量
         storageInfo.setProductAmount(requestDto.getProductAmount());
         // 更新商品信息
