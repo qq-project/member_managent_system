@@ -39,7 +39,7 @@ public class FrameworkInterceptor implements HandlerInterceptor{
                 System.currentTimeMillis());
         logger.info("请求url路径为：" +request.getRequestURL());
         // 这里可以进行登录校验
-        
+        System.out.println(request.getMethod());
         return true;
     }
 

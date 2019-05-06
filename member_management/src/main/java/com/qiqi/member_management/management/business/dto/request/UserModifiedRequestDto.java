@@ -27,6 +27,8 @@ public class UserModifiedRequestDto {
     private String address;
 
     private String lastModifiedByName;
+
+    private String valid;
     
     public Integer getId() {
         return id;
@@ -82,6 +84,14 @@ public class UserModifiedRequestDto {
 
     public void setLastModifiedByName(String lastModifiedByName) {
         this.lastModifiedByName = lastModifiedByName;
+    }
+
+    public String getValid() {
+        return valid;
+    }
+
+    public void setValid(String valid) {
+        this.valid = valid;
     }
 
     @Override
