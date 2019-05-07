@@ -21,41 +21,40 @@
               <van-icon name="shop-o" size="12px"/>
                   {{ memberOrder.memberName }}     享受{{ memberOrder.discount }}
               </div>  
-              <van-checkbox-group class="card-goods" v-model="checkedGoods" @change="checkGroupChange()">
-                <van-checkbox
-                  class="card-goods__item"
-                  v-for="item in memberOrder.orderCart"
-                  :key="item.id"
-                  :name="item.id"
-                  @click="chosenProducts(item)"
-                >
-                  <van-swipe-cell :right-width="65">
-                    <!--商品卡片-->
-                    <van-card
-                      :title="item.productName"
-                      :price="item.price"
-                      style="text-align:left"
-                    >
-                      <div slot="footer">
-                        库存：{{ item.productAmount }}
+              <van-checkbox-group class="card-goods" v-model="checkedGoods" @change="checkGroupChange()" align="left">
+                  <van-checkbox
+                    class="card-goods__item"
+                    v-for="item in memberOrder.orderCart"
+                    :key="item.id"
+                    :name="item.id"
+                    @click="chosenProducts(item, memberOrder.discount)">
+                    <van-swipe-cell :right-width="65">
+                      <!--商品卡片-->
+                      <van-card
+                        :title="item.productName"
+                        :price="item.price * memberOrder.discount"
+                        :origin-price="item.price"
+                        style="text-align:left">
+                        <div slot="footer">
+                          库存：{{ item.productAmount == 0 ? 1 : item.productAmount }}
+                        </div>
+                        <div slot="thumb">
+                          <img :src="item.productImgSrc" style="width:90px;height:90px"/>
+                        </div>
+                        <div slot="num" @click.stop>
+                          <van-stepper 
+                            v-model="item.orderAmount"
+                            @change="orderAmountChange(item, memberOrder.discount)"
+                            :disable-input="isDisableStep"
+                            :max="item.productAmount"/>
+                        </div>
+                      </van-card>
+                      <!--滑动删除-->
+                      <div slot="right">
+                        <van-button type="danger" class="del-btn" @click="delCartOrder(item)">删除</van-button>
                       </div>
-                      <div slot="thumb">
-                        <img :src="item.productImgSrc" style="width:90px;height:90px"/>
-                      </div>
-                      <div slot="num" @click.stop>
-                        <van-stepper 
-                          v-model="item.orderAmount"
-                          @change="orderAmountChange(item)"
-                          :disable-input="isDisableStep"
-                          :max="item.productAmount"/>
-                      </div>
-                    </van-card>
-                    <!--滑动删除-->
-                    <div slot="right">
-                      <van-button type="danger" class="del-btn" @click="delCartOrder(item)">删除</van-button>
-                    </div>
-                  </van-swipe-cell>
-                </van-checkbox>
+                    </van-swipe-cell>
+                  </van-checkbox>
               </van-checkbox-group>
             </van-collapse-item>
           </van-collapse>
@@ -122,9 +121,14 @@ export default {
       })
       },
     // 商品数量改变触发
-    orderAmountChange(val){
+    orderAmountChange(val, discount){
       const {orderAmount, productAmount, price, id} = val;
-      if(orderAmount > productAmount){
+      let testAmount = productAmount;
+      console.log(testAmount);
+      if(0 === testAmount){
+        testAmount = 1;
+      }
+      if(orderAmount > testAmount){
         Toast.fail({
           message:'订单数量不得大于库存数量',
           duration:1000
@@ -134,7 +138,7 @@ export default {
       
       let orderPayNew = orderAmount * price;
       if(this.checkedGoods.indexOf(val.id) != -1){
-        this.totalPrice += (orderPayNew - val.orderPay) * 100;
+        this.totalPrice += (orderPayNew - val.orderPay) * 100 * discount;
       } 
       val.orderPay = orderPayNew;
     },
@@ -147,14 +151,14 @@ export default {
     checkGroupChange(val){
     },
     // 选择商品
-    chosenProducts(val){
+    chosenProducts(val, discount){
       const {id, orderPay} = val;
       // 判断是否被选中
       if(this.checkedGoods.indexOf(val.id) == -1 && 0 != this.totalPrice){
-        this.totalPrice -= orderPay * 100;
+        this.totalPrice -= orderPay * 100 * discount;
         this.checkedProducts.splice(this.checkedProducts.indexOf(val),1);
       } else {
-        this.totalPrice += orderPay  * 100;
+        this.totalPrice += orderPay  * 100 * discount;
         this.checkedProducts.push(val);
       }
       if(this.checkedGoods.length == 0){

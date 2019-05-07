@@ -17,13 +17,13 @@
                     <van-cell :title="memberOrder.memberName">
                         {{memberOrder.orderTime}}
                         <span slot="label">
-                            订单金额：￥{{memberOrder.totalOrderPay }} 
+                            订单金额：￥{{memberOrder.totalOrderPay * memberOrder.discount }} 
                         </span>
                     </van-cell>
               </div>  
                   <van-swipe-cell :right-width="65">
                     <!--商品卡片-->
-                    <van-card v-for="item in memberOrder.orderCart" :key="item.id" :title="item.productName" :price="item.price" style="text-align:left">
+                    <van-card v-for="item in memberOrder.orderCart" :key="item.id" :title="item.productName" :price="item.price * memberOrder.discount" style="text-align:left">
                       <div slot="footer">
                         商品数量：{{ item.orderAmount }}
                       </div>
@@ -74,7 +74,7 @@ export default {
                 this.memberOrderList = result;
                 this.orderListStartIndex = result[0].id;
                 result.map(val => {
-                  this.totalOrderAmount += val.totalOrderPay;
+                  this.totalOrderAmount += (val.totalOrderPay * val.discount);
                 })
             })
         },

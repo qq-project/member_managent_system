@@ -23,7 +23,7 @@ export default {
   data () {
     return {
 				loginForm: {
-					username: 'chushen',
+					username: '1028438733@qq.com',
 					password: '123'
 				},
 			}

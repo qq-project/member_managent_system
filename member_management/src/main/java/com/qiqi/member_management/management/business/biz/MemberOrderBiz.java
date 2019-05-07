@@ -276,7 +276,7 @@ public class MemberOrderBiz {
         // 1、判断库存并更新
         StorageInfo storageInfo = storageInfoBiz.queryStorageByProductId(productInfo.getProductId());
         // 商品数量大于库存数量
-        if (storageInfo.getProductAmount() < order.getOrderAmount()){
+        if (storageInfo.getProductAmount() != 0 && storageInfo.getProductAmount() < order.getOrderAmount()){
             logger.error(MsgManagement.getMsg(100062));
             throw new BizException(100062);
         }

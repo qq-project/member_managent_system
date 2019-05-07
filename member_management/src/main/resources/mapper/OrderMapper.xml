@@ -239,7 +239,7 @@
     from t_order
     where valid = 'T'
     group by TO_DAYS(added_time)
-    order by totalAmount DESC
+    order by added_time ASC
     limit 5
   </select>
 

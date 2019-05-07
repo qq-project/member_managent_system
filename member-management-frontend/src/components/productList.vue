@@ -601,6 +601,10 @@ export default {
         },
         // 点击进行商品详情，也就是下单页面
         productInfoDetail(item){
+            if(item.productAmount < 1){
+                Toast.fail('商品数量不足，请补充商品');
+                return;
+            }
             //this.$refs.mychild.showDetail(item);
             this.$router.push({
                 path:'/product/productDetail',
